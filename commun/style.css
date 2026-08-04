@@ -1,0 +1,261 @@
+/* Outils interactifs — ECON 20851
+   Palette reprise de article/preambule.tex :
+   titrecouleur RGB(28,62,102), plusfr RGB(70,140,150), plusbg RGB(214,236,238) */
+
+:root {
+  --titre: #1c3e66;
+  /* Turquoise des notes (#468c96) pour les traits et les fonds, et une
+     version foncée pour le TEXTE : l'original ne donne que 3,85:1 sur blanc,
+     sous le minimum de 4,5:1. Le foncé donne 5,9:1. */
+  --accent: #468c96;
+  --accent-txt: #2f6b73;
+  --accent-pale: #d6ecee;
+  --texte: #222;
+  --gris: #666;
+  --fond: #fff;
+  --bord: #d8d8d8;
+  --courbe1: #1c3e66;
+  --courbe2: #b0342d;
+  --courbe3: #2e7d32;
+  --courbe4: #8e44ad;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 1.2rem;
+  font-family: "Latin Modern Roman", Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--texte);
+  background: var(--fond);
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1 {
+  font-size: 1.5rem;
+  color: var(--titre);
+  margin: 0 0 .2rem;
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: 1.15rem;
+  color: var(--titre);
+  margin: 1.6rem 0 .5rem;
+}
+
+.chapitre {
+  font-size: .85rem;
+  color: var(--accent-txt);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 1rem;
+}
+
+.intro { margin: 0 0 1.2rem; }
+
+/* --- Disposition graphique + panneau de commandes --- */
+
+.atelier {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.zonegraphe { flex: 1 1 460px; min-width: 0; }
+
+.jxgbox {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  /* max-height seul ne suffit pas : au-delà de 560 px de large, la hauteur
+     plafonnait et le cadre cessait d'être carré — une boîte d'Edgeworth
+     dessinée en rectangle. On plafonne donc aussi la largeur. */
+  max-height: 560px;
+  max-width: 560px;
+  border: 1px solid var(--bord);
+  border-radius: 3px;
+  touch-action: none;
+}
+
+.jxgbox.large { aspect-ratio: 4 / 3; }
+
+/* --- Confort de manipulation --------------------------------------------
+   Aucune animation de position : tout se redessine d'un coup. Une transition
+   sur les points avait été essayée puis retirée — les COURBES, elles, ne
+   peuvent pas être animées (elles sont recalculées de zéro à chaque réglage),
+   si bien qu'un point animé se détachait un instant de la courbe qu'il est
+   censé marquer. Redessiner tout ensemble est plus honnête. */
+
+/* Ce qui se déplace le dit. */
+.jxgbox .deplacable { cursor: grab; }
+.jxgbox .deplacable:active { cursor: grabbing; }
+.jxgbox text, .jxgbox .JXGtext { cursor: default; }
+
+.commandes {
+  flex: 1 1 280px;
+  min-width: 0;
+  background: #fafafa;
+  border: 1px solid var(--bord);
+  border-radius: 3px;
+  padding: .9rem 1rem;
+}
+
+.commandes h3 {
+  margin: 0 0 .7rem;
+  font-size: .95rem;
+  color: var(--titre);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.curseur { margin-bottom: .85rem; }
+
+.curseur label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: .92rem;
+  margin-bottom: .15rem;
+}
+
+.curseur .valeur {
+  font-family: "Consolas", "Source Code Pro", monospace;
+  font-size: .88rem;
+  color: var(--accent-txt);
+  font-weight: bold;
+}
+
+input[type=range] {
+  width: 100%;
+  accent-color: var(--accent);
+  height: 1.4rem;
+}
+
+.choix { margin-bottom: .85rem; font-size: .92rem; }
+.choix select {
+  width: 100%;
+  padding: .3rem;
+  font-size: .92rem;
+  font-family: inherit;
+  border: 1px solid var(--bord);
+  border-radius: 3px;
+  background: #fff;
+}
+
+.bascule {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  font-size: .92rem;
+  margin-bottom: .5rem;
+}
+.bascule input { accent-color: var(--accent); width: 1rem; height: 1rem; }
+
+button.reinit, button.bouton {
+  margin-top: .4rem;
+  padding: .35rem .8rem;
+  font-family: inherit;
+  font-size: .88rem;
+  color: var(--titre);
+  background: #fff;
+  border: 1px solid var(--bord);
+  border-radius: 3px;
+  cursor: pointer;
+}
+button.reinit:hover, button.bouton:hover { background: var(--accent-pale); }
+
+/* --- Lecture des résultats --- */
+
+.resultats {
+  margin-top: .9rem;
+  padding-top: .8rem;
+  border-top: 1px solid var(--bord);
+  font-size: .92rem;
+}
+.resultats div { margin-bottom: .25rem; }
+.resultats .nb {
+  font-family: "Consolas", "Source Code Pro", monospace;
+  color: var(--titre);
+  font-weight: bold;
+}
+
+/* --- Encadré « À observer » --- */
+
+.observer {
+  margin-top: 1.4rem;
+  background: var(--accent-pale);
+  border-left: 4px solid var(--accent);
+  padding: .8rem 1rem .8rem 1.1rem;
+  border-radius: 0 3px 3px 0;
+}
+.observer h3 {
+  margin: 0 0 .4rem;
+  font-size: .95rem;
+  color: var(--titre);
+}
+.observer ol, .observer ul { margin: 0; padding-left: 1.2rem; }
+.observer li { margin-bottom: .35rem; }
+
+.rappel {
+  margin-top: 1.2rem;
+  font-size: .95rem;
+  border: 1px solid var(--bord);
+  border-radius: 3px;
+  padding: .8rem 1rem;
+  background: #fafafa;
+}
+.rappel h3 { margin: 0 0 .4rem; font-size: .95rem; color: var(--titre); }
+.rappel p { margin: .3rem 0; }
+
+.formule {
+  font-style: italic;
+  white-space: nowrap;
+}
+
+/* --- Pied de page --- */
+
+footer {
+  margin-top: 2rem;
+  padding-top: .8rem;
+  border-top: 1px solid var(--bord);
+  font-size: .85rem;
+  color: var(--gris);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+footer a { color: var(--accent-txt); }
+
+/* --- Page d'accueil --- */
+
+.grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: .8rem;
+  margin-bottom: 1.6rem;
+}
+
+a.carte {
+  display: block;
+  padding: .8rem .9rem;
+  border: 1px solid var(--bord);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 3px 3px 0;
+  text-decoration: none;
+  color: var(--texte);
+  background: #fff;
+}
+a.carte:hover { background: var(--accent-pale); }
+a.carte strong { display: block; color: var(--titre); margin-bottom: .15rem; }
+a.carte span { font-size: .88rem; color: var(--gris); }
+
+@media (max-width: 640px) {
+  body { padding: .8rem; font-size: 16px; }
+  .jxgbox { aspect-ratio: 1 / 1; }
+}

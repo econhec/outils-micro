@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Optimisation : CPO, CSO et maximum global — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 1 — Introduction</div>
+<h1>Optimisation : CPO, CSO et maximum global</h1>
+<p class="intro">
+Maximiser une fonction, c'est chercher les points où <em>f&nbsp;′</em>(<em>X</em>) = 0
+(condition du premier ordre) puis vérifier le signe de <em>f&nbsp;″</em>(<em>X</em>)
+(condition du second ordre). Réglez le point candidat avec le curseur et lisez le verdict.
+Le graphe du bas montre la dérivée&nbsp;: l'axe <em>f&nbsp;′</em> = 0 y devient le lieu de la
+CPO. Plusieurs points peuvent la satisfaire, et un maximum local n'est pas un maximum global.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe">
+    <div id="grapheF" class="jxgbox large"></div>
+    <div id="grapheD" class="jxgbox" style="aspect-ratio: 5 / 2; margin-top: .6rem;"></div>
+  </div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Choisissez la fonction <em>à deux sommets</em> et amenez le candidat à
+      <em>X</em> = 1,85&nbsp;: <em>f&nbsp;′</em> affiche 0,014 et <em>f&nbsp;″</em> −1,826,
+      verdict « maximum local », avec <em>f</em> = 15,30. Allez ensuite à <em>X</em> = 10,55&nbsp;:
+      même verdict, mais <em>f</em> = 30,59. <strong>Les deux satisfont la CPO et la CSO&nbsp;;
+      un seul est le maximum global</strong>, marqué en rouge et en plus gros.</li>
+    <li>Toujours sur cette fonction, placez le candidat à <em>X</em> = 4,45&nbsp;:
+      <em>f&nbsp;′</em> affiche −0,016, mais <em>f&nbsp;″</em> vaut 1,262. C'est un
+      <em>minimum</em> local, marqué en violet clair. Trois points vérifient
+      <em>f&nbsp;′</em> = 0 et ils sont de trois natures différentes&nbsp;: la CPO seule ne
+      tranche rien.</li>
+    <li>Passez à la fonction <em>convexe</em>&nbsp;: <em>X</em> = 10 donne <em>f&nbsp;′</em> = 0
+      exactement et <em>f&nbsp;″</em> = 0,600. Le seul point stationnaire est un minimum, et
+      c'est le minimum global&nbsp;: son marqueur est violet foncé et plus gros. Le maximum de
+      <em>f</em> sur l'intervalle est atteint <em>aux bornes</em>, là où la dérivée n'est pas
+      nulle.</li>
+    <li>Sur la fonction <em>concave</em>, balayez <em>X</em> de 0 à 30&nbsp;: dans le graphe du
+      bas, <em>f&nbsp;′</em> descend et ne traverse l'axe qu'une seule fois, en <em>X</em> = 20.
+      Une fonction concave partout n'a qu'un sommet, et il est forcément global&nbsp;: la CSO
+      est vérifiée en tout point.</li>
+    <li>Lisez le graphe du bas comme une carte&nbsp;: chaque traversée de l'axe <strong>de haut
+      en bas</strong> (+ vers −) est un maximum local, chaque traversée <strong>de bas en
+      haut</strong> est un minimum local. Comptez-les&nbsp;: 2 descentes pour la fonction à deux
+      sommets, 1 pour la concave, 0 pour la convexe.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>Pour un maximum <em>intérieur</em> en X*, la CPO est
+  <span class="formule">f&nbsp;′(X*) = 0</span>. Elle élimine les points où l'on peut encore
+  améliorer <em>f</em> en bougeant.</p>
+  <p>La CSO distingue ensuite sommet et creux, et il faut séparer deux énoncés. La condition
+  <em>nécessaire</em> est <span class="formule">f&nbsp;″(X*) ≤ 0</span>&nbsp;: tout maximum
+  intérieur la vérifie. La condition <em>suffisante</em> est
+  <span class="formule">f&nbsp;″(X*) &lt; 0</span>&nbsp;: elle garantit un maximum local. C'est
+  celle que l'outil applique. Quand <em>f&nbsp;″</em>(X*) = 0 les deux se rejoignent sans
+  conclure&nbsp;: la CSO ne tranche pas, et il faut regarder les dérivées d'ordre supérieur ou
+  le graphe.</p>
+  <p>Ces conditions sont <strong>locales</strong>. Pour un maximum <strong>global</strong>, il
+  faut comparer la valeur de <em>f</em> en tous les points stationnaires <em>et</em> aux bornes
+  du domaine. L'exception utile&nbsp;: si <em>f&nbsp;″</em>(<em>X</em>) ≤ 0 partout (fonction
+  concave), tout point vérifiant la CPO est un maximum global.</p>
+  <p>Ici&nbsp;: <span class="formule">f = 12X − 0,3X² → f&nbsp;′ = 12 − 0,6X, f&nbsp;″ = −0,6</span>&nbsp;;
+  <span class="formule">f = −0,02X⁴ + 0,45X³ − 3X² + 7X + 10 → f&nbsp;′ = −0,08X³ + 1,35X² − 6X + 7,
+  f&nbsp;″ = −0,24X² + 2,7X − 6</span>&nbsp;;
+  <span class="formule">f = 0,3X² − 6X + 40 → f&nbsp;′ = 0,6X − 6, f&nbsp;″ = 0,6</span>.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ------------------------------------------------------------------ */
+  /* Les trois fonctions, avec dérivées première et seconde ANALYTIQUES  */
+  /* ------------------------------------------------------------------ */
+
+  var FN = {
+    concave: {
+      f:  function (X) { return 12 * X - 0.3 * X * X; },
+      d:  function (X) { return 12 - 0.6 * X; },
+      dd: function ()  { return -0.6; },
+      etiq: 'f(X) = 12X − 0,3X²',
+      xmin: 0, xmax: 30,
+      bx: [-2.4, 32.4], byF: [-14, 138], byD: [-9, 15],
+      stat: [20],                       // 12 − 0,6X = 0  ⇒  X = 20
+      pas: 0.25, depart: 8
+    },
+    deuxSommets: {
+      f:  function (X) { return -0.02 * Math.pow(X, 4) + 0.45 * Math.pow(X, 3)
+                              - 3 * X * X + 7 * X + 10; },
+      d:  function (X) { return -0.08 * Math.pow(X, 3) + 1.35 * X * X - 6 * X + 7; },
+      dd: function (X) { return -0.24 * X * X + 2.7 * X - 6; },
+      etiq: 'f(X) = −0,02X⁴ + 0,45X³ − 3X² + 7X + 10',
+      xmin: 0, xmax: 13,
+      bx: [-1.1, 14.1], byF: [-3, 37], byD: [-21, 10],
+      stat: null,                       // racines de f ′ : balayage + bissection
+      pas: 0.05, depart: 1
+    },
+    convexe: {
+      f:  function (X) { return 0.3 * X * X - 6 * X + 40; },
+      d:  function (X) { return 0.6 * X - 6; },
+      dd: function ()  { return 0.6; },
+      etiq: 'f(X) = 0,3X² − 6X + 40',
+      xmin: 0, xmax: 20,
+      bx: [-1.6, 21.6], byF: [-5, 50], byD: [-9, 9],
+      stat: [10],                       // 0,6X − 6 = 0  ⇒  X = 10
+      pas: 0.25, depart: 3
+    }
+  };
+
+  /* ------------------------------------------------------------------ */
+  /* Deux tableaux alignés sur le même axe des X                         */
+  /* ------------------------------------------------------------------ */
+
+  var C0 = FN.concave;
+  var bF = Econ.board('grapheF', [C0.bx[0], C0.byF[1], C0.bx[1], C0.byF[0]], { axes: false });
+  var bD = Econ.board('grapheD', [C0.bx[0], C0.byD[1], C0.bx[1], C0.byD[0]], { axes: false });
+  axesAuto(bF, 'X', 'f(X)');
+  axesAuto(bD, 'X', 'f&nbsp;′(X)');
+
+  function axesAuto(bd, nomX, nomY) {
+    bd.create('axis', [[0, 0], [1, 0]], {
+      strokeColor: '#444', strokeWidth: 1, highlight: false, fixed: true,
+      name: nomX, withLabel: true,
+      label: { position: 'rt', offset: [-8, 16], fontSize: 14, anchorX: 'right' },
+      ticks: { insertTicks: true, minorTicks: 0, drawLabels: true,
+               strokeColor: '#bbb', majorHeight: 6,
+               label: { fontSize: 11, offset: [0, -12] } }
+    });
+    bd.create('axis', [[0, 0], [0, 1]], {
+      strokeColor: '#444', strokeWidth: 1, highlight: false, fixed: true,
+      name: nomY, withLabel: true,
+      label: { position: 'rt', offset: [12, -6], fontSize: 14 },
+      ticks: { insertTicks: true, minorTicks: 0, drawLabels: true,
+               strokeColor: '#bbb', majorHeight: 6,
+               label: { fontSize: 11, offset: [-20, 0] } }
+    });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Commandes                                                           */
+  /* ------------------------------------------------------------------ */
+
+  var cmd = document.getElementById('cmd');
+
+  var choixF = Econ.choix(cmd, {
+    etiquette: 'Fonction à maximiser',
+    valeur: 'concave',
+    options: [
+      ['concave',     'Concave (un seul sommet)'],
+      ['deuxSommets', 'Deux sommets locaux (degré 4)'],
+      ['convexe',     'Convexe (un minimum)']
+    ],
+    surChangement: changerFonction
+  });
+
+  var sX = Econ.curseur(cmd, {
+    etiquette: 'Point candidat <em>X</em>',
+    min: 0, max: 30, pas: 0.25, valeur: 8, surChangement: majTout
+  });
+
+  var btn = document.createElement('button');
+  // Même allure que « Réinitialiser », mais pas la même classe : ce bouton ne
+  // réinitialise rien, et un sélecteur button.reinit attraperait le mauvais.
+  btn.className = 'bouton';
+  btn.textContent = 'Aller au point stationnaire le plus proche';
+  btn.addEventListener('click', function () {
+    if (!stat.length) return;
+    var x = sX.valeur(), meilleur = stat[0].x, i;
+    for (i = 1; i < stat.length; i++) {
+      if (Math.abs(stat[i].x - x) < Math.abs(meilleur - x)) meilleur = stat[i].x;
+    }
+    var p = cfg().pas;
+    sX.fixer(Math.round(meilleur / p) * p);
+    majTout();
+  });
+  cmd.appendChild(btn);
+
+  Econ.boutonReinit(cmd, function () {
+    choixF.fixer('concave');
+    changerFonction();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['fx',  '<em>f</em>(X)'],
+    ['dx',  '<em>f&nbsp;′</em>(X)'],
+    ['ddx', '<em>f&nbsp;″</em>(X)'],
+    ['ver', 'Verdict'],
+    ['glo', 'Maximum global (intervalle tracé)']
+  ]);
+
+  /* ------------------------------------------------------------------ */
+  /* Points stationnaires                                                */
+  /* ------------------------------------------------------------------ */
+
+  // Seuil absolu du verdict « f ′ ≈ 0 ». Il doit être assez large pour que le
+  // point de grille le plus proche d'une racine y tombe, assez serré pour que
+  // la valeur affichée reste lisible comme un zéro.
+  // Vérifié sur toute la grille des curseurs : les seuls points où |f ′| < 0,03
+  // sont X = 20 (concave, f ′ = 0), X = 10 (convexe, f ′ = 0) et
+  // X = 1,85 / 4,45 / 10,55 (degré 4, |f ′| ≤ 0,020). Le point suivant le plus
+  // proche d'une racine est X = 4,50 avec |f ′| = 0,048 : il reste écarté.
+  var EPS = 0.03;
+
+  // Marqueurs : rouge pour le maximum global, vert pour un maximum local,
+  // violet foncé (COUL.tiers) pour le minimum global, violet clair pour un
+  // minimum local. Ce violet clair reste à 3,8:1 sur le fond blanc.
+  var COUL_MIN_LOCAL = '#a06ec4';
+
+  var stat = [];   // [{x, y, type:'max'|'min'|'inflexion', global:booléen}]
+
+  function calculerStat() {
+    var c = cfg(), xs = [], i, xa, xb, da, db, r;
+    if (c.stat) {
+      xs = c.stat.slice();
+    } else {
+      // Balayage du signe de f ′ puis bissection sur chaque changement de signe.
+      // Econ.bissection renvoie null si l'intervalle n'encadre pas de racine :
+      // on écarte alors le candidat au lieu d'inscrire une borne comme racine.
+      var n = 800;
+      xa = c.xmin; da = c.d(xa);
+      for (i = 1; i <= n; i++) {
+        xb = c.xmin + (c.xmax - c.xmin) * i / n;
+        db = c.d(xb);
+        if (da === 0) {
+          xs.push(xa);
+        } else if ((da < 0) !== (db < 0)) {
+          r = Econ.bissection(c.d, xa, xb, 1e-11);
+          if (r !== null) xs.push(r);
+        }
+        xa = xb; da = db;
+      }
+    }
+
+    stat = xs.map(function (x) {
+      var s = c.dd(x);
+      return { x: x, y: c.f(x), type: s < -1e-9 ? 'max' : (s > 1e-9 ? 'min' : 'inflexion'),
+               global: false };
+    });
+
+    // Un point est global s'il domine les autres points stationnaires ET les bornes.
+    var vals = stat.map(function (s) { return s.y; })
+                   .concat([c.f(c.xmin), c.f(c.xmax)]);
+    var hi = Math.max.apply(null, vals), lo = Math.min.apply(null, vals);
+    stat.forEach(function (s) {
+      if (s.type === 'max') s.global = (s.y >= hi - 1e-6);
+      if (s.type === 'min') s.global = (s.y <= lo + 1e-6);
+    });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Objets graphiques                                                   */
+  /* ------------------------------------------------------------------ */
+
+  function cfg() { return FN[choixF.valeur()]; }
+  function X()   { return sX.valeur(); }
+
+  function tracerCourbe(bd, quelle, couleur, largeur, ybornes) {
+    var c = bd.create('curve', [[], []], {
+      strokeColor: couleur, strokeWidth: largeur, highlight: false, fixed: true
+    });
+    c.updateDataArray = function () {
+      var k = cfg(), xs = [], ys = [], n = 500, i, x, y;
+      var lim = k[ybornes];
+      for (i = 0; i <= n; i++) {
+        x = k.xmin + (k.xmax - k.xmin) * i / n;
+        y = quelle === 'f' ? k.f(x) : k.d(x);
+        if (!isFinite(y) || y < lim[0] || y > lim[1]) {
+          if (xs.length && !isNaN(xs[xs.length - 1])) { xs.push(NaN); ys.push(NaN); }
+          continue;
+        }
+        xs.push(x); ys.push(y);
+      }
+      this.dataX = xs; this.dataY = ys;
+    };
+    return c;
+  }
+
+  tracerCourbe(bF, 'f', Econ.COUL.indiff, 2.5, 'byF');
+  tracerCourbe(bD, 'd', Econ.COUL.accent, 2.5, 'byD');
+
+  // Repère explicite f ′ = 0 sur le graphe du bas.
+  bD.create('line', [[0, 0], [1, 0]], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 1.6, dash: 2,
+    highlight: false, fixed: true
+  });
+  Econ.texte(bD, function () { return cfg().bx[1] - 0.4; },
+                 function () { return 0.10 * (cfg().byD[1] - cfg().byD[0]); },
+                 'f′ = 0',
+                 { strokeColor: Econ.COUL.budget, fontSize: 12, anchorX: 'right' });
+
+  // Trait vertical du candidat, sur les deux graphes.
+  function traitVertical(bd, ybornes) {
+    var s = bd.create('segment', [
+      [X, function () { return cfg()[ybornes][0]; }],
+      [X, function () { return cfg()[ybornes][1]; }]
+    ], { strokeColor: '#999', strokeWidth: 1.2, dash: 2, highlight: false, fixed: true });
+    return s;
+  }
+  traitVertical(bF, 'byF');
+  traitVertical(bD, 'byD');
+
+  // Le candidat lui-même.
+  var PF = bF.create('point', [X, function () { return cfg().f(X()); }], {
+    name: '', size: 5, strokeColor: '#fff', strokeWidth: 2,
+    fillColor: Econ.COUL.titre, fixed: true, highlight: false
+  });
+  var PD = bD.create('point', [X, function () { return cfg().d(X()); }], {
+    name: '', size: 5, strokeColor: '#fff', strokeWidth: 2,
+    fillColor: Econ.COUL.accent, fixed: true, highlight: false
+  });
+
+  // Tangente au candidat (pente f ′(X)) sur le graphe du haut.
+  var TA = bF.create('point', [
+    function () { return X() + 1; },
+    function () { return cfg().f(X()) + cfg().d(X()); }
+  ], { visible: false, fixed: true });
+  bF.create('line', [PF, TA], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 1.8, highlight: false, fixed: true
+  });
+
+  // Marqueurs des points stationnaires (réserve de 4, masqués si inutilisés).
+  var marques = [], marquesD = [];
+  (function () {
+    var i;
+    for (i = 0; i < 4; i++) { marques.push(marqueF(i)); marquesD.push(marqueD(i)); }
+  })();
+
+  function marqueF(i) {
+    return bF.create('point', [
+      function () { return stat[i] ? stat[i].x : 0; },
+      function () { return stat[i] ? stat[i].y : 0; }
+    ], { name: '', size: 4, strokeColor: '#fff', strokeWidth: 1.5,
+         fillColor: Econ.COUL.second, fixed: true, highlight: false, visible: false,
+         label: { fontSize: 12, offset: [8, 12] } });
+  }
+  function marqueD(i) {
+    return bD.create('point', [
+      function () { return stat[i] ? stat[i].x : 0; }, 0
+    ], { name: '', size: 3, strokeColor: '#fff', strokeWidth: 1,
+         fillColor: Econ.COUL.second, fixed: true, highlight: false, visible: false });
+  }
+
+  var legende = Econ.texte(bF,
+    function () { return cfg().bx[0] + 0.6; },
+    function () { return cfg().byF[1] - 0.08 * (cfg().byF[1] - cfg().byF[0]); },
+    function () { return cfg().etiq; },
+    { strokeColor: Econ.COUL.titre, fontSize: 13 });
+
+  /* ------------------------------------------------------------------ */
+  /* Mise à jour                                                         */
+  /* ------------------------------------------------------------------ */
+
+  function maj() {
+    var c = cfg(), x = X(), d = c.d(x), dd = c.dd(x);
+    var eq = Math.abs(d) < 1e-9 ? '=' : '≈';
+
+    res.fixer('fx',  Econ.nb(c.f(x), 2));
+    res.fixer('dx',  Econ.nb(d, 3));
+    res.fixer('ddx', Econ.nb(dd, 3));
+
+    var v;
+    if (Math.abs(d) < EPS) {
+      if (dd < -1e-9) {
+        v = 'f&nbsp;′ ' + eq + ' 0 et f&nbsp;″ &lt; 0 → <strong>maximum local</strong>';
+      } else if (dd > 1e-9) {
+        v = 'f&nbsp;′ ' + eq + ' 0 et f&nbsp;″ &gt; 0 → <strong>minimum local</strong>';
+      } else {
+        v = 'f&nbsp;′ ' + eq + ' 0 et f&nbsp;″ = 0 → la CSO ne tranche pas';
+      }
+    } else if (d > 0) {
+      v = 'f&nbsp;′ &gt; 0 → <strong>augmenter X</strong> fait monter f';
+    } else {
+      v = 'f&nbsp;′ &lt; 0 → <strong>diminuer X</strong> fait monter f';
+    }
+    res.fixer('ver', v);
+
+    var g = null, i;
+    for (i = 0; i < stat.length; i++) {
+      if (stat[i].type === 'max' && stat[i].global) g = stat[i];
+    }
+    res.fixer('glo', g
+      ? 'X* = ' + Econ.nb(g.x, 2) + ', f = ' + Econ.nb(g.y, 2)
+      : 'aucun sommet intérieur : le maximum est atteint à une borne');
+
+    for (i = 0; i < marques.length; i++) {
+      var s = stat[i];
+      if (!s) {
+        marques[i].setAttribute({ visible: false });
+        marquesD[i].setAttribute({ visible: false });
+        continue;
+      }
+      var coul, nom;
+      if (s.type === 'max' && s.global)      { coul = Econ.COUL.budget; nom = 'max global'; }
+      else if (s.type === 'max')             { coul = Econ.COUL.second; nom = 'max local'; }
+      else if (s.type === 'min' && s.global) { coul = Econ.COUL.tiers;  nom = 'min global'; }
+      else if (s.type === 'min')             { coul = COUL_MIN_LOCAL;   nom = 'min local'; }
+      else                                   { coul = Econ.COUL.gris;   nom = 'inflexion'; }
+      marques[i].setAttribute({ visible: true, fillColor: coul,
+                                size: s.global ? 6 : 4 });
+      if (marques[i].name !== nom) marques[i].setName(nom);   // met à jour l'étiquette
+      marquesD[i].setAttribute({ visible: true, fillColor: coul });
+    }
+  }
+
+  function majTout() { maj(); bF.update(); bD.update(); }
+
+  function changerFonction() {
+    var c = cfg();
+    sX.element.min = c.xmin;
+    sX.element.max = c.xmax;
+    sX.element.step = c.pas;
+    sX.fixer(c.depart);
+    bF.setBoundingBox([c.bx[0], c.byF[1], c.bx[1], c.byF[0]], false);
+    bD.setBoundingBox([c.bx[0], c.byD[1], c.bx[1], c.byD[0]], false);
+    calculerStat();
+    majTout();
+  }
+
+  changerFonction();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

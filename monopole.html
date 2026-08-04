@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le monopole — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 8 — Imperfections de marché</div>
+<h1>Le monopole</h1>
+<p class="intro">
+Le monopoleur choisit sa quantité en égalisant <strong>recette marginale et coût
+marginal</strong>, puis lit son prix sur la courbe de demande. Comme il doit baisser son prix
+sur <em>toutes</em> les unités pour en vendre une de plus, sa recette marginale tombe deux fois
+plus vite que le prix. Il restreint donc la production et facture au-dessus du coût marginal.
+Le triangle gris mesure ce que cette restriction coûte à la société.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe">
+    <div id="graphe" class="jxgbox"></div>
+    <p style="font-size:.85rem; color:#666; margin:.5rem 0 0; line-height:1.45">
+      <span style="color:#b0342d; font-weight:bold">———</span> demande <em>p(Y)</em> &nbsp;
+      <span style="color:#8e44ad; font-weight:bold">– – –</span> recette marginale <em>Rm</em> &nbsp;
+      <span style="color:#2e7d32; font-weight:bold">———</span> coût marginal <em>Cm</em> &nbsp;
+      <span style="color:#468c96">▨</span> surplus du consommateur &nbsp;
+      <span style="color:#1c3e66">▨</span> rente du monopole &nbsp;
+      <span style="color:#777">▨</span> perte sèche
+    </p>
+  </div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Comparez les deux droites : la recette marginale part de la <em>même</em> ordonnée à
+      l'origine <em>A</em> que la demande, mais coupe l'axe des quantités deux fois plus tôt.
+      Sa pente est <span class="formule">−2B</span> contre <span class="formule">−B</span>.
+      Faites varier <em>B</em> : le rapport reste exactement 2.</li>
+    <li>Regardez les deux quantités marquées : <em>Y<sub>M</sub></em> (où Rm = Cm) et
+      <em>Y<sub>T</sub></em> (où p = Cm, l'optimum social). Quels que soient <em>A</em>,
+      <em>B</em> et <em>c</em>, le panneau affiche
+      <span class="formule">Y<sub>M</sub> / Y<sub>T</sub> = 0,500</span> : le monopole produit
+      la moitié de la quantité concurrentielle dans ce cas linéaire.</li>
+    <li>Gardez <em>A</em> = 24 et <em>B</em> = 1,5, puis baissez <em>c</em> de 12 à 0 :
+      l'écart <em>A</em> − <em>c</em> double et la perte sèche quadruple, de 12,00 à 48,00.
+      Elle grandit comme le carré de l'écart, <span class="formule">(A − c)²/(8B)</span>.</li>
+    <li>Gardez <em>c</em> = 6 et montez <em>A</em> de 16 à 28 : l'indice de Lerner passe de
+      0,455 à 0,647. Puis revenez à <em>A</em> = 24 et baissez <em>c</em> de 12 à 2 : il passe
+      de 0,333 à 0,846. Le taux de marge est l'inverse de l'élasticité,
+      <span class="formule">(p − Cm)/p = 1/|η|</span>, et le panneau affiche les deux nombres :
+      ils coïncident toujours.</li>
+    <li>Avec <em>A</em> = 24 et <em>c</em> = 6, balayez <em>B</em> de 0,50 à 3,00 : Lerner
+      reste figé à 0,600 et |η| à 1,667. La pente de la demande ne change pas le pouvoir de
+      marché ici, parce que <span class="formule">p<sub>M</sub> = (A + c)/2</span> ne dépend
+      pas de <em>B</em>. Seuls <em>A</em> et <em>c</em> déplacent l'indice.</li>
+    <li>Augmentez le coût fixe <em>F</em> : ni <em>Y<sub>M</sub></em>, ni <em>p<sub>M</sub></em>,
+      ni la perte sèche ne bougent, seul le profit baisse. Poussez plus loin avec
+      <em>A</em> = 14, <em>B</em> = 3,0, <em>c</em> = 12 et <em>F</em> = 30 : le profit tombe à
+      −29,67 et le panneau annonce la fermeture à long terme.</li>
+    <li>Mettez <em>A</em> = 14 puis montez <em>c</em> à 14 ou plus : le coût marginal dépasse
+      la disposition à payer la plus élevée. Le monopole ne produit rien, et il n'y a ni
+      surplus, ni rente, ni perte sèche.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>Avec une demande inverse <span class="formule">p(Y) = A − BY</span>, la recette est
+  <span class="formule">R(Y) = AY − BY²</span> et donc
+  <span class="formule">Rm(Y) = A − 2BY</span>. Avec
+  <span class="formule">C(Y) = F + cY</span>, la condition Rm = Cm donne
+  <span class="formule">Y<sub>M</sub> = (A − c)/(2B)</span> et
+  <span class="formule">p<sub>M</sub> = A − BY<sub>M</sub> = (A + c)/2</span>. L'optimum
+  concurrentiel (p = Cm) est <span class="formule">Y<sub>T</sub> = (A − c)/B = 2Y<sub>M</sub></span>.
+  Si <em>c</em> ≥ <em>A</em>, aucune unité ne vaut son coût : le monopole ne produit rien.</p>
+  <p>La perte sèche est le triangle sous la demande et au-dessus du coût marginal entre
+  <em>Y<sub>M</sub></em> et <em>Y<sub>T</sub></em> : base
+  <span class="formule">(A − c)/(2B)</span>, hauteur <span class="formule">(A − c)/2</span>,
+  aire <span class="formule">(A − c)²/(8B)</span>. L'indice de Lerner
+  <span class="formule">(p<sub>M</sub> − c)/p<sub>M</sub> = (A − c)/(A + c)</span> mesure le
+  pouvoir de marché, et vaut <span class="formule">1/|η|</span> à l'optimum du monopoleur, où
+  <em>η</em> est l'élasticité-prix de la demande. Ni l'un ni l'autre ne dépend de <em>B</em>.</p>
+  <p>Le coût fixe <em>F</em> n'entre dans aucune de ces formules : il ne change pas la
+  décision marginale. Il décide seulement du signe du profit
+  <span class="formule">π = (p<sub>M</sub> − c)Y<sub>M</sub> − F</span>. Si
+  <em>π</em> &lt; 0, le monopoleur ferme à long terme, faute de couvrir ses coûts.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  // Pas de graduation « rond » (1, 2, 5 × 10^k) donnant au plus 9 intervalles.
+  // Le cadre suit les curseurs en continu ; laisser JSXGraph choisir seul
+  // donnait des étiquettes à décimales (« 4.5 », avec un point) et parfois une
+  // graduation négative sous l'axe.
+  function pasJoli(r) {
+    var e = Math.pow(10, Math.floor(Math.log(r / 9) / Math.LN10));
+    var m = [1, 2, 5];
+    for (var i = 0; i < m.length; i++) if (r / (m[i] * e) <= 9) return m[i] * e;
+    return 10 * e;
+  }
+
+  function axe(bd, dir, nom, decal) {
+    return bd.create('axis', dir === 'x' ? [[0, 0], [1, 0]] : [[0, 0], [0, 1]], {
+      strokeColor: '#444', strokeWidth: 1, highlight: false, fixed: true,
+      name: nom, withLabel: true,
+      label: dir === 'x'
+        ? { position: 'rt', offset: [-8, 16], fontSize: 14, anchorX: 'right' }
+        : { position: 'rt', offset: [14, -8], fontSize: 14 },
+      ticks: { insertTicks: false, ticksDistance: 5, minorTicks: 0, drawLabels: true,
+               label: { fontSize: 11, offset: decal }, strokeColor: '#999' }
+    });
+  }
+
+  var b = Econ.board('graphe', [-2, 28, 20, -3], { axes: false });
+  var axeX = axe(b, 'x', 'Y', [0, -12]);
+  var axeY = axe(b, 'y', 'p', [-16, 0]);
+
+  var cmd = document.getElementById('cmd');
+
+  var sA = Econ.curseur(cmd, { etiquette: 'Prix maximal (demande) : <em>A</em>',
+                               min: 14, max: 30, pas: 1, valeur: 24, decimales: 0,
+                               surChangement: majTout });
+  var sB = Econ.curseur(cmd, { etiquette: 'Pente de la demande : <em>B</em>',
+                               min: 0.5, max: 3, pas: 0.1, valeur: 1.5, surChangement: majTout });
+  // c monte jusqu'à 20, au-dessus du plus petit A : le cas « le monopole ne
+  // produit rien » (c ≥ A) doit être atteignable, il est au programme.
+  var sC = Econ.curseur(cmd, { etiquette: 'Coût marginal : <em>c</em>',
+                               min: 0, max: 20, pas: 0.5, valeur: 6, surChangement: majTout });
+  var sF = Econ.curseur(cmd, { etiquette: 'Coût fixe : <em>F</em>',
+                               min: 0, max: 30, pas: 1, valeur: 0, decimales: 0,
+                               surChangement: majTout });
+
+  var bZones = Econ.bascule(cmd, { etiquette: 'Colorer les surplus et la perte sèche',
+                                   coche: true, surChangement: majTout });
+  var bConc = Econ.bascule(cmd, { etiquette: 'Montrer l\'optimum concurrentiel <em>Y<sub>T</sub></em>',
+                                  coche: true, surChangement: majTout });
+
+  Econ.boutonReinit(cmd, function () {
+    sA.fixer(24); sB.fixer(1.5); sC.fixer(6); sF.fixer(0);
+    bZones.fixer(true); bConc.fixer(true); majTout();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['YM',   'Quantité de monopole <em>Y<sub>M</sub></em>'],
+    ['pM',   'Prix de monopole <em>p<sub>M</sub></em>'],
+    ['YT',   'Quantité concurrentielle <em>Y<sub>T</sub></em>'],
+    ['moit', 'Contrôle : <em>Y<sub>M</sub> / Y<sub>T</sub></em>'],
+    ['pi',   'Profit <em>π = (p<sub>M</sub> − c)Y<sub>M</sub> − F</em>'],
+    ['SC',   'Surplus du consommateur'],
+    ['PS',   'Perte sèche'],
+    ['PSf',  'Contrôle : <em>(A − c)²/(8B)</em>'],
+    ['L',    'Indice de Lerner <em>(p<sub>M</sub> − c)/p<sub>M</sub></em>'],
+    ['eps',  'Élasticité <em>|η|</em> en <em>Y<sub>M</sub></em>, et <em>1/|η|</em>'],
+    ['dg',   'Diagnostic']
+  ]);
+
+  /* --- paramètres et formules --- */
+  function A() { return sA.valeur(); }
+  function B() { return sB.valeur(); }
+  function c() { return sC.valeur(); }
+  function Fc() { return sF.valeur(); }
+
+  // Si c ≥ A, aucune unité ne se vend au-dessus de son coût : le monopole ferme
+  // l'usine. On borne l'écart A − c à zéro, ce qui annule d'un coup Y_M, Y_T,
+  // les deux surplus et la perte sèche, sans cas particulier dans chaque tracé.
+  function ferme() { return c() >= A(); }
+  function ecart() { return Math.max(A() - c(), 0); }
+
+  function pdem(y) { return A() - B() * y; }
+  function Rm(y)   { return A() - 2 * B() * y; }
+  function YM()    { return ecart() / (2 * B()); }
+  function pM()    { return A() - B() * YM(); }         // = (A + c)/2 si c < A
+  function YT()    { return ecart() / B(); }
+  function profit(){ return (pM() - c()) * YM() - Fc(); }
+  function SC()    { return 0.5 * (A() - pM()) * YM(); }
+  // Perte sèche : intégrale de (p(y) − c) entre Y_M et Y_T, calculée
+  // géométriquement (base × hauteur / 2) ; la ligne « contrôle » redonne (A−c)²/(8B).
+  function PS()    { return 0.5 * (YT() - YM()) * (pM() - c()); }
+
+  /* --- zones (créées d'abord pour rester sous les droites) --- */
+  Econ.zone(b, function () {
+    if (!bZones.valeur()) return [];
+    return [[0, pM()], [0, A()], [YM(), pM()]];
+  }, { couleur: Econ.COUL.accent, opacite: 0.25 });          // surplus du consommateur
+
+  Econ.zone(b, function () {
+    if (!bZones.valeur()) return [];
+    return [[0, c()], [0, pM()], [YM(), pM()], [YM(), c()]];
+  }, { couleur: Econ.COUL.titre, opacite: 0.18 });           // rente du monopole
+
+  Econ.zone(b, function () {
+    if (!bZones.valeur()) return [];
+    return [[YM(), pM()], [YT(), c()], [YM(), c()]];
+  }, { couleur: '#777', opacite: 0.35 });                    // perte sèche
+
+  /* --- droites --- */
+  var dem = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 2.6, highlight: false, fixed: true
+  });
+  dem.updateDataArray = function () {
+    this.dataX = [0, A() / B()];
+    this.dataY = [A(), 0];
+  };
+
+  var rec = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.tiers, strokeWidth: 2, dash: 2, highlight: false, fixed: true
+  });
+  rec.updateDataArray = function () {
+    this.dataX = [0, A() / (2 * B())];
+    this.dataY = [A(), 0];
+  };
+
+  var cmDroite = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.second, strokeWidth: 2.2, highlight: false, fixed: true
+  });
+  cmDroite.updateDataArray = function () {
+    this.dataX = [0, b.getBoundingBox()[2]];
+    this.dataY = [c(), c()];
+  };
+
+  /* --- points --- */
+  // Point de monopole tracé à la main plutôt qu'avec Econ.pointOptimal : quand
+  // le monopole ne produit rien, le point ET ses deux projections doivent
+  // disparaître ensemble.
+  function actif() { return !ferme(); }
+  var ptM = b.create('point', [YM, pM], {
+    name: 'M', size: 4, strokeColor: '#fff', strokeWidth: 1.5,
+    fillColor: Econ.COUL.titre, fixed: true, highlight: false,
+    label: { fontSize: 14, offset: [8, 10] }, visible: actif
+  });
+  var stProj = { strokeColor: '#888', strokeWidth: 1, dash: 2, highlight: false,
+                 fixed: true, straightFirst: false, straightLast: false, visible: actif };
+  b.create('segment', [[0, function () { return pM(); }], ptM], stProj);
+  b.create('segment', [[function () { return YM(); }, 0], ptM], stProj);
+
+  var ptRm = b.create('point', [YM, c], {
+    name: '', size: 3, strokeColor: '#fff', strokeWidth: 1.2,
+    fillColor: Econ.COUL.tiers, fixed: true, highlight: false
+  });
+  var ptT = b.create('point', [YT, c], {
+    name: 'T', size: 4, strokeColor: '#fff', strokeWidth: 1.5,
+    fillColor: Econ.COUL.second, fixed: true, highlight: false,
+    label: { fontSize: 14, offset: [8, 10] }
+  });
+  var segT = b.create('segment', [[function () { return YT(); }, 0], ptT], {
+    strokeColor: '#888', strokeWidth: 1, dash: 2, highlight: false, fixed: true
+  });
+
+  /* --- étiquettes --- */
+  Econ.texte(b, function () { return A() / B() * 0.62; },
+                function () { return pdem(A() / B() * 0.62) * 1.06; }, 'demande',
+             { strokeColor: Econ.COUL.budget, fontSize: 13 });
+  Econ.texte(b, function () { return A() / (2 * B()) * 0.55; },
+                function () { return Rm(A() / (2 * B()) * 0.55) * 1.08; }, 'Rm',
+             { strokeColor: Econ.COUL.tiers, fontSize: 13 });
+  Econ.texte(b, function () { return A() / B() * 0.90; },
+                function () { return c() + 0.03 * Math.max(A(), c()); }, 'Cm = c',
+             { strokeColor: Econ.COUL.second, fontSize: 13 });
+
+  /* --- mise à jour --- */
+  function majTout() {
+    // Le cadre suit les deux grandeurs qui fixent l'échelle : A/B en abscisse
+    // (l'abscisse à l'origine de la demande) et max(A, c) en ordonnée. Pas
+    // d'arrondi vers le haut : le cadre reste serré et ne saute pas.
+    var W = A() / B();
+    var H = Math.max(A(), c());
+    b.setBoundingBox([-0.09 * W, 1.15 * H, 1.10 * W, -0.13 * H], false);
+    axeX.defaultTicks.setAttribute({ ticksDistance: pasJoli(1.19 * W) });
+    axeY.defaultTicks.setAttribute({ ticksDistance: pasJoli(1.28 * H) });
+
+    var ym = YM(), yt = YT(), pm = pM();
+    res.fixer('YM', Econ.nb(ym, 2));
+    res.fixer('pM', ferme() ? '—' :
+                    Econ.nb(pm, 2) + ' &nbsp;(= (A + c)/2 = ' +
+                    Econ.nb((A() + c()) / 2, 2) + ')');
+    res.fixer('YT', Econ.nb(yt, 2));
+    res.fixer('moit', yt > 0 ? Econ.nb(ym / yt, 3) + ' &nbsp;(exactement 1/2)' : '—');
+    res.fixer('pi', Econ.nb(profit(), 2));
+    res.fixer('SC', Econ.nb(SC(), 2));
+    res.fixer('PS', Econ.nb(PS(), 2));
+    // Les deux calculs sont égaux en arithmétique exacte. En binaire ils
+    // diffèrent parfois du dernier bit, et l'affichage à deux décimales montre
+    // alors « 6,88 » contre « 6,87 » sur une ligne dont le rôle est justement
+    // de montrer l'égalité. On aligne le contrôle quand l'écart est du bruit.
+    var psf = Math.pow(ecart(), 2) / (8 * B());
+    if (Math.abs(psf - PS()) <= 1e-9 * Math.max(1, psf)) psf = PS();
+    res.fixer('PSf', Econ.nb(psf, 2));
+
+    if (ferme()) {
+      res.fixer('L', '—');
+      res.fixer('eps', '—');
+      res.fixer('dg', '<em>c</em> ≥ <em>A</em> : le monopole <strong>ne produit rien</strong>. ' +
+                      'Aucune unité ne vaut son coût marginal.' +
+                      (Fc() > 0 ? ' Il perd son coût fixe et ferme.' : ''));
+    } else {
+      var L = (pm - c()) / pm;
+      var eta = (1 / B()) * (pm / ym);        // |η| = (1/B)·(p/Y) pour p = A − BY
+      // Même précaution que pour la perte sèche : 1/|η| et l'indice de Lerner
+      // sont le même nombre, à un dernier bit près.
+      var inv = 1 / eta;
+      if (Math.abs(inv - L) <= 1e-9 * Math.max(1, Math.abs(L))) inv = L;
+      res.fixer('L', Econ.nb(L, 3));
+      res.fixer('eps', Econ.nb(eta, 3) + ' &nbsp;→ 1/|η| = ' + Econ.nb(inv, 3));
+      // Le verdict suit le profit tel qu'il est affiché : trancher sur le signe
+      // brut ferait annoncer une fermeture à côté d'un profit lu « 0,00 ».
+      var piAff = Math.round(profit() * 100) / 100;
+      res.fixer('dg', piAff < 0
+        ? '<em>π</em> &lt; 0 : à long terme le monopoleur <strong>ferme</strong>, ' +
+          'il ne couvre pas son coût fixe.'
+        : piAff === 0
+        ? '<em>π</em> = 0 : le monopoleur couvre tout juste ses coûts.'
+        : '<em>π</em> &gt; 0 : la production couvre les coûts, le monopoleur reste en activité.');
+    }
+
+    var v = bConc.valeur() && actif();
+    ptT.setAttribute({ visible: v });
+    segT.setAttribute({ visible: v });
+    ptRm.setAttribute({ visible: v });
+
+    b.update();
+  }
+
+  majTout();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Les deux théorèmes du bien-être — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 6 — L'échange</div>
+<h1>Les deux théorèmes du bien-être</h1>
+<p class="intro">
+Le <strong>premier théorème</strong> dit qu'un équilibre de marché est Pareto-optimal.
+Le <strong>second</strong> dit l'inverse : n'importe quel optimum de Pareto peut être
+atteint par un marché, à condition de redistribuer les dotations. Cet outil montre le
+second à l'œuvre. Choisissez l'allocation visée, puis déplacez la dotation <em>ω</em>.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe"><div id="graphe" class="jxgbox"></div></div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li><strong>Second théorème.</strong> Choisissez une allocation visée, puis faites
+      glisser <em>ω</em> d'un bout à l'autre de la droite de prix rouge. Le point <em>E</em>
+      ne bouge pas et le verdict reste vert sur toute la course. Toutes ces dotations
+      mènent au même optimum.</li>
+    <li>Décochez « garder la dotation sur la droite de prix » et déplacez <em>ω</em>.
+      Le verdict passe au rouge. Une droite verte pointillée apparaît : c'est la vraie
+      contrainte budgétaire, celle qui passe par la nouvelle dotation. Elle ne passe plus
+      par le point visé.</li>
+    <li><strong>Premier théorème.</strong> Où que vous placiez <em>ω</em>, le point
+      <em>E</em> reste sur la courbe des contrats. Le marché ne laisse aucun gain
+      d'échange sur la table.</li>
+    <li>Poussez l'allocation visée vers <em>O</em><sub>A</sub> : Anne obtient presque rien.
+      C'est encore un optimum de Pareto. Efficacité et équité sont deux questions
+      séparées.</li>
+    <li>Déplacez l'allocation visée et lisez <em>p<sub>X</sub></em> : chaque optimum a son
+      prix. Un cas fait exception. Mettez <em>a<sub>A</sub></em> = <em>a<sub>B</sub></em> =
+      0,60 : la courbe des contrats devient la diagonale et <em>p<sub>X</sub></em> reste
+      figé à 1,500 pour toutes les cibles.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p><strong>Premier théorème.</strong> Sous des préférences convexes et sans externalité,
+  tout équilibre concurrentiel est un optimum de Pareto. La raison est courte : chacun
+  égalise son TMS au même rapport de prix, donc les TMS sont égaux entre eux.</p>
+  <p><strong>Second théorème.</strong> Tout optimum de Pareto peut être décentralisé comme
+  équilibre concurrentiel après un transfert forfaitaire de dotations. Le prix qui le
+  soutient est le TMS commun en ce point.</p>
+  <p>La distinction est celle du cours : le marché s'occupe de l'<em>efficacité</em>, la
+  redistribution des dotations s'occupe de l'<em>équité</em>, et les deux peuvent être
+  traitées séparément.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var WX = 100, WY = 100;   // dimensions de la boîte (dotations totales)
+
+  var b = Econ.board('graphe', [-14, 116, 116, -14], { axes: false });
+
+  var cmd = document.getElementById('cmd');
+
+  var sAA = Econ.curseur(cmd, { etiquette: 'Goût d\'Anne pour <em>X</em> : <em>a<sub>A</sub></em>',
+    min: 0.15, max: 0.85, pas: 0.05, valeur: 0.6, surChangement: maj });
+  var sAB = Econ.curseur(cmd, { etiquette: 'Goût de Bruno pour <em>X</em> : <em>a<sub>B</sub></em>',
+    min: 0.15, max: 0.85, pas: 0.05, valeur: 0.35, surChangement: maj });
+  var sCible = Econ.curseur(cmd, { etiquette: 'Allocation visée (le long de la courbe des contrats)',
+    min: 10, max: 90, pas: 1, valeur: 55, decimales: 0, surChangement: maj });
+
+  var bContrainte = Econ.bascule(cmd, {
+    etiquette: 'Garder la dotation sur la droite de prix', coche: true, surChangement: basculer });
+
+  Econ.boutonReinit(cmd, function () {
+    sAA.fixer(0.6); sAB.fixer(0.35); sCible.fixer(55);
+    bContrainte.fixer(true);
+    placerDot(); basculer();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['cible',  'Allocation visée (Anne)'],
+    ['prix',   'Prix qui la soutient <em>p<sub>X</sub></em>'],
+    ['dot',    'Dotation d\'Anne'],
+    ['equil',  'Équilibre atteint (Anne)'],
+    ['verdict', 'Verdict']
+  ]);
+
+  function aA() { return sAA.valeur(); }
+  function aB() { return sAB.valeur(); }
+  function kA() { return aA() / (1 - aA()); }
+  function kB() { return aB() / (1 - aB()); }
+
+  /* --- courbe des contrats : Y_A = kB·X·ω_Y / (kA·ω_X + X·(kB − kA)) --- */
+  function contratY(X) {
+    return kB() * X * WY / (kA() * WX + X * (kB() - kA()));
+  }
+
+  // Allocation visée : un point de la courbe des contrats.
+  function cibleX() { return sCible.valeur(); }
+  function cibleY() { return contratY(cibleX()); }
+
+  // Prix qui soutient cette allocation : le TMS commun en ce point.
+  function prixSoutien() {
+    return kA() * (cibleY() / cibleX());
+  }
+
+  /* --- la boîte --- */
+  b.create('polygon', [[0, 0], [WX, 0], [WX, WY], [0, WY]], {
+    fillColor: 'none', borders: { strokeColor: '#444', strokeWidth: 1.5, highlight: false },
+    highlight: false, fixed: true, vertices: { visible: false }
+  });
+  Econ.texte(b, -10, -9, 'O<sub>A</sub>', { fontSize: 14 });
+  Econ.texte(b, WX + 3, WY + 4, 'O<sub>B</sub>', { fontSize: 14 });
+  // Repérage : Anne lit ses quantités depuis O_A, Bruno depuis O_B, donc ses
+  // deux axes pointent à l'envers. On le dit sur les deux bords concernés.
+  Econ.texte(b, WX / 2, -10, 'bien X', { fontSize: 13, anchorX: 'middle' });
+  Econ.texte(b, -13, WY / 2, 'bien Y', { fontSize: 13, anchorX: 'left' });
+  Econ.texte(b, WX / 2, WY + 5, 'X de Bruno ←', { fontSize: 12, anchorX: 'middle',
+    cssStyle: 'color:#8e44ad;' });
+  Econ.texte(b, WX + 1, WY / 2, 'Y de<br>Bruno ↓', { fontSize: 11, anchorX: 'left',
+    cssStyle: 'color:#8e44ad; line-height:1.15;' });
+
+  /* --- courbe des contrats --- */
+  var contrats = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.accent, strokeWidth: 2.5, highlight: false, fixed: true
+  });
+  contrats.updateDataArray = function () {
+    var xs = [], ys = [], n = 200, i, X, Y;
+    for (i = 0; i <= n; i++) {
+      X = WX * i / n;
+      Y = contratY(X);
+      if (!isFinite(Y)) { xs.push(NaN); ys.push(NaN); continue; }
+      xs.push(X); ys.push(Math.max(0, Math.min(WY, Y)));
+    }
+    this.dataX = xs; this.dataY = ys;
+  };
+
+  /* --- droite de prix soutenant l'allocation visée --- */
+  // Elle passe par le point visé, de pente −p. On la borne à la boîte.
+  function boutsDroite() {
+    var p = prixSoutien(), X0 = cibleX(), Y0 = cibleY();
+    var R = p * X0 + Y0;                 // « valeur » constante le long de la droite
+    var x1 = 0, y1 = R, x2 = R / p, y2 = 0;
+    if (y1 > WY) { y1 = WY; x1 = (R - WY) / p; }
+    if (x2 > WX) { x2 = WX; y2 = R - p * WX; }
+    return [[x1, y1], [x2, y2]];
+  }
+  var D1 = b.create('point', [function () { return boutsDroite()[0][0]; },
+                              function () { return boutsDroite()[0][1]; }],
+                    { visible: false, fixed: true });
+  var D2 = b.create('point', [function () { return boutsDroite()[1][0]; },
+                              function () { return boutsDroite()[1][1]; }],
+                    { visible: false, fixed: true });
+  var droitePrix = b.create('segment', [D1, D2], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 2, highlight: false, fixed: true
+  });
+
+  // Point de la droite à la fraction t de sa longueur, et projection d'un point
+  // quelconque sur elle. Les deux servent à garder ω et son sosie libre d'accord.
+  function pointDroite(t) {
+    var q = boutsDroite();
+    return [q[0][0] + t * (q[1][0] - q[0][0]), q[0][1] + t * (q[1][1] - q[0][1])];
+  }
+  function projeterSurDroite(x, y) {
+    var q = boutsDroite();
+    var vx = q[1][0] - q[0][0], vy = q[1][1] - q[0][1];
+    var L2 = vx * vx + vy * vy;
+    var t = L2 > 0 ? ((x - q[0][0]) * vx + (y - q[0][1]) * vy) / L2 : 0;
+    return pointDroite(Math.min(1, Math.max(0, t)));
+  }
+
+  /* --- courbes d'indifférence tangentes au point visé --- */
+  function courbeA(niveau, style) {
+    var c = b.create('curve', [[], []], style);
+    c.updateDataArray = function () {
+      var u = niveau(), a = aA(), xs = [], ys = [], n = 220, i, X, Y;
+      for (i = 1; i <= n; i++) {
+        X = WX * i / n;
+        Y = Math.pow(u / Math.pow(X, a), 1 / (1 - a));
+        if (!isFinite(Y) || Y > WY) { xs.push(NaN); ys.push(NaN); continue; }
+        xs.push(X); ys.push(Y);
+      }
+      this.dataX = xs; this.dataY = ys;
+    };
+    return c;
+  }
+  function courbeB(niveau, style) {
+    var c = b.create('curve', [[], []], style);
+    c.updateDataArray = function () {
+      var u = niveau(), a = aB(), xs = [], ys = [], n = 220, i, XB, YB;
+      for (i = 1; i <= n; i++) {
+        XB = WX * i / n;
+        YB = Math.pow(u / Math.pow(XB, a), 1 / (1 - a));
+        if (!isFinite(YB) || YB > WY) { xs.push(NaN); ys.push(NaN); continue; }
+        xs.push(WX - XB); ys.push(WY - YB);
+      }
+      this.dataX = xs; this.dataY = ys;
+    };
+    return c;
+  }
+  courbeA(function () {
+    return Math.pow(cibleX(), aA()) * Math.pow(cibleY(), 1 - aA());
+  }, { strokeColor: Econ.COUL.indiff, strokeWidth: 2, highlight: false, fixed: true });
+  courbeB(function () {
+    return Math.pow(WX - cibleX(), aB()) * Math.pow(WY - cibleY(), 1 - aB());
+  }, { strokeColor: Econ.COUL.tiers, strokeWidth: 2, highlight: false, fixed: true });
+
+  /* --- l'allocation visée --- */
+  b.create('point', [cibleX, cibleY], {
+    name: 'visé', size: 5, strokeColor: '#fff', strokeWidth: 1.5,
+    fillColor: Econ.COUL.accent, fixed: true, highlight: false,
+    label: { fontSize: 13, offset: [10, 10] }
+  });
+
+  /* --- la dotation : glisseur sur la droite de prix, ou point libre --- */
+  var E = b.create('glider', [30, 0, droitePrix], {
+    name: 'ω', size: 5, strokeColor: Econ.COUL.titre, strokeWidth: 2, fillColor: '#fff',
+    label: { fontSize: 15, offset: [10, -8] }
+  });
+  var Elibre = b.create('point', [30, 40], {
+    name: 'ω', size: 5, strokeColor: Econ.COUL.titre, strokeWidth: 2, fillColor: '#fff',
+    visible: false, label: { fontSize: 15, offset: [10, -8] }
+  });
+
+  /* --- contrainte budgétaire réellement en vigueur --- */
+  // La droite rouge est celle qui soutient la cible. Quand la dotation la quitte,
+  // ce n'est plus le budget de personne : on trace alors le vrai, au prix
+  // d'équilibre calculé à partir de la dotation courante. maj() décide s'il
+  // s'affiche.
+  function boutsBudget() {
+    var d = dot(), p = equilibre().p, R = p * d.X + d.Y;
+    var x1 = 0, y1 = R, x2 = R / p, y2 = 0;
+    if (y1 > WY) { y1 = WY; x1 = (R - WY) / p; }
+    if (x2 > WX) { x2 = WX; y2 = R - p * WX; }
+    return [[x1, y1], [x2, y2]];
+  }
+  var budgetReel = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.second, strokeWidth: 2, dash: 2,
+    highlight: false, fixed: true, visible: false
+  });
+  budgetReel.updateDataArray = function () {
+    var q = boutsBudget();
+    this.dataX = [q[0][0], q[1][0]]; this.dataY = [q[0][1], q[1][1]];
+  };
+  var etiqBudget = Econ.etiquetteSurCourbe(b, budgetReel, 0.5, 'budget réalisé', {
+    fontSize: 12, visible: false,
+    cssStyle: 'font-family: Georgia, serif; color:' + Econ.COUL.second +
+              '; text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 2px #fff;'
+  });
+
+  // Aucun bornage ici. Le glisseur vit sur la droite de prix, dont les deux
+  // bouts touchent le bord de la boîte : rogner d'une unité le sortirait de la
+  // droite et déplacerait l'équilibre. Le point libre, lui, est borné à la
+  // boîte au moment où on le déplace, donc ses coordonnées sont déjà valides.
+  // Le dénominateur du prix vaut WX − a_A·X − a_B·(WX − X) ≥ WX·(1 − 0,85) = 15
+  // pour toute dotation de la boîte : rien à protéger d'une division par zéro.
+  function dot() {
+    var P = bContrainte.valeur() ? E : Elibre;
+    return { X: P.X(), Y: P.Y() };
+  }
+
+  /* --- équilibre effectivement atteint à partir de cette dotation --- */
+  function equilibre() {
+    var d = dot();
+    var num = aA() * d.Y + aB() * (WY - d.Y);
+    var den = WX - aA() * d.X - aB() * (WX - d.X);
+    var p = num / den;
+    var IA = p * d.X + d.Y;
+    return { XA: aA() * IA / p, YA: (1 - aA()) * IA, p: p };
+  }
+
+  var PE = b.create('point', [function () { return equilibre().XA; },
+                              function () { return equilibre().YA; }], {
+    name: 'E', size: 4, strokeColor: '#fff', strokeWidth: 1.5,
+    fillColor: Econ.COUL.budget, fixed: true, highlight: false,
+    label: { fontSize: 14, offset: [8, -12] }
+  });
+
+  E.on('drag', maj);
+  // Le point libre reste dans la boîte : on borne le point lui-même, pas
+  // seulement sa lecture, sinon le dessin et le calcul divergent.
+  Elibre.on('drag', function () {
+    var x = Math.min(WX, Math.max(0, Elibre.X()));
+    var y = Math.min(WY, Math.max(0, Elibre.Y()));
+    if (x !== Elibre.X() || y !== Elibre.Y()) Elibre.moveTo([x, y]);
+    maj();
+  });
+
+  // Position de départ de ω : à 35 % de la droite de prix.
+  function placerDot() {
+    var q = pointDroite(0.35);
+    E.moveTo(q); Elibre.moveTo(q);
+  }
+
+  // La bascule marche dans les deux sens : en décochant, le point libre prend la
+  // place du glisseur ; en recochant, le glisseur prend le point de la droite le
+  // plus proche du point libre. La dotation ne saute donc jamais.
+  function basculer() {
+    var sur = bContrainte.valeur();
+    if (sur) E.moveTo(projeterSurDroite(Elibre.X(), Elibre.Y()));
+    else Elibre.moveTo([E.X(), E.Y()]);
+    E.setAttribute({ visible: sur });
+    Elibre.setAttribute({ visible: !sur });
+    maj();
+  }
+
+  function maj() {
+    var d = dot(), e = equilibre(), p = prixSoutien();
+    res.fixer('cible', 'X = ' + Econ.nb(cibleX(), 1) + ', Y = ' + Econ.nb(cibleY(), 1));
+    res.fixer('prix', Econ.nb(p, 3));
+    res.fixer('dot', 'X = ' + Econ.nb(d.X, 1) + ', Y = ' + Econ.nb(d.Y, 1));
+    res.fixer('equil', 'X = ' + Econ.nb(e.XA, 1) + ', Y = ' + Econ.nb(e.YA, 1));
+
+    var ecart = Math.hypot(e.XA - cibleX(), e.YA - cibleY());
+    if (ecart < 0.15) {
+      res.fixer('verdict', '<span style="color:' + Econ.COUL.second +
+        '">l\'équilibre atteint l\'allocation visée ✓</span>');
+    } else {
+      res.fixer('verdict', '<span style="color:' + Econ.COUL.budget + '">écart de ' +
+        Econ.nb(ecart, 1) + ' : cette dotation soutient un autre optimum</span>');
+    }
+    // La droite verte n'apparaît que si le budget réalisé diffère de la droite
+    // rouge : sinon les deux se superposent et brouillent le dessin. Son
+    // étiquette se retire en plus quand le segment est trop court pour la
+    // porter, sinon le texte dépasse du cadre.
+    var hd = ecart >= 0.15;
+    var q = boutsBudget();
+    var assezLong = Math.hypot(q[1][0] - q[0][0], q[1][1] - q[0][1]) > 25;
+    budgetReel.setAttribute({ visible: hd });
+    etiqBudget.setAttribute({ visible: hd && assezLong });
+    b.update();
+  }
+
+  placerDot();
+  basculer();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

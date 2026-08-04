@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La demande d'assurance — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 5 — Le risque</div>
+<h1>La demande d'assurance</h1>
+<p class="intro">
+Savoir que l'assurance est <em>souhaitable</em> ne dit pas <em>combien</em> en acheter.
+Ici les deux « biens » sont la richesse dans le mauvais état et dans le bon état. La
+géométrie est celle du chapitre 2, avec une droite de budget dont la pente est le
+rapport des probabilités. Le résultat central tombe tout seul.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe"><div id="graphe" class="jxgbox"></div></div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Mettez le chargement <em>λ</em> à zéro : la prime est <strong>actuariellement
+      juste</strong> et l'optimum se pose sur la droite de certitude
+      <em>Z</em><sub>1</sub> = <em>Z</em><sub>2</sub>. L'agent riscophobe s'assure
+      <strong>complètement</strong> : <em>K</em>* = <em>L</em>, et sa richesse est la même
+      dans les deux états.</li>
+    <li>Montez <em>λ</em> : l'optimum quitte la droite de certitude et glisse vers le bas.
+      Il n'y a que trois situations possibles, selon le poids du chargement face à
+      l'aversion. Prime juste : couverture complète. Chargement modéré : couverture
+      <strong>partielle</strong>, c'est la franchise en langage de contrat ; aux réglages
+      par défaut, <em>λ</em> = 0,05 donne <em>K</em>* = 57,3. Chargement trop lourd pour
+      l'aversion : plus rien du tout ; posez <em>σ</em> = 0,5 puis <em>λ</em> = 0,40 et le
+      verdict affiche « aucune assurance achetée », <em>K</em>* = 0.</li>
+    <li>Montez l'aversion au risque <em>σ</em> avec un chargement positif : l'optimum
+      remonte vers la droite de certitude sans jamais l'atteindre. Plus on est riscophobe,
+      plus on accepte de payer cher pour se rapprocher de la sécurité.</li>
+    <li>À prime juste, la droite de budget a pour pente <em>−p/(1−p)</em>, le rapport des
+      probabilités. C'est ce qui fait que la tangence impose <em>Z</em><sub>1</sub> =
+      <em>Z</em><sub>2</sub>.</li>
+    <li>Poussez <em>σ</em> vers 0 (neutralité au risque) avec un chargement positif :
+      l'agent cesse de s'assurer. Seul un riscophobe paie plus que l'espérance de perte.
+      À prime juste et <em>σ</em> = 0, tous les niveaux de couverture donnent la même
+      espérance de richesse : l'agent est indifférent et l'outil retient
+      <em>K</em>* = 0. Un cran plus haut, à <em>σ</em> = 0,1, il se couvre déjà
+      complètement. Le saut est normal, l'indifférence disparaît dès la moindre
+      riscophobie.</li>
+    <li>Le point de dotation <em>ω</em> est toujours sur la droite de budget : ne pas
+      s'assurer (<em>K</em> = 0) reste une option disponible.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>Avec une richesse <em>W</em>, une perte <em>L</em> de probabilité <em>p</em>, et une
+  couverture <em>K</em> achetée au taux de prime <em>γ</em> :
+  <span class="formule">Z<sub>1</sub> = W − L + K(1−γ)</span> dans le mauvais état et
+  <span class="formule">Z<sub>2</sub> = W − γK</span> dans le bon. En éliminant <em>K</em>,
+  la droite de budget a pour pente <span class="formule">−γ/(1−γ)</span> et passe par la
+  dotation <span class="formule">(W−L, W)</span>. Ici <em>W</em> = 100 $ et le taux de
+  prime est <span class="formule">γ = p(1+λ)</span>.</p>
+  <p>La condition de tangence est
+  <span class="formule">p·u′(Z<sub>1</sub>) / [(1−p)·u′(Z<sub>2</sub>)] = γ/(1−γ)</span>.
+  À prime juste <span class="formule">γ = p</span>, elle se réduit à
+  <span class="formule">u′(Z<sub>1</sub>) = u′(Z<sub>2</sub>)</span>, donc
+  <span class="formule">Z<sub>1</sub> = Z<sub>2</sub></span> : <strong>couverture
+  complète</strong>. Avec chargement <span class="formule">γ &gt; p</span>, la couverture
+  est <strong>partielle</strong>, et elle tombe à zéro si le chargement est trop lourd
+  pour l'aversion de l'agent : la tangence voulue sort du segment
+  <span class="formule">0 ≤ K ≤ L</span> et l'optimum est le coin
+  <span class="formule">K* = 0</span>.</p>
+  <p>Pour une utilité CRRA <span class="formule">u′(Z) = Z<sup>−σ</sup></span>, la
+  couverture optimale est
+  <span class="formule">K* = (RW − W + L)/(1 − γ + Rγ)</span> avec
+  <span class="formule">R = [p(1−γ)/((1−p)γ)]<sup>1/σ</sup></span>, ramenée dans
+  <span class="formule">[0, L]</span>. À prime juste, <em>R</em> = 1 et
+  <em>K</em>* = <em>L</em>.</p>
+  <p><strong>Deux mots à ne pas confondre.</strong> Ici la <em>prime</em> est ce que
+  l'assuré verse, <span class="formule">γK</span>. Dans les notes du chapitre, la
+  <em>prime de risque</em> <em>π</em> est autre chose : l'écart entre la richesse espérée
+  et l'équivalent certain. La probabilité de perte est notée <em>p</em>, comme dans les
+  notes.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var W = 100, MAX = 125, CADRE = 128;
+
+  // Cadre carré : 142 unités dans les deux directions. Sans cela la droite de
+  // certitude, qui a bien une pente de 1, ne s'affiche pas à 45° à l'écran.
+  // keepaspectratio impose en plus des unités de même longueur en pixels, même
+  // quand la zone de dessin n'est pas carrée. CADRE dépasse un peu MAX pour
+  // laisser respirer la dernière graduation.
+  var b = Econ.board('graphe', [-14, CADRE, CADRE, -14], {
+    nomX: 'Z₁ (mauvais état)', nomY: 'Z₂ (bon état)', pasGrad: 20
+  });
+  b.attr.keepaspectratio = true;
+  b.setBoundingBox([-14, CADRE, CADRE, -14], true);
+
+  var cmd = document.getElementById('cmd');
+
+  var sL   = Econ.curseur(cmd, { etiquette: 'Perte <em>L</em>',
+    min: 20, max: 80, pas: 5, valeur: 60, decimales: 0, surChangement: maj });
+  var sPi  = Econ.curseur(cmd, { etiquette: 'Probabilité de perte <em>p</em>',
+    min: 0.05, max: 0.5, pas: 0.05, valeur: 0.25, surChangement: maj });
+  // λ s'arrête à 0,8 : au-delà, γ = p(1+λ) dépasserait le plafond de 0,9 quand
+  // p = 0,5 et les derniers crans ne changeraient plus rien à l'écran.
+  var sLam = Econ.curseur(cmd, { etiquette: 'Chargement <em>λ</em> (0 = prime juste)',
+    min: 0, max: 0.8, pas: 0.05, valeur: 0, surChangement: maj });
+  var sSig = Econ.curseur(cmd, { etiquette: 'Aversion au risque <em>σ</em>',
+    min: 0, max: 4, pas: 0.1, valeur: 2, surChangement: maj });
+
+  var bDot = Econ.bascule(cmd, { etiquette: 'Courbe d\'indifférence sans assurance',
+    coche: true, surChangement: maj });
+
+  Econ.boutonReinit(cmd, function () {
+    sL.fixer(60); sPi.fixer(0.25); sLam.fixer(0); sSig.fixer(2);
+    bDot.fixer(true); maj();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['W',     'Richesse initiale <em>W</em>'],
+    ['gamma', 'Taux de prime <em>γ</em>'],
+    ['K',     'Couverture optimale <em>K</em>*'],
+    ['prime', 'Prime payée <em>γK</em>*'],
+    ['Z',     'Richesse (mauvais / bon état)'],
+    ['verdict', 'Verdict']
+  ]);
+  res.fixer('W', Econ.nb(W, 0) + ' $');
+
+  function L()   { return sL.valeur(); }
+  function prob() { return sPi.valeur(); }
+  function sig() { return sSig.valeur(); }
+  // Taux de prime chargé. Avec λ ≤ 0,8 et p ≤ 0,5 on a γ ≤ 0,9 : le plafond ne
+  // mord jamais, il ne sert que de garde-fou.
+  function gam() { return Math.min(0.9, prob() * (1 + sLam.valeur())); }
+
+  /* --- utilité CRRA et son inverse (forme normalisée, continue en σ = 1) --- */
+  function u(Z) {
+    var s = sig();
+    if (Z <= 0) return -1e9;
+    if (Math.abs(1 - s) < 1e-6) return Math.log(Z);
+    return (Math.pow(Z, 1 - s) - 1) / (1 - s);
+  }
+  function uInv(v) {
+    var s = sig();
+    if (Math.abs(1 - s) < 1e-6) return Math.exp(v);
+    var base = 1 + (1 - s) * v;
+    if (base <= 0) return null;
+    return Math.pow(base, 1 / (1 - s));
+  }
+
+  /* --- couverture optimale, forme close CRRA --- */
+  function Kopt() {
+    var g = gam(), p = prob(), s = sig(), l = L();
+    if (s < 1e-6) {                       // neutre au risque : tout ou rien
+      return (g < p) ? l : 0;
+    }
+    var R = Math.pow(p * (1 - g) / ((1 - p) * g), 1 / s);
+    var K = (R * W - W + l) / (1 - g + R * g);
+    return Math.max(0, Math.min(l, K));   // ni découvert négatif, ni surassurance
+  }
+
+  function Z1(K) { return W - L() + K * (1 - gam()); }
+  function Z2(K) { return W - gam() * K; }
+  function EU(K) { return prob() * u(Z1(K)) + (1 - prob()) * u(Z2(K)); }
+
+  /* --- droite de certitude --- */
+  b.create('segment', [[0, 0], [MAX - 10, MAX - 10]], {
+    strokeColor: '#999', strokeWidth: 1.2, dash: 2, highlight: false, fixed: true
+  });
+  Econ.texte(b, MAX - 40, MAX - 18, 'Z₁ = Z₂ (certitude)',
+    { fontSize: 12, cssStyle: 'color:#777;' });
+
+  /* --- droite de budget : de K = 0 à K = L --- */
+  var budget = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 2.5, highlight: false, fixed: true
+  });
+  budget.updateDataArray = function () {
+    // On prolonge un peu au-delà de K = L pour montrer que la droite continue.
+    var kMax = L() / gam() * 0.999;
+    this.dataX = [Z1(0), Z1(Math.min(kMax, L() * 1.35))];
+    this.dataY = [Z2(0), Z2(Math.min(kMax, L() * 1.35))];
+  };
+
+  /* --- courbes d'indifférence --- */
+  function courbeEU(niveau, style) {
+    var c = b.create('curve', [[], []], style);
+    c.updateDataArray = function () {
+      var eu = niveau(), p = prob(), xs = [], ys = [], n = 240, i, z1, v, z2;
+      for (i = 1; i <= n; i++) {
+        z1 = MAX * i / n;
+        v = (eu - p * u(z1)) / (1 - p);
+        z2 = uInv(v);
+        if (z2 === null || !isFinite(z2) || z2 > MAX * 1.4) { xs.push(NaN); ys.push(NaN); continue; }
+        xs.push(z1); ys.push(z2);
+      }
+      this.dataX = xs; this.dataY = ys;
+    };
+    return c;
+  }
+
+  var indOpt = courbeEU(function () { return EU(Kopt()); },
+    { strokeColor: Econ.COUL.indiff, strokeWidth: 2.2, highlight: false, fixed: true });
+  var indDot = courbeEU(function () { return EU(0); },
+    { strokeColor: Econ.COUL.gris, strokeWidth: 1.5, dash: 2, highlight: false, fixed: true });
+
+  /* --- points --- */
+  b.create('point', [function () { return Z1(0); }, function () { return Z2(0); }], {
+    name: 'ω', size: 5, strokeColor: Econ.COUL.titre, strokeWidth: 2, fillColor: '#fff',
+    fixed: true, highlight: false, label: { fontSize: 15, offset: [10, -10] }
+  });
+  Econ.pointOptimal(b, function () { return Z1(Kopt()); }, function () { return Z2(Kopt()); },
+    { nom: 'E' });
+
+  function maj() {
+    var K = Kopt(), g = gam();
+    res.fixer('gamma', Econ.nb(g, 3) + (Math.abs(g - prob()) < 1e-9 ? ' (juste)' : ' (chargée)'));
+    res.fixer('K', Econ.nb(K, 1) + ' sur une perte de ' + Econ.nb(L(), 0));
+    res.fixer('prime', Econ.nb(g * K, 2) + ' $');
+    res.fixer('Z', Econ.nb(Z1(K), 1) + ' / ' + Econ.nb(Z2(K), 1));
+
+    var msg;
+    if (K < 0.05) {
+      msg = '<span style="color:' + Econ.COUL.budget + '">aucune assurance achetée</span>';
+    } else if (Math.abs(K - L()) < 0.05) {
+      msg = '<span style="color:' + Econ.COUL.second +
+            '">couverture complète : richesse égale dans les deux états</span>';
+    } else {
+      msg = 'couverture partielle : ' + Econ.nb(100 * K / L(), 0) + ' % de la perte';
+    }
+    res.fixer('verdict', msg);
+
+    indDot.setAttribute({ visible: bDot.valeur() });
+    b.update();
+  }
+
+  maj();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

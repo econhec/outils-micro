@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De l'optimum à la demande — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+<style>
+  /* Réglages locaux : deux graphes côte à côte. */
+  .zonegraphe.double { flex: 1 1 620px; }
+  .paire { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+  .paire .jxgbox { max-height: 360px; }
+  .paire figcaption {
+    font-size: .82rem; color: #666; text-align: center; margin-top: .25rem;
+  }
+  .paire figure { margin: 0; }
+  @media (max-width: 860px) { .paire { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="chapitre">Chapitre 3 — Effets prix et revenu</div>
+<h1>De l'optimum à la courbe de demande</h1>
+<p class="intro">
+Un point de la courbe de demande, c'est un optimum du consommateur. À gauche, le choix
+optimal dans l'espace des paniers <em>(X, Y)</em>&nbsp;; à droite, le <strong>même</strong>
+optimum reporté dans l'espace <em>(X, p<sub>X</sub>)</em>. Faites varier le prix et
+regardez le point de droite balayer la courbe de demande&nbsp;; basculez ensuite en mode
+<em>Engel</em> pour faire varier le revenu à prix fixes.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe double">
+    <div class="paire">
+      <figure>
+        <div id="grapheG" class="jxgbox"></div>
+        <figcaption>Espace des paniers <em>(X, Y)</em></figcaption>
+      </figure>
+      <figure>
+        <div id="grapheD" class="jxgbox"></div>
+        <figcaption id="legD">Espace <em>(X, p<sub>X</sub>)</em></figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>En mode <em>demande</em>, faites glisser <em>p<sub>X</sub></em> de 10 vers 2&nbsp;:
+      à gauche la droite de budget pivote autour de son ordonnée à l'origine, à droite le
+      point descend le long de la courbe. <em>X*</em> passe de 5,00 à 25,00, et la dépense
+      <em>p<sub>X</sub>X*</em> reste égale à <em>aI</em> = 50. La courbe est tracée au-delà
+      des bornes du curseur&nbsp;: elle sort du cadre par la droite et par le haut, sans jamais
+      toucher les axes.</li>
+    <li>Toujours en mode <em>demande</em>, la <strong>courbe prix-consommation</strong>
+      (en violet, à gauche) est <em>horizontale</em> pour Cobb-Douglas&nbsp;: quand
+      <em>p<sub>X</sub></em> varie, <em>Y*</em> reste à 12,50. La dépense en <em>Y</em>
+      est une part fixe du revenu.</li>
+    <li>Basculez en mode <em>Engel</em> et faites passer <em>I</em> de 70 à 140&nbsp;:
+      <em>X*</em> double, de 7,00 à 14,00. La courbe de droite est une
+      <strong>droite passant par l'origine</strong>&nbsp;: le bien est <em>normal</em> et son
+      élasticité-revenu vaut 1.</li>
+    <li>En mode <em>Engel</em>, le <strong>sentier d'expansion</strong> à gauche est un
+      rayon issu de l'origine, de pente
+      <span class="formule">(1−a)p<sub>X</sub> / (a p<sub>Y</sub>)</span>. Passez
+      <em>a</em> de 0,50 à 0,80&nbsp;: le rayon s'aplatit, et la courbe d'Engel aussi. Sa pente
+      est <span class="formule">p<sub>X</sub>/a</span>, puisque <em>X</em> est en abscisse
+      et <em>I</em> en ordonnée&nbsp;: la ligne «&nbsp;Lecture&nbsp;» la fait tomber de 10,00 à
+      6,25.</li>
+    <li>Repassez en mode <em>demande</em>, choisissez les préférences <em>CES</em> et
+      amenez <em>r</em> à −3 (biens peu substituables). En balayant
+      <em>p<sub>X</sub></em> de 2 à 10, <em>X*</em> ne va plus que de 18,64 à 6,65, contre
+      25,00 à 5,00 avec Cobb-Douglas&nbsp;: la demande réagit moins au prix. La courbe
+      prix-consommation cesse d'être horizontale, <em>Y*</em> passant de 15,68 à 8,37.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>La <strong>fonction de demande marshallienne</strong> est la solution du programme du
+  consommateur, lue comme fonction des prix et du revenu&nbsp;:
+  <span class="formule">X*(p<sub>X</sub>, p<sub>Y</sub>, I)</span>. La courbe de demande
+  n'est que sa coupe à <em>p<sub>Y</sub></em> et <em>I</em> fixes&nbsp;; la courbe d'Engel en
+  est la coupe à prix fixes.</p>
+  <p>Pour <span class="formule">u = X<sup>a</sup> Y<sup>1−a</sup></span>&nbsp;:
+  <span class="formule">X* = a I / p<sub>X</sub></span> et
+  <span class="formule">Y* = (1−a) I / p<sub>Y</sub></span>. La demande est donc une
+  hyperbole en <em>p<sub>X</sub></em>, la courbe d'Engel une droite par l'origine, et le
+  sentier d'expansion le rayon
+  <span class="formule">Y = [(1−a)p<sub>X</sub> / (a p<sub>Y</sub>)] · X</span>.</p>
+  <p>Les deux panneaux portent <em>X</em> en abscisse, pour que le même point se lise au
+  même endroit à gauche et à droite. La courbe d'Engel a donc ici une pente
+  <span class="formule">p<sub>X</sub>/a</span>&nbsp;: c'est la figure du cours retournée.</p>
+  <p>Pour <span class="formule">u = (aX<sup>r</sup> + (1−a)Y<sup>r</sup>)<sup>1/r</sup></span>
+  (CES, élasticité de substitution <span class="formule">σ = 1/(1−r)</span>), le rapport
+  optimal vaut <span class="formule">X/Y = [a p<sub>Y</sub> / ((1−a) p<sub>X</sub>)]<sup>σ</sup></span>,
+  puis la contrainte budgétaire donne les niveaux.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ------------------------------------------------------------------ */
+  /* Cadres                                                              */
+  /* ------------------------------------------------------------------ */
+
+  var MAXG  = 80;                    // panneau de gauche : X et Y de 0 à 80
+  var PXMIN = 2,   PXMAX = 10;       // bornes du curseur de prix
+  var PDMIN = 0.3, PDMAX = 12.5;     // prix balayés par le tracé
+  var IDMAX = 170;                   // revenus balayés par le tracé
+  var YDEM  = 12,  YENG  = 165;      // haut du panneau de droite selon le mode
+
+  var bG = Econ.board('grapheG', [-6, MAXG, MAXG, -8],
+                      { nomX: 'X', nomY: 'Y', pasGrad: 10 });
+
+  // Le panneau de droite change d'échelle verticale (prix ou revenu) : on lui
+  // fabrique des axes à graduations automatiques plutôt que les axes standards.
+  var bD = Econ.board('grapheD', [-4, YDEM, 30, -1.3], { axes: false });
+
+  (function () {
+    var trait = { strokeColor: '#444', strokeWidth: 1, highlight: false, fixed: true };
+    var grad  = { insertTicks: true, minorTicks: 0, drawLabels: true,
+                  strokeColor: '#999', label: { fontSize: 11, offset: [0, -12] } };
+    bD.create('axis', [[0, 0], [1, 0]], Object.assign({}, trait, {
+      name: 'X', withLabel: true,
+      label: { position: 'rt', offset: [-8, 16], fontSize: 14, anchorX: 'right' },
+      ticks: grad
+    }));
+    bD.create('axis', [[0, 0], [0, 1]], Object.assign({}, trait, {
+      ticks: Object.assign({}, grad, { label: { fontSize: 11, offset: [-16, 0] } })
+    }));
+  })();
+
+  /* ------------------------------------------------------------------ */
+  /* Commandes                                                           */
+  /* ------------------------------------------------------------------ */
+
+  var cmd = document.getElementById('cmd');
+
+  var bEngel = Econ.bascule(cmd, {
+    etiquette: 'Panneau de droite&nbsp;: <strong>courbe d\'Engel</strong> (sinon courbe de demande)',
+    coche: false, surChangement: changerMode
+  });
+
+  var famille = Econ.choix(cmd, {
+    etiquette: 'Préférences',
+    valeur: 'cobb',
+    options: [['cobb', 'Cobb-Douglas'], ['ces', 'CES (substitution imparfaite)']],
+    surChangement: maj
+  });
+
+  var sA  = Econ.curseur(cmd, { etiquette: 'Goût pour <em>X</em>&nbsp;: <em>a</em>',
+                                min: 0.1, max: 0.9, pas: 0.05, valeur: 0.5, surChangement: maj });
+  var sR  = Econ.curseur(cmd, { etiquette: 'Substituabilité&nbsp;: <em>r</em> (CES)',
+                                min: -3, max: 0.9, pas: 0.1, valeur: -1, surChangement: maj });
+  var sPX = Econ.curseur(cmd, { etiquette: 'Prix de <em>X</em>&nbsp;: <em>p<sub>X</sub></em>',
+                                min: PXMIN, max: PXMAX, pas: 0.25, valeur: 5, surChangement: maj });
+  var sPY = Econ.curseur(cmd, { etiquette: 'Prix de <em>Y</em>&nbsp;: <em>p<sub>Y</sub></em>',
+                                min: 2, max: 10, pas: 0.25, valeur: 4, surChangement: maj });
+  var sI  = Econ.curseur(cmd, { etiquette: 'Revenu&nbsp;: <em>I</em>',
+                                min: 60, max: 140, pas: 5, valeur: 100, decimales: 0,
+                                surChangement: maj });
+
+  var bLieu = Econ.bascule(cmd, {
+    etiquette: 'Montrer le lieu des optima (panneau de gauche)',
+    coche: true, surChangement: maj
+  });
+
+  Econ.boutonReinit(cmd, function () {
+    bEngel.fixer(false); famille.fixer('cobb'); sA.fixer(0.5); sR.fixer(-1);
+    sPX.fixer(5); sPY.fixer(4); sI.fixer(100); bLieu.fixer(true);
+    changerMode();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['X',    'Demande <em>X*</em>'],
+    ['Y',    'Demande <em>Y*</em>'],
+    ['part', 'Part du revenu dépensée en <em>X</em>'],
+    ['pt',   'Point tracé à droite'],
+    ['note', 'Lecture']
+  ]);
+
+  /* ------------------------------------------------------------------ */
+  /* Paramètres courants                                                 */
+  /* ------------------------------------------------------------------ */
+
+  function engel() { return bEngel.valeur(); }
+  function fam()   { return Econ.pref[famille.valeur()]; }
+  function par()   { return { a: sA.valeur(), r: sR.valeur() }; }
+  function pX()    { return sPX.valeur(); }
+  function pY()    { return sPY.valeur(); }
+  function I()     { return sI.valeur(); }
+  function dem(p, q, R) { return fam().demande(p, q, R, par()); }
+  function opt()   { return dem(pX(), pY(), I()); }
+
+  // Prix balayés par le tracé, en échelle logarithmique : le pas est ainsi fin
+  // là où l'hyperbole est raide.
+  function prixTrace(i, n) {
+    return Math.exp(Math.log(PDMIN) + (Math.log(PDMAX) - Math.log(PDMIN)) * i / n);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Panneau de gauche : budget, indifférence, optimum, lieu des optima  */
+  /* ------------------------------------------------------------------ */
+
+  Econ.droiteBudget(bG, pX, pY, I, { style: { strokeWidth: 2.5 } });
+
+  Econ.courbeIndiff(bG, fam, par,
+    function () { var o = opt(); return fam().u(o.X, o.Y, par()); },
+    { xmax: MAXG, ymax: MAXG, style: { strokeWidth: 2.5 } });
+
+  // Lieu des optima : courbe prix-consommation (mode demande) ou
+  // sentier d'expansion (mode Engel). Même plage balayée qu'à droite : les deux
+  // panneaux montrent le même lieu.
+  var lieu = bG.create('curve', [[], []], {
+    strokeColor: Econ.COUL.tiers, strokeWidth: 2.2, dash: 2,
+    highlight: false, fixed: true,
+    visible: function () { return bLieu.valeur(); }
+  });
+  lieu.updateDataArray = function () {
+    var xs = [], ys = [], n = 160, i, q, t;
+    for (i = 0; i <= n; i++) {
+      if (engel()) {
+        t = IDMAX * i / n;
+        q = dem(pX(), pY(), t);
+      } else {
+        t = prixTrace(i, n);
+        q = dem(t, pY(), I());
+      }
+      if (!isFinite(q.X) || !isFinite(q.Y)) { xs.push(NaN); ys.push(NaN); continue; }
+      xs.push(q.X); ys.push(q.Y);
+    }
+    this.dataX = xs; this.dataY = ys;
+  };
+
+  Econ.pointOptimal(bG, function () { return opt().X; },
+                        function () { return opt().Y; }, { nom: 'E' });
+
+  Econ.texte(bG, 0.30 * MAXG, 0.955 * MAXG,
+    function () { return engel() ? 'sentier d\'expansion' : 'courbe prix-consommation'; },
+    { fontSize: 12, strokeColor: Econ.COUL.tiers });
+
+  /* ------------------------------------------------------------------ */
+  /* Panneau de droite : cadre ajusté aux réglages courants              */
+  /*                                                                     */
+  /* Un cadre fixe dimensionné pour le pire cas (X jusqu'à 82) laissait   */
+  /* la courbe occuper 24 % de la largeur en mode demande et 18 % en mode */
+  /* Engel. On borne plutôt le cadre par la valeur extrême que la courbe  */
+  /* atteint avec les réglages courants : le prix le plus bas du curseur  */
+  /* en mode demande, le haut du cadre en mode Engel. Le résultat est     */
+  /* arrondi pour que les graduations ne sautent pas à chaque cran.       */
+  /* ------------------------------------------------------------------ */
+
+  function joli(v) {
+    if (!isFinite(v) || v <= 0) return 1;
+    var e = Math.pow(10, Math.floor(Math.log(v) / Math.LN10)), m = v / e;
+    var ech = [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10], i;
+    for (i = 0; i < ech.length; i++) { if (m <= ech[i] * (1 + 1e-12)) return ech[i] * e; }
+    return 10 * e;
+  }
+
+  function cadreD() {
+    var ref = engel() ? dem(pX(), pY(), YENG).X : dem(PXMIN, pY(), I()).X;
+    var xm  = Math.max(2, joli(1.05 * ref));
+    var ym  = engel() ? YENG : YDEM;
+    // Marge de gauche large : les graduations de l'axe vertical (jusqu'à 150)
+    // sont écrites 16 px à gauche de l'axe.
+    return [-0.14 * xm, ym, xm, -0.11 * ym];
+  }
+
+  var cleCadre = '';
+  function ajusterCadre() {
+    var c = cadreD(), cle = c.join(',');
+    if (cle === cleCadre) return;
+    cleCadre = cle;
+    bD.setBoundingBox(c, false);
+  }
+
+  function droiteX() { return bD.getBoundingBox()[2]; }
+  function hautY()   { return bD.getBoundingBox()[1]; }
+
+  /* ------------------------------------------------------------------ */
+  /* Panneau de droite : courbe de demande ou courbe d'Engel             */
+  /* ------------------------------------------------------------------ */
+
+  var courbe = bD.create('curve', [[], []], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 2.5, highlight: false, fixed: true
+  });
+  courbe.updateDataArray = function () {
+    var xs = [], ys = [], n = 240, i, t, q;
+    for (i = 0; i <= n; i++) {
+      if (engel()) {
+        t = IDMAX * i / n;                     // t = revenu, porté en ordonnée
+        q = dem(pX(), pY(), t);
+      } else {
+        t = prixTrace(i, n);                   // t = prix, porté en ordonnée
+        q = dem(t, pY(), I());
+      }
+      if (!isFinite(q.X)) { xs.push(NaN); ys.push(NaN); continue; }
+      xs.push(q.X); ys.push(t);
+    }
+    this.dataX = xs; this.dataY = ys;
+  };
+
+  Econ.pointOptimal(bD, function () { return opt().X; },
+                        function () { return engel() ? I() : pX(); },
+                        { nom: '' });
+
+  // Nom de l'axe vertical (il change de sens selon le mode).
+  Econ.texte(bD, function () { return 0.02 * droiteX(); },
+                 function () { return 0.93 * hautY(); },
+    function () { return engel() ? '<em>I</em>' : '<em>p<sub>X</sub></em>'; },
+    { fontSize: 14, strokeColor: '#333' });
+
+  Econ.texte(bD, function () { return 0.30 * droiteX(); },
+                 function () { return 0.955 * hautY(); },
+    function () { return engel() ? 'courbe d\'Engel de X' : 'courbe de demande de X'; },
+    { fontSize: 12, strokeColor: Econ.COUL.budget });
+
+  /* ------------------------------------------------------------------ */
+  /* Mise à jour                                                         */
+  /* ------------------------------------------------------------------ */
+
+  function changerMode() {
+    document.getElementById('legD').innerHTML = engel()
+      ? 'Espace <em>(X, I)</em> — prix fixes'
+      : 'Espace <em>(X, p<sub>X</sub>)</em> — revenu fixe';
+    maj();
+    bD.fullUpdate();
+  }
+
+  function maj() {
+    var o = opt();
+    res.fixer('X', Econ.nb(o.X, 2));
+    res.fixer('Y', Econ.nb(o.Y, 2));
+    res.fixer('part', Econ.nb(100 * pX() * o.X / I(), 1) + ' %');
+
+    if (engel()) {
+      res.fixer('pt', '(<em>X*</em>, <em>I</em>) = (' + Econ.nb(o.X, 2) + '&nbsp;; ' +
+                      Econ.nb(I(), 0) + ')');
+      res.fixer('note', famille.valeur() === 'cobb'
+        ? 'X = aI/p<sub>X</sub> : droite par l\'origine, de pente p<sub>X</sub>/a = ' +
+          Econ.nb(pX() / sA.valeur(), 2)
+        : 'préférences homothétiques&nbsp;: la courbe d\'Engel reste une droite par l\'origine');
+    } else {
+      res.fixer('pt', '(<em>X*</em>, <em>p<sub>X</sub></em>) = (' + Econ.nb(o.X, 2) + '&nbsp;; ' +
+                      Econ.nb(pX(), 2) + ')');
+      res.fixer('note', famille.valeur() === 'cobb'
+        ? 'X = aI/p<sub>X</sub>&nbsp;: hyperbole, dépense p<sub>X</sub>X = aI = ' +
+          Econ.nb(sA.valeur() * I(), 1) + ' constante'
+        : 'élasticité de substitution σ = ' + Econ.nb(1 / (1 - sR.valeur()), 2));
+    }
+
+    sR.element.parentNode.style.display = (famille.valeur() === 'ces') ? '' : 'none';
+
+    ajusterCadre();
+    bG.update();
+    bD.update();
+  }
+
+  changerMode();
+  bG.fullUpdate();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

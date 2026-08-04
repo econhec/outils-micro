@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La contrainte budgétaire — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 2 — Le consommateur</div>
+<h1>La contrainte budgétaire</h1>
+<p class="intro">
+L'ensemble budgétaire regroupe tous les paniers que le revenu permet d'acheter&nbsp;:
+<em>p<sub>X</sub>X + p<sub>Y</sub>Y ≤ I</em>. Bougez les prix et le revenu et regardez la
+zone colorée se déformer. Elle se déplace, elle pivote, mais sa pente ne dépend que du
+<strong>rapport</strong> des prix. Les deux bascules ajoutent une taxe sur <em>X</em>, puis
+un rationnement de <em>X</em> qui coude la frontière.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe"><div id="graphe" class="jxgbox"></div></div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Avec <em>p<sub>X</sub></em> = 4 et <em>p<sub>Y</sub></em> = 5, faites passer <em>I</em>
+      de 100 à 120&nbsp;: les intercepts passent de 25 et 20 à 30 et 24, mais la pente reste −0,80.
+      Une hausse du revenu déplace la droite <strong>parallèlement</strong> à elle-même.</li>
+    <li>Revenez à <em>I</em> = 100 et faites passer <em>p<sub>X</sub></em> de 4 à 8&nbsp;:
+      l'ordonnée à l'origine <em>I</em>/<em>p<sub>Y</sub></em> = 20 ne bouge pas, l'abscisse
+      tombe de 25 à 12,5. La droite <strong>pivote autour de <em>I</em>/<em>p<sub>Y</sub></em></strong>,
+      et l'ensemble budgétaire rétrécit.</li>
+    <li>Réglez <em>p<sub>X</sub></em> = 2,50, <em>p<sub>Y</sub></em> = 3 et <em>I</em> = 60,
+      puis doublez tout&nbsp;: <em>p<sub>X</sub></em> = 5, <em>p<sub>Y</sub></em> = 6,
+      <em>I</em> = 120. La droite est exactement la même (intercepts 24 et 20). Seuls les prix
+      <em>relatifs</em> et le revenu <em>réel</em> comptent&nbsp;: pas d'illusion monétaire.</li>
+    <li>Activez la <em>taxe sur X</em> avec <em>t</em> = 0,25 et <em>p<sub>X</sub></em> = 4&nbsp;:
+      le prix payé devient 5, l'abscisse à l'origine passe de 25 à 20, l'ordonnée ne bouge
+      pas. Attention&nbsp;: cette abscisse vaut désormais
+      <span class="formule">I/[p<sub>X</sub>(1+t)]</span>, pas
+      <span class="formule">I/p<sub>X</sub></span>. Comparez avec la droite en pointillé&nbsp;:
+      une taxe <em>ad valorem</em> sur <em>X</em> a exactement le même effet qu'une hausse
+      de <em>p<sub>X</sub></em>.</li>
+    <li>Activez le <em>rationnement</em> avec <em>X</em><sub>max</sub> = 12&nbsp;: la frontière
+      devient coudée et l'ensemble perd son coin de droite. Le rationnement ne mord que si
+      <em>X</em><sub>max</sub> est inférieur à l'abscisse à l'origine, <strong>taxe
+      comprise</strong>. Cochez la taxe, réglez <em>t</em> = 1, <em>p<sub>X</sub></em> = 8,
+      <em>I</em> = 60 et <em>X</em><sub>max</sub> = 5&nbsp;: l'abscisse à l'origine tombe à 3,75
+      et le panneau annonce un rationnement inactif, bien que 5 soit inférieur à
+      <em>I</em>/<em>p<sub>X</sub></em> = 7,5.</li>
+    <li>Là où le rationnement mord, le coût d'opportunité d'une unité de <em>X</em>
+      supplémentaire devient infini&nbsp;: aucun prix ne permet d'en obtenir plus.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>La droite de budget est <span class="formule">p<sub>X</sub>X + p<sub>Y</sub>Y = I</span>,
+  soit <span class="formule">Y = I/p<sub>Y</sub> − (p<sub>X</sub>/p<sub>Y</sub>)·X</span>&nbsp;:
+  ordonnée à l'origine <span class="formule">I/p<sub>Y</sub></span>, abscisse à l'origine
+  <span class="formule">I/p<sub>X</sub></span>, pente
+  <span class="formule">−p<sub>X</sub>/p<sub>Y</sub></span>.</p>
+  <p>La pente mesure un <strong>coût d'opportunité</strong>&nbsp;: acheter une unité de <em>X</em>
+  de plus oblige à renoncer à <span class="formule">p<sub>X</sub>/p<sub>Y</sub></span> unités
+  de <em>Y</em>. Avec une taxe <em>ad valorem</em> au taux <em>t</em>, on remplace
+  <em>p<sub>X</sub></em> par <span class="formule">p<sub>X</sub>(1+t)</span> partout, y
+  compris dans l'abscisse à l'origine. Multiplier <em>p<sub>X</sub></em>,
+  <em>p<sub>Y</sub></em> et <em>I</em> par un même facteur laisse l'ensemble budgétaire
+  inchangé.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var MAX = 52;                       // p ≥ 2,50 et I ≤ 120 ⇒ intercept ≤ 48
+  var b = Econ.board('graphe', [-3.5, MAX, MAX, -3.5], {
+    nomX: 'X', nomY: 'Y', pasGrad: 10
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* Commandes                                                           */
+  /* ------------------------------------------------------------------ */
+
+  var cmd = document.getElementById('cmd');
+
+  var sPX = Econ.curseur(cmd, {
+    etiquette: 'Prix de <em>X</em>&nbsp;: <em>p<sub>X</sub></em>',
+    min: 2.5, max: 8, pas: 0.25, valeur: 4, surChangement: majTout
+  });
+  var sPY = Econ.curseur(cmd, {
+    etiquette: 'Prix de <em>Y</em>&nbsp;: <em>p<sub>Y</sub></em>',
+    min: 2.5, max: 8, pas: 0.25, valeur: 5, surChangement: majTout
+  });
+  var sI = Econ.curseur(cmd, {
+    etiquette: 'Revenu&nbsp;: <em>I</em>',
+    min: 60, max: 120, pas: 5, valeur: 100, decimales: 0, surChangement: majTout
+  });
+
+  var bTaxe = Econ.bascule(cmd, {
+    etiquette: 'Taxe <em>ad valorem</em> sur <em>X</em>',
+    coche: false, surChangement: majTout
+  });
+  var sT = Econ.curseur(cmd, {
+    etiquette: 'Taux de taxe&nbsp;: <em>t</em>',
+    min: 0, max: 1, pas: 0.05, valeur: 0.25, surChangement: majTout
+  });
+
+  // « X barre » s'écrit avec un macron combinant, dont le rendu dépend de la
+  // police : sur plusieurs d'entre elles la barre glisse ou disparaît. On note
+  // le plafond X_max, qui se compose avec n'importe quelle police.
+  var bRat = Econ.bascule(cmd, {
+    etiquette: 'Rationnement de <em>X</em> à <em>X</em><sub>max</sub>',
+    coche: false, surChangement: majTout
+  });
+  var sXB = Econ.curseur(cmd, {
+    etiquette: 'Plafond <em>X</em><sub>max</sub>',
+    min: 2, max: 45, pas: 1, valeur: 12, decimales: 0, surChangement: majTout
+  });
+
+  Econ.boutonReinit(cmd, function () {
+    sPX.fixer(4); sPY.fixer(5); sI.fixer(100);
+    bTaxe.fixer(false); sT.fixer(0.25);
+    bRat.fixer(false); sXB.fixer(12);
+    majTout();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['pxe',  'Prix payé pour <em>X</em>'],
+    ['xint', 'Abscisse à l\'origine'],
+    ['yint', 'Ordonnée à l\'origine <em>I</em>/<em>p<sub>Y</sub></em>'],
+    ['pente', 'Pente de la droite'],
+    ['cout', 'Coût d\'opportunité d\'une unité de <em>X</em>'],
+    ['etat', 'Rationnement']
+  ]);
+
+  /* ------------------------------------------------------------------ */
+  /* Valeurs courantes                                                   */
+  /* ------------------------------------------------------------------ */
+
+  function pX()  { return sPX.valeur(); }
+  function pY()  { return sPY.valeur(); }
+  function I()   { return sI.valeur(); }
+  function t()   { return bTaxe.valeur() ? sT.valeur() : 0; }
+  function pXe() { return pX() * (1 + t()); }          // prix effectivement payé
+  function xint() { return I() / pXe(); }              // = I/[p_X(1+t)] sous taxe
+  function yint() { return I() / pY(); }
+  function XB()  { return sXB.valeur(); }
+  // Le rationnement mord quand le plafond est en deçà de l'abscisse à l'origine,
+  // calculée au prix payé. Avec une taxe forte, cette abscisse est bien plus
+  // basse que I/p_X : t = 1, p_X = 8, I = 60 donne 3,75 et non 7,5.
+  function mord() { return bRat.valeur() && XB() < xint(); }
+  function yCoude() { return (I() - pXe() * XB()) / pY(); }
+  function nomXint() {
+    return bTaxe.valeur() ? 'I/p<sub>X</sub>(1+t)' : 'I/p<sub>X</sub>';
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Ensemble budgétaire (zone remplie)                                  */
+  /* ------------------------------------------------------------------ */
+
+  Econ.zone(b, function () {
+    if (mord()) {
+      return [[0, 0], [XB(), 0], [XB(), yCoude()], [0, yint()]];
+    }
+    return [[0, 0], [xint(), 0], [0, yint()]];
+  }, { couleur: Econ.COUL.accent, opacite: 0.20 });
+
+  /* ------------------------------------------------------------------ */
+  /* Frontière (coudée si le rationnement mord)                          */
+  /* ------------------------------------------------------------------ */
+
+  var frontiere = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 2.6, highlight: false, fixed: true
+  });
+  frontiere.updateDataArray = function () {
+    if (mord()) {
+      this.dataX = [0, XB(), XB()];
+      this.dataY = [yint(), yCoude(), 0];
+    } else {
+      this.dataX = [0, xint()];
+      this.dataY = [yint(), 0];
+    }
+  };
+
+  // Droite d'avant la taxe, en pointillé, pour comparer.
+  var avant = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.gris, strokeWidth: 1.8, dash: 2,
+    highlight: false, fixed: true
+  });
+  avant.updateDataArray = function () {
+    if (!bTaxe.valeur() || sT.valeur() === 0) { this.dataX = []; this.dataY = []; return; }
+    this.dataX = [0, I() / pX()];
+    this.dataY = [I() / pY(), 0];
+  };
+
+  // Trait vertical du rationnement, prolongé au-dessus de la droite.
+  var traitRat = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.tiers, strokeWidth: 1.6, dash: 2,
+    highlight: false, fixed: true
+  });
+  traitRat.updateDataArray = function () {
+    if (!bRat.valeur()) { this.dataX = []; this.dataY = []; return; }
+    this.dataX = [XB(), XB()];
+    this.dataY = [0, MAX - 2];
+  };
+
+  /* ------------------------------------------------------------------ */
+  /* Repères et étiquettes                                               */
+  /*                                                                     */
+  /* Une étiquette de 17 caractères occupe environ 5 unités du graphe sur */
+  /* un écran large, mais près de 7 sur une fenêtre étroite : posée à     */
+  /* l'abscisse 48, elle dépasse le cadre. On mesure donc sa largeur à    */
+  /* partir de l'échelle courante du tableau et on la ramène à l'intérieur.*/
+  /* ------------------------------------------------------------------ */
+
+  // 7 px par caractère : mesuré à 6,0 px en Georgia 13 px, majoré pour absorber
+  // les substitutions de police. La marge de 0,4 unité évite de coller au bord.
+  function larg(n) { return n * 7 / b.unitX; }            // largeur en unités
+  function borner(x, n) {                                 // texte centré
+    var d = larg(n) / 2 + 0.4, bb = b.getBoundingBox();
+    return Math.min(Math.max(x, bb[0] + d), bb[2] - d);
+  }
+
+  var ptX = b.create('point', [function () { return mord() ? XB() : xint(); }, 0], {
+    name: '', size: 3, strokeColor: '#fff', strokeWidth: 1,
+    fillColor: Econ.COUL.budget, fixed: true, highlight: false
+  });
+  var ptY = b.create('point', [0, yint], {
+    name: '', size: 3, strokeColor: '#fff', strokeWidth: 1,
+    fillColor: Econ.COUL.budget, fixed: true, highlight: false
+  });
+
+  Econ.texte(b, function () { return borner(xint(), bTaxe.valeur() ? 17 : 12); }, -2.2,
+    function () { return nomXint() + ' = ' + Econ.nb(xint(), 1); },
+    { anchorX: 'middle', strokeColor: Econ.COUL.budget, fontSize: 13 });
+
+  Econ.texte(b, 1.2, function () { return yint() + 2; },
+    function () { return 'I/p<sub>Y</sub> = ' + Econ.nb(yint(), 1); },
+    { strokeColor: Econ.COUL.budget, fontSize: 13 });
+
+  Econ.texte(b, function () { return Math.min(XB() + 0.8, MAX - larg(10) - 0.4); }, MAX - 11,
+    function () { return bRat.valeur() ? 'X<sub>max</sub> = ' + Econ.nb(XB(), 0) : ''; },
+    { strokeColor: Econ.COUL.tiers, fontSize: 13 });
+
+  Econ.texte(b, MAX - 2, MAX - 5,
+    function () { return 'pente = ' + Econ.nb(-pXe() / pY(), 2); },
+    { anchorX: 'right', strokeColor: Econ.COUL.budget, fontSize: 13 });
+
+  Econ.texte(b, function () { return borner(0.30 * (mord() ? XB() : xint()), 19); },
+                function () { return 0.22 * yint(); },
+    'ensemble budgétaire',
+    { anchorX: 'middle', strokeColor: '#4c6b78', fontSize: 13 });
+
+  /* ------------------------------------------------------------------ */
+  /* Mise à jour                                                         */
+  /* ------------------------------------------------------------------ */
+
+  function maj() {
+    res.fixer('pxe', Econ.nb(pXe(), 2) +
+      (bTaxe.valeur() ? ' &nbsp;= ' + Econ.nb(pX(), 2) + ' × (1 + ' +
+                        Econ.nb(t(), 2) + ')' : ''));
+    res.fixer('xint', Econ.nb(xint(), 2) + ' &nbsp;= ' + nomXint());
+    res.fixer('yint', Econ.nb(yint(), 2));
+    res.fixer('pente', Econ.nb(-pXe() / pY(), 3));
+    res.fixer('cout', Econ.nb(pXe() / pY(), 3) + ' unité(s) de <em>Y</em>');
+    res.fixer('etat', !bRat.valeur() ? 'inactif'
+      : (mord()
+          ? 'mord&nbsp;: X ≤ ' + Econ.nb(XB(), 0) + ' au lieu de ' + Econ.nb(xint(), 2)
+          : 'inactif&nbsp;: X<sub>max</sub> = ' + Econ.nb(XB(), 0) +
+            ' dépasse l\'abscisse à l\'origine (' + Econ.nb(xint(), 2) + ')'));
+
+    sT.element.parentNode.style.display  = bTaxe.valeur() ? '' : 'none';
+    sXB.element.parentNode.style.display = bRat.valeur()  ? '' : 'none';
+  }
+
+  function majTout() { maj(); b.update(); }
+
+  majTout();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

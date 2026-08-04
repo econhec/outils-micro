@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demande marshallienne et demande hicksienne — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+<style>
+  .zonegraphe.double { flex: 1 1 620px; }
+  .paire { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+  .paire .jxgbox { max-height: 360px; }
+  .paire figure { margin: 0; }
+  .paire figcaption {
+    font-size: .82rem; color: #666; text-align: center; margin-top: .25rem;
+  }
+  @media (max-width: 860px) { .paire { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="chapitre">Chapitre 3 — Effets prix et revenu</div>
+<h1>Demande marshallienne et demande hicksienne</h1>
+<p class="intro">
+Quand <em>p<sub>X</sub></em> change, le consommateur passe du panier <strong>A</strong> au
+panier <strong>C</strong>. On décompose ce mouvement en deux temps&nbsp;: d'abord la
+substitution seule (panier <strong>B</strong>), puis l'effet de revenu. Le panier
+<strong>B</strong> s'obtient en ajustant le revenu juste assez pour ramener le consommateur
+sur sa courbe d'indifférence <em>initiale</em>&nbsp;: on en retire si le prix baisse, on en
+ajoute s'il monte. La demande <strong>hicksienne</strong> ne retient que le premier temps&nbsp;;
+la demande <strong>marshallienne</strong> retient les deux.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe double">
+    <div class="paire">
+      <figure>
+        <div id="grapheG" class="jxgbox"></div>
+        <figcaption>Décomposition de Hicks dans l'espace <em>(X, Y)</em></figcaption>
+      </figure>
+      <figure>
+        <div id="grapheD" class="jxgbox"></div>
+        <figcaption>Les deux courbes de demande</figcaption>
+      </figure>
+    </div>
+  </div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Aux réglages de départ le prix baisse de 6 à 3. À gauche, la droite verte pivote
+      vers la droite et la droite violette, qui lui est parallèle, reste tangente à la
+      courbe d'indifférence <em>initiale</em>. Le passage A → B est la substitution, le
+      passage B → C l'effet de revenu.</li>
+    <li>Lisez la ligne «&nbsp;Vérification&nbsp;»&nbsp;: 3,45 + 4,88 = 8,33. Effet de substitution
+      + effet de revenu = effet total, quelles que soient les valeurs des curseurs.</li>
+    <li>Le signe de l'effet de substitution est <strong>toujours</strong> opposé à celui de
+      la variation de prix&nbsp;: montez <em>p<sub>X</sub><sup>1</sup></em> à 9 et B passe à
+      gauche de A. La ligne «&nbsp;Revenu compensé&nbsp;» indique alors qu'il faut <em>ajouter</em> du
+      revenu. C'est la seule partie de la réaction dont la théorie garantit le signe.</li>
+    <li>À droite, les deux courbes <strong>se croisent</strong> au prix initial
+      <em>p<sub>X</sub><sup>0</sup></em>&nbsp;: c'est là que la compensation est nulle.
+      Bougez <em>p<sub>X</sub><sup>0</sup></em> et le point de croisement suit.</li>
+    <li>Comparez les pentes&nbsp;: la hicksienne (violette) est plus <strong>raide</strong>
+      que la marshallienne (rouge), parce qu'elle ne contient pas l'effet de revenu qui,
+      pour un bien normal, renforce la réaction. Montez <em>a</em> à 0,8&nbsp;: l'écart
+      entre les deux courbes s'accentue, car l'effet de revenu devient plus important.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>Avec <span class="formule">u = X<sup>a</sup>Y<sup>1−a</sup></span>, la demande
+  <strong>marshallienne</strong> est
+  <span class="formule">X<sup>M</sup> = a I / p<sub>X</sub></span>. Au prix initial elle
+  donne le panier A, d'utilité
+  <span class="formule">u<sub>0</sub> = u(X<sub>A</sub>, Y<sub>A</sub>)</span>.</p>
+  <p>La fonction de <strong>dépense</strong> est
+  <span class="formule">e(p<sub>X</sub>, p<sub>Y</sub>, u) = u (p<sub>X</sub>/a)<sup>a</sup> (p<sub>Y</sub>/(1−a))<sup>1−a</sup></span>,
+  et la demande <strong>hicksienne</strong> (compensée)
+  <span class="formule">X<sup>H</sup> = a e(p<sub>X</sub>, p<sub>Y</sub>, u<sub>0</sub>) / p<sub>X</sub></span>.
+  On vérifie que <span class="formule">e(p<sub>X</sub><sup>0</sup>, p<sub>Y</sub>, u<sub>0</sub>) = I</span>&nbsp;:
+  les deux demandes coïncident au prix initial.</p>
+  <p>Décomposition de Hicks&nbsp;:
+  <span class="formule">X<sub>C</sub> − X<sub>A</sub> = (X<sub>B</sub> − X<sub>A</sub>) + (X<sub>C</sub> − X<sub>B</sub>)</span>,
+  soit effet total = effet de substitution + effet de revenu. Comme
+  <span class="formule">X<sup>M</sup> ∝ p<sub>X</sub><sup>−1</sup></span> tandis que
+  <span class="formule">X<sup>H</sup> ∝ p<sub>X</sub><sup>a−1</sup></span> avec
+  <em>a</em> &lt; 1, la hicksienne est moins élastique, donc plus raide dans le plan
+  <em>(X, p<sub>X</sub>)</em>.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var XMAXD = 70;                 // cadre en X du panneau de droite
+  var PMIN  = 1.8, PMAX = 11.2;   // plage balayée par le prix, à droite
+
+  var POLICE = 'font-family: Georgia, serif;';
+  var OMBRE  = ' text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 2px #fff;';
+
+  var C = Econ.pref.cobb;
+
+  var bG = Econ.board('grapheG', [-8, 110, 110, -10],
+                      { nomX: 'X', nomY: 'Y', pasGrad: 10 });
+  var bD = Econ.board('grapheD', [-5.5, 11.6, XMAXD, -1.35],
+                      { nomX: 'X', nomY: 'p<sub>X</sub>', pasGrad: 10, pasGradY: 2 });
+
+  // Le cadre de gauche suit les réglages : on laisse JSXGraph choisir le pas
+  // de ses graduations.
+  for (var cle in bG.objects) {
+    var ob = bG.objects[cle];
+    if (ob.elType === 'axis' && ob.defaultTicks) {
+      ob.defaultTicks.setAttribute({ insertTicks: true, minTicksDistance: 40 });
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Commandes                                                           */
+  /* ------------------------------------------------------------------ */
+
+  var cmd = document.getElementById('cmd');
+
+  var sPX0 = Econ.curseur(cmd, {
+    etiquette: 'Prix initial : <em>p<sub>X</sub><sup>0</sup></em>',
+    min: 4, max: 8, pas: 0.25, valeur: 6, surChangement: maj });
+  var sPX1 = Econ.curseur(cmd, {
+    etiquette: 'Prix final : <em>p<sub>X</sub><sup>1</sup></em>',
+    min: 2, max: 10, pas: 0.25, valeur: 3, surChangement: maj });
+  var sPY  = Econ.curseur(cmd, {
+    etiquette: 'Prix de <em>Y</em> : <em>p<sub>Y</sub></em>',
+    min: 3, max: 6, pas: 0.25, valeur: 4, surChangement: maj });
+  var sI   = Econ.curseur(cmd, {
+    etiquette: 'Revenu : <em>I</em>',
+    min: 80, max: 120, pas: 5, valeur: 100, decimales: 0, surChangement: maj });
+  var sA   = Econ.curseur(cmd, {
+    etiquette: 'Part du budget en <em>X</em> : <em>a</em>',
+    min: 0.2, max: 0.8, pas: 0.05, valeur: 0.5, surChangement: maj });
+
+  var bComp = Econ.bascule(cmd, {
+    etiquette: 'Montrer la compensation : droite violette, panier <em>B</em>, demande hicksienne',
+    coche: true, surChangement: maj });
+
+  Econ.boutonReinit(cmd, function () {
+    sPX0.fixer(6); sPX1.fixer(3); sPY.fixer(4); sI.fixer(100); sA.fixer(0.5);
+    bComp.fixer(true); majTout();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['xa',  'A — panier initial <em>X<sub>A</sub></em>'],
+    ['xb',  'B — panier compensé <em>X<sub>B</sub></em>'],
+    ['xc',  'C — panier final <em>X<sub>C</sub></em>'],
+    ['tot', 'Effet total <em>X<sub>C</sub> − X<sub>A</sub></em>'],
+    ['sub', 'Effet de substitution <em>X<sub>B</sub> − X<sub>A</sub></em>'],
+    ['rev', 'Effet de revenu <em>X<sub>C</sub> − X<sub>B</sub></em>'],
+    ['ver', 'Vérification'],
+    ['comp', 'Revenu compensé <em>e(p<sub>X</sub><sup>1</sup>, p<sub>Y</sub>, u<sub>0</sub>)</em>']
+  ]);
+
+  /* ------------------------------------------------------------------ */
+  /* Grandeurs                                                           */
+  /* ------------------------------------------------------------------ */
+
+  function par()  { return { a: sA.valeur() }; }
+  function pX0()  { return sPX0.valeur(); }
+  function pX1()  { return sPX1.valeur(); }
+  function pY()   { return sPY.valeur(); }
+  function I()    { return sI.valeur(); }
+  function comp() { return bComp.valeur(); }
+
+  function A()  { return C.demande(pX0(), pY(), I(), par()); }        // X = aI/pX0
+  function Cc() { return C.demande(pX1(), pY(), I(), par()); }        // X = aI/pX1
+  function u0() { var a = A(); return C.u(a.X, a.Y, par()); }
+  function eComp() { return C.depense(pX1(), pY(), u0(), par()); }    // revenu compensé
+  function B()  { return C.hicks(pX1(), pY(), u0(), par()); }         // panier compensé
+
+  function xM(p) { return par().a * I() / p; }
+  function xH(p) { return par().a * C.depense(p, pY(), u0(), par()) / p; }
+
+  /* ------------------------------------------------------------------ */
+  /* Cadre du panneau de gauche                                          */
+  /*                                                                     */
+  /* Les trois paniers tiennent dans un rectangle minuscule : avec le     */
+  /* cadre figé à 90 unités, ils occupaient une trentaine de pixels. Le   */
+  /* cadre suit donc les valeurs courantes, par paliers arrondis pour     */
+  /* qu'il ne tremble pas à chaque cran de curseur. Il couvre les deux    */
+  /* extrémités de chaque droite affichée, donc aussi les paniers.        */
+  /* ------------------------------------------------------------------ */
+
+  var M = 40;                        // étendue courante, en unités
+
+  function joli(v) {
+    var e = Math.pow(10, Math.floor(Math.log(v) / Math.LN10)), c = [1, 2, 5, 10], i;
+    for (i = 0; i < c.length; i++) { if (c[i] * e >= v - 1e-12) return c[i] * e; }
+    return 10 * e;
+  }
+
+  function etendue() {
+    var xs = [I() / pX0(), I() / pX1()], ys = [I() / pY()], v, pas, e;
+    if (comp()) { e = eComp(); xs.push(e / pX1()); ys.push(e / pY()); }
+    v = Math.max(Math.max.apply(null, xs), Math.max.apply(null, ys));
+    pas = joli(v / 15);
+    return Math.ceil(v / pas - 1e-9) * pas;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Étiquettes mobiles                                                  */
+  /*                                                                     */
+  /* Chaque étiquette propose des points d'ancrage et des décalages, par  */
+  /* ordre de préférence ; on garde la combinaison qui ne déborde pas du  */
+  /* cadre et ne recouvre aucune étiquette déjà posée. Balayage des       */
+  /* 853 281 combinaisons de curseurs, dans les deux états de la case à   */
+  /* cocher et sur les deux panneaux : aucun chevauchement, aucun         */
+  /* débordement.                                                        */
+  /* ------------------------------------------------------------------ */
+
+  var COINS = [[9, 12], [-9, 12], [9, -12], [-9, -12], [0, 17], [0, -17], [16, 0], [-16, 0],
+               [24, 26], [-24, 26], [24, -26], [-24, -26], [0, 34], [0, -34], [34, 0], [-34, 0],
+               [44, 44], [-44, 44], [44, -44], [-44, -44], [0, 52], [0, -52], [56, 0], [-56, 0]];
+  var COTES = [[10, 0], [-10, 0]];
+
+  var mobiles = [];
+
+  function etiquette(bd, ancres, decalages, contenu, opt) {
+    var pose = { x: 0, y: 0 };
+    var el = Econ.texte(bd, function () { return pose.x; }, function () { return pose.y; },
+      contenu, Object.assign({ fontSize: 13 }, opt || {}));
+    mobiles.push({ bd: bd, el: el, pose: pose, ancres: ancres, dec: decalages,
+      contenu: contenu, fs: (opt && opt.fontSize) || 13,
+      actif: (opt && opt.actif) || function () { return true; } });
+    return el;
+  }
+
+  function placer(bd) {
+    var bb = bd.getBoundingBox(), boite = bd.containerObj.getBoundingClientRect();
+    var L = boite.width, H = boite.height, posees = [], miens = [];
+    // Les graduations et les noms des axes sont déjà dessinés : on les compte
+    // comme des obstacles au lieu de leur passer dessus.
+    mobiles.forEach(function (m) { if (m.bd === bd) miens.push(m.el.rendNode); });
+    Array.prototype.forEach.call(bd.containerObj.querySelectorAll('.JXGtext'), function (n) {
+      if (miens.indexOf(n) >= 0 || !n.textContent.trim()) return;
+      var r = n.getBoundingClientRect();
+      if (!r.width) return;
+      posees.push([r.left - boite.left - 2, r.right - boite.left + 2,
+                   r.top - boite.top - 2, r.bottom - boite.top + 2]);
+    });
+    mobiles.forEach(function (m) {
+      if (m.bd !== bd) return;
+      var on = m.actif();
+      m.el.setAttribute({ visible: on });
+      if (!on) return;
+      var t = typeof m.contenu === 'function' ? m.contenu() : m.contenu;
+      // Boîte estimée large : mesurée dans le navigateur, « A » fait 9 px sur
+      // 21 en Georgia 14 px, « VC = −41,42 $ » 82 sur 20 en 13 px.
+      var w = 0.56 * m.fs * String(t).length + 4, h = 1.6 * m.fs;
+      var anc = m.ancres(), meilleur = null, score = Infinity, i, j, k;
+      for (i = 0; i < anc.length; i++) {
+        var ax = (anc[i][0] - bb[0]) * bd.unitX, ay = (bb[1] - anc[i][1]) * bd.unitY;
+        for (j = 0; j < m.dec.length; j++) {
+          var x0 = ax + m.dec[j][0] - (m.dec[j][0] < 0 ? w : 0);
+          var y0 = ay - m.dec[j][1] - h / 2;
+          var c = [x0, x0 + w, y0, y0 + h], s = (i * m.dec.length + j) * 0.01;
+          if (c[0] < -1 || c[1] > L + 1 || c[2] < -1 || c[3] > H + 1) s += 1000;
+          for (k = 0; k < posees.length; k++) {
+            var q = posees[k];
+            if (c[0] < q[1] && q[0] < c[1] && c[2] < q[3] && q[2] < c[3]) s += 100;
+          }
+          if (s < score) { score = s; meilleur = c; }
+        }
+      }
+      posees.push(meilleur);
+      m.pose.x = bb[0] + meilleur[0] / bd.unitX;
+      m.pose.y = bb[1] - (meilleur[2] + h / 2) / bd.unitY;
+    });
+  }
+
+  function ancrePoint(fx, fy) {
+    return function () { return [[fx(), fy()]]; };
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Panneau de gauche                                                   */
+  /* ------------------------------------------------------------------ */
+
+  // Droites de budget : initiale (rouge), finale (verte), compensée (violette).
+  Econ.droiteBudget(bG, pX0, pY, I, { style: { strokeWidth: 2.2 } });
+  Econ.droiteBudget(bG, pX1, pY, I,
+    { style: { strokeColor: Econ.COUL.second, strokeWidth: 2.2 } });
+  var dComp = Econ.droiteBudget(bG, pX1, pY, eComp,
+    { style: { strokeColor: Econ.COUL.tiers, strokeWidth: 2, dash: 2 } });
+
+  // Courbes d'indifférence, rééchantillonnées sur le cadre courant :
+  // Econ.courbeIndiff fige son xmax à la création, ce qui ne convient pas à un
+  // cadre qui bouge.
+  function indiff(fu, style) {
+    var c = bG.create('curve', [[], []], Object.assign({
+      strokeColor: Econ.COUL.indiff, strokeWidth: 2.4, highlight: false, fixed: true
+    }, style || {}));
+    c.updateDataArray = function () {
+      var bb = bG.getBoundingBox(), p = par(), u = fu(), xs = [], ys = [], i, X, Y;
+      for (i = 1; i <= 300; i++) {
+        X = bb[2] * i / 300;
+        Y = C.yIndiff(X, u, p);
+        if (Y === null || !isFinite(Y) || Y > bb[1]) {
+          if (xs.length && !isNaN(xs[xs.length - 1])) { xs.push(NaN); ys.push(NaN); }
+          continue;
+        }
+        xs.push(X); ys.push(Y);
+      }
+      this.dataX = xs; this.dataY = ys;
+    };
+    return c;
+  }
+
+  indiff(u0);
+  indiff(function () { var c = Cc(); return C.u(c.X, c.Y, par()); },
+    { strokeColor: Econ.COUL.second, strokeWidth: 2, dash: 2 });
+
+  // Point + trait de rappel vers l'axe horizontal + étiquette mobile.
+  function pt(bd, fx, fy, nom, couleur, actif) {
+    var P = bd.create('point', [fx, fy], {
+      name: '', size: 4, strokeColor: '#fff', strokeWidth: 1.5,
+      fillColor: couleur, fixed: true, highlight: false,
+      visible: actif === undefined ? true : actif
+    });
+    var S = bd.create('segment', [[fx, 0], P], {
+      strokeColor: couleur, strokeWidth: 1, dash: 2,
+      visible: actif === undefined ? true : actif,
+      highlight: false, fixed: true, straightFirst: false, straightLast: false
+    });
+    etiquette(bd, ancrePoint(fx, fy), COINS, nom,
+      { fontSize: 14, actif: actif,
+        cssStyle: POLICE + 'color:' + couleur + ';' + OMBRE });
+    return { point: P, segment: S };
+  }
+
+  pt(bG, function () { return A().X;  }, function () { return A().Y;  }, 'A', Econ.COUL.budget);
+  pt(bG, function () { return B().X;  }, function () { return B().Y;  }, 'B', Econ.COUL.tiers, comp);
+  pt(bG, function () { return Cc().X; }, function () { return Cc().Y; }, 'C', Econ.COUL.second);
+
+  /* ------------------------------------------------------------------ */
+  /* Panneau de droite : les deux courbes de demande                     */
+  /* ------------------------------------------------------------------ */
+
+  function courbePrix(f, couleur, largeur, tirets) {
+    var c = bD.create('curve', [[], []], {
+      strokeColor: couleur, strokeWidth: largeur, dash: tirets || 0,
+      highlight: false, fixed: true
+    });
+    c.updateDataArray = function () {
+      var xs = [], ys = [], n = 220, i, p, x;
+      for (i = 0; i <= n; i++) {
+        p = PMIN + (PMAX - PMIN) * i / n;
+        x = f(p);
+        if (!isFinite(x)) { xs.push(NaN); ys.push(NaN); continue; }
+        xs.push(x); ys.push(p);
+      }
+      this.dataX = xs; this.dataY = ys;
+    };
+    return c;
+  }
+
+  courbePrix(xM, Econ.COUL.budget, 2.5);
+  var cH = courbePrix(xH, Econ.COUL.tiers, 2.5);
+
+  // Repères horizontaux aux deux prix.
+  function ligneHoriz(fp, couleur) {
+    bD.create('segment',
+      [[0, fp], [function () { return XMAXD; }, fp]],
+      { strokeColor: couleur, strokeWidth: 1, dash: 2,
+        highlight: false, fixed: true, straightFirst: false, straightLast: false });
+  }
+  ligneHoriz(pX0, '#999');
+  ligneHoriz(pX1, '#999');
+
+  pt(bD, function () { return xM(pX0()); }, pX0, 'A', Econ.COUL.budget);
+  pt(bD, function () { return xH(pX1()); }, pX1, 'B', Econ.COUL.tiers, comp);
+  pt(bD, function () { return xM(pX1()); }, pX1, 'C', Econ.COUL.second);
+
+  // Nom des deux courbes : il glisse le long de la courbe pour éviter le reste.
+  var PRIX = [2.6, 3.4, 4.4, 5.6, 7.0, 8.4, 9.4];
+
+  function ancresCourbePrix(f, ordre) {
+    return function () {
+      return ordre.map(function (p) { return [f(p), p]; });
+    };
+  }
+
+  etiquette(bD, ancresCourbePrix(xM, PRIX), COTES, 'marshallienne',
+    { fontSize: 12, cssStyle: POLICE + 'color:' + Econ.COUL.budget + ';' + OMBRE });
+  etiquette(bD, ancresCourbePrix(xH, PRIX.slice().reverse()), COTES, 'hicksienne',
+    { fontSize: 12, actif: comp,
+      cssStyle: POLICE + 'color:' + Econ.COUL.tiers + ';' + OMBRE });
+
+  /* ------------------------------------------------------------------ */
+  /* Mise à jour                                                         */
+  /* ------------------------------------------------------------------ */
+
+  // « −4,59 + −2,91 » se lit mal : on sort le signe et on en fait l'opérateur.
+  function somme(u, v) {
+    return Econ.nb(u, 2) + (nul(v) || v >= 0 ? ' + ' : ' − ') + Econ.nb(Math.abs(v), 2);
+  }
+
+  // Un effet qui s'arrondit à zéro n'a pas de signe : sans ce test, un résidu
+  // de calcul de l'ordre de 1e-15 s'affichait « −0,00 » (prix inchangés).
+  function nul(v) { return Math.abs(v) < 0.005; }
+  function signe(v) {
+    return nul(v) ? Econ.nb(0, 2) : (v > 0 ? '+' : '−') + Econ.nb(Math.abs(v), 2);
+  }
+
+  function maj() {
+    var a = A(), b = B(), c = Cc();
+    var tot = c.X - a.X, sub = b.X - a.X, rev = c.X - b.X;
+
+    res.fixer('xa', Econ.nb(a.X, 2));
+    res.fixer('xb', Econ.nb(b.X, 2));
+    res.fixer('xc', Econ.nb(c.X, 2));
+    res.fixer('tot', signe(tot));
+    res.fixer('sub', signe(sub));
+    res.fixer('rev', signe(rev));
+    res.fixer('ver', somme(sub, rev) + ' = ' + Econ.nb(tot, 2) +
+              (Math.abs(sub + rev - tot) < 1e-8 ? ' ✓' : ' ✗'));
+    res.fixer('comp', Econ.nb(eComp(), 2) +
+              (eComp() < I() ? ' &lt; I : on retire ' + Econ.nb(I() - eComp(), 2)
+                             : ' &gt; I : on ajoute ' + Econ.nb(eComp() - I(), 2)));
+
+    dComp.setAttribute({ visible: comp() });
+    cH.setAttribute({ visible: comp() });
+
+    M = etendue();
+    bG.setBoundingBox([-0.11 * M, 1.14 * M, 1.14 * M, -0.11 * M], false);
+    // Un premier passage dessine tout aux nouvelles valeurs, y compris les
+    // graduations ; placer() les mesure, puis le second passage pose les
+    // étiquettes. Les deux passages ont lieu avant le rendu : rien ne clignote.
+    bG.update();
+    bD.update();
+    placer(bG);
+    placer(bD);
+    bG.update();
+    bD.update();
+  }
+
+  function majTout() { maj(); bG.fullUpdate(); bD.fullUpdate(); }
+
+  majTout();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

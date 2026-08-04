@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le choix intertemporel — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 9 — Le temps</div>
+<h1>Le choix intertemporel : épargnant ou emprunteur ?</h1>
+<p class="intro">
+L'agent reçoit <em>Y<sub>1</sub></em> aujourd'hui et <em>Y<sub>2</sub></em> demain, et peut
+épargner ou emprunter au taux <em>r</em>. Sa droite de budget passe <strong>toujours</strong>
+par le point de dotation : quoi qu'il arrive au taux d'intérêt, il peut au minimum consommer
+ce qu'il reçoit. Faites varier <em>r</em> et regardez la droite <strong>pivoter autour de la
+dotation</strong>. Une hausse du taux profite toujours à l'épargnant. Elle nuit à l'emprunteur
+qui <strong>reste</strong> emprunteur ; celui qui bascule du côté de l'épargne peut au
+contraire y gagner.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe">
+    <div id="graphe" class="jxgbox"></div>
+    <p style="font-size:.85rem; color:#666; margin:.5rem 0 0; line-height:1.45">
+      <span style="color:#b0342d; font-weight:bold">———</span> budget au taux <em>r</em>
+      &nbsp;
+      <span style="color:#888; font-weight:bold">– – –</span> budget au taux
+      <em>r</em><sub>0</sub> &nbsp;
+      <span style="color:#1c3e66; font-weight:bold">———</span> indifférence au taux
+      <em>r</em> &nbsp;
+      <span style="color:#2e7d32; font-weight:bold">– – –</span> indifférence au taux
+      <em>r</em><sub>0</sub> &nbsp;
+      <span style="color:#8e44ad">◆</span> dotation <em>D</em> &nbsp;
+      <span style="color:#1c3e66">●</span> optimum <em>E</em> &nbsp;
+      <span style="color:#2e7d32">○</span> optimum <em>E</em><sub>0</sub> &nbsp;
+      <span style="color:#468c96; font-weight:bold">· · ·</span> longueur du segment
+      turquoise = montant épargné ou emprunté en période 1.
+    </p>
+  </div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Faites glisser <em>r</em> de 0 % à 50 % : la droite <strong>pivote autour du point
+      de dotation</strong> <em>D</em> (le losange violet), jamais autour d'un intercept.
+      Le point <em>D</em> est le seul panier toujours accessible.</li>
+    <li>Avec les valeurs par défaut (<em>Y<sub>1</sub></em> = 40,
+      <em>Y<sub>2</sub></em> = 20) l'agent est <strong>épargnant</strong>. Cochez
+      « comparer avec <em>r</em><sub>0</sub> » et montez <em>r</em> : le nouvel optimum se
+      place sur une courbe d'indifférence <em>plus élevée</em> que l'ancienne. Le verdict
+      s'affiche dans le panneau.</li>
+    <li>Inversez les dotations (<em>Y<sub>1</sub></em> = 20,
+      <em>Y<sub>2</sub></em> = 40) : l'agent devient <strong>emprunteur</strong> et le reste
+      après la hausse de <em>r</em>. La même hausse le fait passer sur une courbe
+      d'indifférence <em>plus basse</em>. Même choc, verdict opposé.</li>
+    <li>Un épargnant <strong>reste épargnant</strong> après une hausse de <em>r</em> : avec
+      Cobb-Douglas, <em>C<sub>1</sub>* = a·VP<sub>W</sub></em> et
+      <em>VP<sub>W</sub> = Y<sub>1</sub> + Y<sub>2</sub>/(1+r)</em> diminue quand <em>r</em>
+      monte, donc <em>C<sub>1</sub>*</em> baisse et l'épargne augmente. Un emprunteur, lui,
+      peut basculer.</li>
+    <li>Réglez <em>Y<sub>1</sub></em> = 60, <em>Y<sub>2</sub></em> = 50, <em>a</em> = 0,55,
+      <em>r</em><sub>0</sub> = 1 % et <em>r</em> = 50 % : l'agent emprunte 0,23 au départ,
+      épargne 8,67 à l'arrivée, et le panneau annonce que sa situation <strong>s'améliore</strong>
+      (55,27 → 56,29). Un emprunteur ne perd que s'il reste emprunteur.</li>
+    <li>Lisez les intercepts : sur l'axe <em>C<sub>1</sub></em>, la droite coupe en
+      <em>VP<sub>W</sub> = Y<sub>1</sub> + Y<sub>2</sub>/(1+r)</em>, la <strong>valeur
+      actualisée</strong> du revenu ; sur l'axe <em>C<sub>2</sub></em>, en
+      <em>Y<sub>2</sub> + (1+r)Y<sub>1</sub></em>, sa <strong>valeur future</strong>.
+      Montez <em>r</em> : la première baisse, la seconde monte.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>On pose la richesse initiale <em>W</em><sub>0</sub> = 0. La contrainte budgétaire
+  intertemporelle s'écrit indifféremment
+  <span class="formule">C<sub>2</sub> = Y<sub>2</sub> + (1+r)(Y<sub>1</sub> − C<sub>1</sub>)</span>
+  ou <span class="formule">C<sub>1</sub> + C<sub>2</sub>/(1+r) = Y<sub>1</sub> + Y<sub>2</sub>/(1+r) ≡ VP<sub>W</sub></span>.
+  Sa pente est <span class="formule">−(1+r)</span> et elle passe par
+  <span class="formule">(Y<sub>1</sub>, Y<sub>2</sub>)</span> quel que soit <em>r</em>.</p>
+  <p>Préférences retenues :
+  <span class="formule">u = C<sub>1</sub><sup>a</sup> C<sub>2</sub><sup>1−a</sup></span>,
+  où <em>a</em> mesure le poids du présent. Ces préférences classent les paniers comme
+  <span class="formule">ln C<sub>1</sub> + δ ln C<sub>2</sub></span> avec
+  <span class="formule">δ = (1−a)/a</span>. Le curseur affiche <em>a</em>, pas <em>δ</em> :
+  le panneau donne <em>δ</em> à côté. Le curseur est borné à <em>a</em> ≥ 0,5 pour que
+  <em>δ</em> reste dans <span class="formule">[0, 1]</span>, comme au chapitre 9. Un
+  <em>a</em> plus petit donnerait <em>δ</em> &gt; 1, donc un taux d'escompte négatif.</p>
+  <p>En traitant <em>C<sub>1</sub></em> comme un bien de prix 1 et <em>C<sub>2</sub></em>
+  comme un bien de prix <span class="formule">1/(1+r)</span> :
+  <span class="formule">C<sub>1</sub>* = a·VP<sub>W</sub></span> et
+  <span class="formule">C<sub>2</sub>* = (1−a)(1+r)VP<sub>W</sub></span>. L'épargne vaut
+  <span class="formule">S = Y<sub>1</sub> − C<sub>1</sub>*</span> : l'agent est épargnant si
+  <em>S</em> &gt; 0, emprunteur si <em>S</em> &lt; 0.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var C1MAX = 130, C2MAX = 165;
+  var C = Econ.pref.cobb;
+
+  var b = Econ.board('graphe', [-10, C2MAX, C1MAX, -14],
+                     { nomX: 'C<sub>1</sub>', nomY: 'C<sub>2</sub>',
+                       pasGrad: 20, pasGradY: 20 });
+
+  /* ------------------------------------------------------------------ */
+  /* Commandes                                                           */
+  /* ------------------------------------------------------------------ */
+
+  var cmd = document.getElementById('cmd');
+
+  var pct = function (v) { return Econ.nb(100 * v, 0) + ' %'; };
+
+  var sY1 = Econ.curseur(cmd, { etiquette: 'Dotation période 1 : <em>Y<sub>1</sub></em>',
+                                min: 0, max: 60, pas: 5, valeur: 40, decimales: 0,
+                                surChangement: maj });
+  var sY2 = Econ.curseur(cmd, { etiquette: 'Dotation période 2 : <em>Y<sub>2</sub></em>',
+                                min: 0, max: 60, pas: 5, valeur: 20, decimales: 0,
+                                surChangement: maj });
+  var sR  = Econ.curseur(cmd, { etiquette: 'Taux d\'intérêt : <em>r</em>',
+                                min: 0, max: 0.5, pas: 0.01, valeur: 0.20,
+                                format: pct, surChangement: maj });
+  // a ≥ 0,5 : en deçà, δ = (1−a)/a dépasse 1, hors du δ ∈ [0, 1] du chapitre 9.
+  var sA  = Econ.curseur(cmd, { etiquette: 'Poids du présent : <em>a</em>',
+                                min: 0.5, max: 0.8, pas: 0.05, valeur: 0.5,
+                                surChangement: maj });
+
+  var bCmp = Econ.bascule(cmd, {
+    etiquette: 'Comparer avec un taux initial <em>r</em><sub>0</sub>',
+    coche: true, surChangement: maj });
+
+  var sR0 = Econ.curseur(cmd, { etiquette: 'Taux initial : <em>r</em><sub>0</sub>',
+                                min: 0, max: 0.5, pas: 0.01, valeur: 0.05,
+                                format: pct, surChangement: maj });
+
+  Econ.boutonReinit(cmd, function () {
+    sY1.fixer(40); sY2.fixer(20); sR.fixer(0.20); sA.fixer(0.5);
+    sR0.fixer(0.05); bCmp.fixer(true); majTout();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['c1',  'Consommation <em>C<sub>1</sub>*</em>'],
+    ['c2',  'Consommation <em>C<sub>2</sub>*</em>'],
+    ['sta', 'Position'],
+    ['mon', 'Montant épargné / emprunté'],
+    ['w',   'Valeur actualisée <em>VP<sub>W</sub></em>'],
+    ['vf',  'Valeur future <em>Y<sub>2</sub> + (1+r)Y<sub>1</sub></em>'],
+    ['del', 'Facteur d\'escompte <em>δ = (1−a)/a</em>'],
+    ['ver', 'Effet du passage de <em>r</em><sub>0</sub> à <em>r</em>']
+  ]);
+
+  /* ------------------------------------------------------------------ */
+  /* Grandeurs                                                           */
+  /* ------------------------------------------------------------------ */
+
+  function y1() { return sY1.valeur(); }
+  function y2() { return sY2.valeur(); }
+  function r()  { return sR.valeur(); }
+  function r0() { return sR0.valeur(); }
+  function par(){ return { a: sA.valeur() }; }
+
+  // Prix implicite de la consommation future, et valeur actualisée du revenu.
+  function p2(t) { return 1 / (1 + t); }
+  function VP(t) { return y1() + y2() / (1 + t); }
+
+  // Optimum au taux t : C1 = a·VP_W, C2 = (1−a)(1+t)VP_W.
+  function E(t)  { return C.demande(1, p2(t), VP(t), par()); }
+  function util(t) { var e = E(t); return C.u(e.X, e.Y, par()); }
+
+  /* ------------------------------------------------------------------ */
+  /* Tracé                                                               */
+  /* ------------------------------------------------------------------ */
+
+  // Droite de budget de référence (taux r0), en pointillé gris.
+  var dRef = Econ.droiteBudget(b, 1, function () { return p2(r0()); },
+                                     function () { return VP(r0()); },
+    { style: { strokeColor: Econ.COUL.gris, strokeWidth: 1.8, dash: 2 } });
+
+  var indRef = Econ.courbeIndiff(b, C, par, function () { return util(r0()); },
+    { xmax: C1MAX, ymax: C2MAX,
+      style: { strokeColor: Econ.COUL.second, strokeWidth: 1.6, dash: 2 } });
+
+  var Eref = b.create('point',
+    [function () { return E(r0()).X; }, function () { return E(r0()).Y; }],
+    { name: 'E<sub>0</sub>', size: 4, strokeColor: Econ.COUL.second, strokeWidth: 2,
+      fillColor: '#fff', fixed: true, highlight: false,
+      label: { fontSize: 13, offset: [8, -14] } });
+
+  // Droite de budget courante.
+  Econ.droiteBudget(b, 1, function () { return p2(r()); },
+                          function () { return VP(r()); },
+    { style: { strokeWidth: 2.5 } });
+
+  Econ.courbeIndiff(b, C, par, function () { return util(r()); },
+    { xmax: C1MAX, ymax: C2MAX, style: { strokeWidth: 2.4 } });
+
+  // Point de dotation : losange violet, visuellement distinct de l'optimum.
+  var D = b.create('point', [y1, y2], {
+    name: 'D', size: 5, face: 'diamond',
+    strokeColor: '#fff', strokeWidth: 1.5, fillColor: Econ.COUL.tiers,
+    fixed: true, highlight: false, label: { fontSize: 14, offset: [10, -16] }
+  });
+  // L'étiquette se place sous le losange, sauf quand celui-ci est trop bas :
+  // elle tomberait alors dans les graduations de l'axe des abscisses.
+  Econ.texte(b, function () { return y1() + 3; },
+                function () { return Math.max(y2() - 12, 9); },
+             'dotation', { fontSize: 12, strokeColor: Econ.COUL.tiers });
+
+  // Optimum courant.
+  Econ.pointOptimal(b, function () { return E(r()).X; },
+                       function () { return E(r()).Y; }, { nom: 'E' });
+
+  // Segment horizontal de (C1*, Y2) à la dotation : sa longueur est
+  // |Y1 − C1*|, c'est-à-dire le montant épargné (ou emprunté) en période 1.
+  b.create('segment', [[function () { return E(r()).X; }, function () { return y2(); }], D], {
+    strokeColor: Econ.COUL.accent, strokeWidth: 1.5, dash: 3,
+    highlight: false, fixed: true, straightFirst: false, straightLast: false
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* Mise à jour                                                         */
+  /* ------------------------------------------------------------------ */
+
+  function maj() {
+    var e = E(r());
+    var S = y1() - e.X;
+    var a = sA.valeur();
+
+    res.fixer('c1', Econ.nb(e.X, 2));
+    res.fixer('c2', Econ.nb(e.Y, 2));
+
+    if (Math.abs(S) < 0.005) {
+      res.fixer('sta', 'autarcie (<em>C<sub>1</sub>* = Y<sub>1</sub></em>)');
+      res.fixer('mon', '0,00');
+    } else if (S > 0) {
+      res.fixer('sta', '<strong>épargnant</strong> (<em>C<sub>1</sub>* &lt; Y<sub>1</sub></em>)');
+      res.fixer('mon', 'épargne ' + Econ.nb(S, 2) + ', reçoit ' +
+                       Econ.nb(S * (1 + r()), 2) + ' en période 2');
+    } else {
+      res.fixer('sta', '<strong>emprunteur</strong> (<em>C<sub>1</sub>* &gt; Y<sub>1</sub></em>)');
+      res.fixer('mon', 'emprunte ' + Econ.nb(-S, 2) + ', rembourse ' +
+                       Econ.nb(-S * (1 + r()), 2) + ' en période 2');
+    }
+
+    res.fixer('w',  Econ.nb(VP(r()), 2));
+    res.fixer('vf', Econ.nb(y2() + (1 + r()) * y1(), 2));
+    res.fixer('del', Econ.nb((1 - a) / a, 3));
+
+    // Verdict de la comparaison des deux taux.
+    if (!bCmp.valeur()) {
+      res.fixer('ver', '—');
+    } else if (Math.abs(r() - r0()) < 1e-9) {
+      res.fixer('ver', 'taux identiques : rien ne change');
+    } else {
+      var S0 = y1() - E(r0()).X;
+      var hausse = r() > r0();
+      // On compare les deux indices d'utilité à la précision réellement
+      // affichée : trancher sur 1e−12 ferait annoncer une amélioration à côté
+      // de deux nombres identiques à l'écran.
+      var t0 = Econ.nb(util(r0()), 2), t1 = Econ.nb(util(r()), 2);
+      var qui = Math.abs(S0) < 0.005 ? 'en autarcie au taux <em>r</em><sub>0</sub>'
+              : (S0 > 0 ? '<strong>épargnant</strong> au taux <em>r</em><sub>0</sub>'
+                        : '<strong>emprunteur</strong> au taux <em>r</em><sub>0</sub>');
+      var sens = t0 === t1
+               ? 'sa situation change trop peu pour se lire à deux décimales'
+               : (util(r()) > util(r0()) ? 'sa situation <strong>s\'améliore</strong>'
+                                         : 'sa situation <strong>se détériore</strong>');
+      res.fixer('ver', (hausse ? 'Hausse' : 'Baisse') + ' du taux (' + pct(r0()) +
+                       ' → ' + pct(r()) + '). L\'agent était ' + qui + ' : ' + sens +
+                       ' (indice d\'utilité ' + t0 + ' → ' + t1 + ').');
+    }
+
+    var v = bCmp.valeur();
+    dRef.setAttribute({ visible: v });
+    indRef.setAttribute({ visible: v });
+    Eref.setAttribute({ visible: v });
+    sR0.element.parentNode.style.display = v ? '' : 'none';
+
+    b.update();
+  }
+
+  function majTout() { maj(); b.fullUpdate(); }
+
+  majTout();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le choix travail-loisir — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+<style>
+  .zonegraphe.double { flex: 1 1 620px; }
+  .paire { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+  .paire .jxgbox { max-height: 360px; }
+  .paire figure { margin: 0; }
+  .paire figcaption {
+    font-size: .82rem; color: #666; text-align: center; margin-top: .25rem;
+  }
+  @media (max-width: 860px) { .paire { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="chapitre">Chapitre 10 — Le travail</div>
+<h1>Le choix travail-loisir et l'offre de travail</h1>
+<p class="intro">
+Le travailleur répartit une dotation en temps <em>T</em> entre loisir <em>L</em> et travail
+<em>H = T − L</em>. Chaque heure de loisir coûte un salaire <em>w</em> : le salaire
+<strong>est</strong> le prix du loisir. Le graphe de gauche montre le choix optimal ; celui
+de droite reconstitue, salaire par salaire, la <strong>courbe d'offre de travail</strong>.
+Avec les préférences retenues ici, cette offre monte, descend ou reste verticale selon un
+seul critère : le revenu non salarial <em>m</em> comparé à la consommation incompressible
+<em>c<sub>0</sub></em>.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe double">
+    <div class="paire">
+      <figure>
+        <div id="grapheL" class="jxgbox"></div>
+        <figcaption>Choix optimal dans l'espace <em>(L, C)</em></figcaption>
+      </figure>
+      <figure>
+        <div id="grapheO" class="jxgbox"></div>
+        <figcaption>Offre de travail <em>H*(w)</em></figcaption>
+      </figure>
+    </div>
+    <p style="font-size:.85rem; color:#666; margin:.5rem 0 0; line-height:1.45">
+      Graphe de gauche :
+      <span style="color:#b0342d; font-weight:bold">———</span> droite de budget &nbsp;
+      <span style="color:#1c3e66; font-weight:bold">———</span> courbe d'indifférence &nbsp;
+      <span style="color:#8e44ad; font-weight:bold">– – –</span> droite d'iso-salaire de
+      réserve &nbsp;
+      <span style="color:#888; font-weight:bold">· · ·</span> consommation incompressible
+      <em>c<sub>0</sub></em> &nbsp;
+      <span style="color:#8e44ad">◆</span> dotation <em>D</em> = (<em>T</em>, <em>m</em>)
+      &nbsp;
+      <span style="color:#1c3e66">●</span> optimum <em>E</em>.
+      <br>
+      Graphe de droite :
+      <span style="color:#2e7d32; font-weight:bold">———</span> offre de travail
+      <em>H*(w)</em> &nbsp;
+      <span style="color:#2e7d32; font-weight:bold">– – –</span> portion conventionnelle
+      <em>H*</em> = <em>T</em> (pas d'optimum, voir plus bas) &nbsp;
+      <span style="color:#8e44ad; font-weight:bold">– – –</span> salaire de réserve
+      <em>w<sub>r</sub></em> &nbsp;
+      <span style="color:#1c3e66">●</span> salaire courant.
+    </p>
+  </div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Réglages par défaut (<em>m</em> = 10, <em>c<sub>0</sub></em> = 0, <em>T</em> = 16,
+      <em>a</em> = 0,5). Montez <em>w</em> de 1 à 8 : <em>H*</em> passe de 3,00 h à 7,38 h.
+      Le revenu non salarial dépasse la consommation incompressible, et l'offre
+      <strong>monte</strong>.</li>
+    <li>Mettez <em>m</em> = 0 et <em>c<sub>0</sub></em> = 0 : <em>H*</em> vaut 8,00 h à tous
+      les salaires et la courbe d'offre devient <strong>verticale</strong>, à
+      <em>H* = (1−a)T</em>. Effet de substitution et effet de revenu se compensent
+      exactement. C'est le repère à retenir.</li>
+    <li>Gardez <em>m</em> = 10 et montez <em>c<sub>0</sub></em> à 20. Montez <em>w</em> de 1
+      à 8 : <em>H*</em> <strong>descend</strong> de 13,00 h à 8,63 h. Il faut financer une
+      consommation incompressible ; à bas salaire on travaille beaucoup pour y arriver, et
+      chaque hausse de <em>w</em> permet de relâcher l'effort. L'offre décroît sur toute la
+      plage, sans jamais monter d'abord.</li>
+    <li>Revenez à <em>c<sub>0</sub></em> = 0 et poussez <em>m</em> à 30, <em>a</em> à 0,7 :
+      le panneau affiche un <strong>salaire de réserve</strong> de 4,37 et le trait pointillé
+      violet devient visible. À <em>w</em> = 4,25 il affiche <em>H*</em> = 0,00 h et une pente
+      nulle : l'optimum est collé au point de dotation. À <em>w</em> = 4,50, <em>H*</em>
+      = 0,13 h : l'offre décolle de l'axe vertical.</li>
+    <li>Comparez le rôle des deux revenus. À <em>w</em> = 4, <em>a</em> = 0,5,
+      <em>T</em> = 16, <em>c<sub>0</sub></em> = 0, montez <em>m</em> de 0 à 30 : la droite de
+      budget se translate vers le haut sans changer de pente et <em>H*</em> tombe de 8,00 h à
+      4,25 h. C'est un pur effet de revenu. Le salaire <em>w</em>, lui, change la pente.</li>
+    <li>Mettez <em>m</em> = 0, <em>c<sub>0</sub></em> = 30, <em>T</em> = 12 et descendez
+      <em>w</em> à 1 : le revenu plein <em>wT</em> + <em>m</em> = 12 reste sous
+      <em>c<sub>0</sub></em>. L'agent ne peut pas atteindre sa consommation incompressible et
+      le problème n'a pas de solution. La portion en pointillé vert du graphe de droite
+      (<em>w</em> ≤ 2,50) est une convention d'affichage, pas un optimum.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>La contrainte est <span class="formule">C = m + w(T − L)</span>, soit
+  <span class="formule">wL + C = wT + m ≡ I</span> : le « revenu plein » <em>I</em> est ce
+  qu'on obtiendrait en vendant tout son temps. La droite a pour pente <em>−w</em>, coupe
+  l'axe vertical en <span class="formule">m + wT</span> et passe toujours par la dotation
+  <span class="formule">(T, m)</span>.</p>
+  <p>Préférences retenues (Stone-Geary) :
+  <span class="formule">u = L<sup>a</sup>(C − c<sub>0</sub>)<sup>1−a</sup></span>, où
+  <em>c<sub>0</sub></em> est une consommation incompressible. Elles se ramènent à
+  Cobb-Douglas sur <em>(L, C − c<sub>0</sub>)</em>, d'où
+  <span class="formule">L* = a(I − c<sub>0</sub>)/w</span>,
+  <span class="formule">C* = c<sub>0</sub> + (1−a)(I − c<sub>0</sub>)</span> et surtout
+  <span class="formule">H* = (1−a)T − a(m − c<sub>0</sub>)/w</span> (avec
+  <em>H*</em> ramené dans <span class="formule">[0, T]</span>).</p>
+  <p>D'où <span class="formule">dH*/dw = a(m − c<sub>0</sub>)/w²</span>. Le signe de cette
+  dérivée est celui de <em>m</em> − <em>c<sub>0</sub></em> et ne dépend pas de <em>w</em> :
+  l'offre est <strong>croissante partout</strong> si <em>m</em> &gt; <em>c<sub>0</sub></em>,
+  verticale si <em>m</em> = <em>c<sub>0</sub></em>, et <strong>décroissante partout</strong>
+  si <em>m</em> &lt; <em>c<sub>0</sub></em>. Le <strong>salaire de réserve</strong> est le TMS
+  au point de dotation : <span class="formule">w<sub>r</sub> = a(m − c<sub>0</sub>) /
+  ((1−a)T)</span> ; il n'existe que si <em>m</em> &gt; <em>c<sub>0</sub></em>.</p>
+  <p><strong>Pas de rebroussement ici.</strong> Le chapitre 10 présente la courbe d'offre de
+  travail <em>à rebroussement</em> (<em>backward-bending</em>) : croissante à bas salaire,
+  décroissante au-delà d'un seuil. Ce modèle ne peut pas la produire, puisque le signe de
+  <span class="formule">dH*/dw</span> est constant. Aucun réglage des curseurs ne donne de
+  retournement. Il faudrait des préférences où le poids relatif de l'effet de revenu change
+  avec le salaire ; Stone-Geary n'en fait rien. La branche décroissante obtenue ici
+  (<em>m</em> &lt; <em>c<sub>0</sub></em>) correspond à l'<em>income targeting</em> du
+  chapitre : on vise un niveau de dépense, donc on travaille moins quand <em>w</em> monte.</p>
+  <p>Deux coins. Si <em>w</em> ≤ <em>w<sub>r</sub></em>, l'agent ne travaille pas :
+  <em>H*</em> = 0, et l'offre longe l'axe vertical. Si <em>wT</em> + <em>m</em> ≤
+  <em>c<sub>0</sub></em>, il n'atteint pas <em>c<sub>0</sub></em> même en travaillant toutes
+  ses heures : l'utilité Stone-Geary n'est pas définie et le problème n'a pas de maximum. Le
+  graphe applique alors la convention <em>H*</em> = <em>T</em>, tracée en pointillé vert pour
+  rappeler que c'est une convention et non un résultat. Dans les deux coins, la pente de
+  l'offre effectivement tracée est nulle.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var LMAX = 23;                    // largeur du panneau de gauche (T ≤ 20)
+  var HMAX = 21, WMAX = 9;          // cadre du panneau de droite
+  var WBAL = 8.6;                   // salaire maximal balayé pour la courbe d'offre
+
+  var bL = Econ.board('grapheL', [-1.8, 190, LMAX, -20],
+                      { nomX: 'L', nomY: 'C', pasGrad: 2, pasGradY: 20 });
+  var bO = Econ.board('grapheO', [-1.6, WMAX, HMAX, -0.95],
+                      { nomX: 'H', nomY: 'w', pasGrad: 2, pasGradY: 1 });
+
+  // Le cadre de gauche suit les curseurs : le pas de graduation vertical doit
+  // suivre aussi, sinon on lit « 20 » tout seul sur un axe qui monte à 200.
+  // Pas « rond » (1, 2, 5 × 10^k) donnant au plus 9 intervalles.
+  function pasJoli(r) {
+    var e = Math.pow(10, Math.floor(Math.log(r / 9) / Math.LN10));
+    var m = [1, 2, 5];
+    for (var i = 0; i < m.length; i++) if (r / (m[i] * e) <= 9) return m[i] * e;
+    return 10 * e;
+  }
+  var axeYL = null;
+  for (var k in bL.objects) {
+    var o = bL.objects[k];
+    if (o.elType === 'axis' && o.point2 && o.point2.X() === 0 && o.point2.Y() === 1) axeYL = o;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Préférences Stone-Geary : u = L^a (C − c0)^(1−a)                     */
+  /* ------------------------------------------------------------------ */
+
+  var SG = {
+    u: function (L, Cv, p) {
+      if (L <= 0 || Cv <= p.c0) return 0;
+      return Math.pow(L, p.a) * Math.pow(Cv - p.c0, 1 - p.a);
+    },
+    tms: function (L, Cv, p) {
+      if (L <= 0) return Infinity;
+      return (p.a / (1 - p.a)) * (Cv - p.c0) / L;
+    },
+    yIndiff: function (L, u, p) {
+      if (L <= 0 || u <= 0) return null;
+      return p.c0 + Math.pow(u / Math.pow(L, p.a), 1 / (1 - p.a));
+    }
+  };
+
+  /* ------------------------------------------------------------------ */
+  /* Commandes                                                           */
+  /* ------------------------------------------------------------------ */
+
+  var cmd = document.getElementById('cmd');
+
+  var sW  = Econ.curseur(cmd, { etiquette: 'Salaire horaire : <em>w</em>',
+                                min: 1, max: 8, pas: 0.25, valeur: 4, surChangement: maj });
+  var sM  = Econ.curseur(cmd, { etiquette: 'Revenu non salarial : <em>m</em>',
+                                min: 0, max: 30, pas: 1, valeur: 10, decimales: 0,
+                                surChangement: maj });
+  var sT  = Econ.curseur(cmd, { etiquette: 'Dotation en temps : <em>T</em> (heures)',
+                                min: 12, max: 20, pas: 1, valeur: 16, decimales: 0,
+                                surChangement: maj });
+  var sA  = Econ.curseur(cmd, { etiquette: 'Goût pour le loisir : <em>a</em>',
+                                min: 0.2, max: 0.8, pas: 0.05, valeur: 0.5,
+                                surChangement: maj });
+  var sC0 = Econ.curseur(cmd, { etiquette: 'Consommation incompressible : <em>c<sub>0</sub></em>',
+                                min: 0, max: 30, pas: 1, valeur: 0, decimales: 0,
+                                surChangement: maj });
+
+  var bOffre = Econ.bascule(cmd, {
+    etiquette: 'Tracer la courbe d\'offre de travail <em>H*(w)</em>',
+    coche: true, surChangement: maj });
+  var bReserve = Econ.bascule(cmd, {
+    etiquette: 'Montrer le salaire de réserve',
+    coche: true, surChangement: maj });
+
+  Econ.boutonReinit(cmd, function () {
+    sW.fixer(4); sM.fixer(10); sT.fixer(16); sA.fixer(0.5); sC0.fixer(0);
+    bOffre.fixer(true); bReserve.fixer(true); majTout();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['L',  'Loisir optimal <em>L*</em>'],
+    ['H',  'Heures travaillées <em>H*</em>'],
+    ['C',  'Consommation <em>C*</em>'],
+    ['wr', 'Salaire de réserve <em>w<sub>r</sub></em>'],
+    ['pe', 'Pente de l\'offre <em>dH*/dw</em>'],
+    ['dg', 'Diagnostic']
+  ]);
+
+  /* ------------------------------------------------------------------ */
+  /* Grandeurs                                                           */
+  /* ------------------------------------------------------------------ */
+
+  function w()  { return sW.valeur(); }
+  function m()  { return sM.valeur(); }
+  function T()  { return sT.valeur(); }
+  function c0() { return sC0.valeur(); }
+  function par(){ return { a: sA.valeur(), c0: sC0.valeur() }; }
+
+  function Iplein(ww) { return ww * T() + m(); }        // revenu plein
+
+  // Loisir optimal au salaire ww, ramené dans [0, T].
+  function Lopt(ww) {
+    var L = sA.valeur() * (Iplein(ww) - c0()) / ww;
+    if (!isFinite(L) || L < 0) L = 0;
+    if (L > T()) L = T();
+    return L;
+  }
+  function Hopt(ww) { return T() - Lopt(ww); }
+  function Copt(ww) { return m() + ww * Hopt(ww); }
+
+  // Salaire de réserve : TMS au point de dotation (T, m).
+  function wRes() {
+    var a = sA.valeur();
+    return a * (m() - c0()) / ((1 - a) * T());
+  }
+
+  // En dessous de ce salaire, wT + m ≤ c0 : l'utilité n'est pas définie et le
+  // problème n'a pas de maximum. Le tracé y passe en pointillé.
+  function wDef() { return (c0() - m()) / T(); }
+
+  function uOpt() { return SG.u(Lopt(w()), Copt(w()), par()); }
+
+  // Haut du cadre de gauche : tout ce qui compte tient sous le revenu plein.
+  function CTOP() { return 1.10 * Math.max(m() + w() * T(), c0() + 5, 24); }
+
+  /* ------------------------------------------------------------------ */
+  /* Panneau de gauche                                                   */
+  /* ------------------------------------------------------------------ */
+
+  // Droite de budget C = m + w(T − L), tracée seulement pour 0 ≤ L ≤ T.
+  var budget = bL.create('curve', [[], []], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 2.5, highlight: false, fixed: true
+  });
+  budget.updateDataArray = function () {
+    this.dataX = [0, T()];
+    this.dataY = [m() + w() * T(), m()];
+  };
+
+  // Droite d'iso-salaire de réserve : même dotation, pente −w_r. Son ordonnée à
+  // l'origine peut être énorme (w_r sans rapport avec w) : on la coupe au haut
+  // du cadre au lieu d'agrandir le cadre pour elle.
+  var budgetRes = bL.create('curve', [[], []], {
+    strokeColor: Econ.COUL.tiers, strokeWidth: 1.8, dash: 2,
+    highlight: false, fixed: true
+  });
+  budgetRes.updateDataArray = function () {
+    var wr = wRes();
+    if (!(wr > 0)) { this.dataX = []; this.dataY = []; return; }
+    var L0 = Math.max(0, T() - (CTOP() - m()) / wr);
+    this.dataX = [L0, T()];
+    this.dataY = [m() + wr * (T() - L0), m()];
+  };
+
+  // Plancher de consommation incompressible.
+  var plancher = bL.create('curve', [[], []], {
+    strokeColor: Econ.COUL.gris, strokeWidth: 1.4, dash: 3,
+    highlight: false, fixed: true
+  });
+  plancher.updateDataArray = function () {
+    this.dataX = [0, LMAX];
+    this.dataY = [c0(), c0()];
+  };
+
+  // Courbe d'indifférence à l'optimum, coupée à L = T.
+  var indiff = bL.create('curve', [[], []], {
+    strokeColor: Econ.COUL.indiff, strokeWidth: 2.4, highlight: false, fixed: true
+  });
+  indiff.updateDataArray = function () {
+    var xs = [], ys = [], n = 240, i, L, Cv;
+    var u = uOpt(), p = par(), Tv = T(), haut = CTOP() * 1.4;
+    for (i = 1; i <= n; i++) {
+      L = Tv * i / n;
+      Cv = SG.yIndiff(L, u, p);
+      if (Cv === null || !isFinite(Cv) || Cv > haut) {
+        if (xs.length && !isNaN(xs[xs.length - 1])) { xs.push(NaN); ys.push(NaN); }
+        continue;
+      }
+      xs.push(L); ys.push(Cv);
+    }
+    this.dataX = xs; this.dataY = ys;
+  };
+
+  // Point de dotation (T, m) : losange violet.
+  bL.create('point', [T, m], {
+    name: 'D', size: 5, face: 'diamond', strokeColor: '#fff', strokeWidth: 1.5,
+    fillColor: Econ.COUL.tiers, fixed: true, highlight: false,
+    label: { fontSize: 14, offset: [10, 12] }
+  });
+
+  Econ.pointOptimal(bL, function () { return Lopt(w()); },
+                        function () { return Copt(w()); }, { nom: 'E' });
+
+  /* ------------------------------------------------------------------ */
+  /* Panneau de droite : offre de travail                                */
+  /* ------------------------------------------------------------------ */
+
+  // Partie de l'offre où le problème a bien un maximum : w > (c0 − m)/T.
+  var offre = bO.create('curve', [[], []], {
+    strokeColor: Econ.COUL.second, strokeWidth: 2.5, highlight: false, fixed: true
+  });
+  offre.updateDataArray = function () {
+    var xs = [], ys = [], n = 300, i, ww;
+    var w0 = Math.max(0.05, wDef());
+    if (w0 >= WBAL) { this.dataX = []; this.dataY = []; return; }
+    for (i = 0; i <= n; i++) {
+      ww = w0 + (WBAL - w0) * i / n;
+      xs.push(Hopt(ww)); ys.push(ww);
+    }
+    this.dataX = xs; this.dataY = ys;
+  };
+
+  // Partie conventionnelle H* = T : segment vertical, en pointillé, là où le
+  // revenu plein ne suffit pas à atteindre c0.
+  var offreConv = bO.create('curve', [[], []], {
+    strokeColor: Econ.COUL.second, strokeWidth: 2, dash: 2,
+    highlight: false, fixed: true
+  });
+  offreConv.updateDataArray = function () {
+    var wc = Math.min(wDef(), WBAL);
+    if (!(wc > 0.05)) { this.dataX = []; this.dataY = []; return; }
+    this.dataX = [T(), T()];
+    this.dataY = [0.05, wc];
+  };
+
+  // Repère horizontal au salaire de réserve.
+  var traitRes = bO.create('curve', [[], []], {
+    strokeColor: Econ.COUL.tiers, strokeWidth: 1.4, dash: 2,
+    highlight: false, fixed: true
+  });
+  traitRes.updateDataArray = function () {
+    var wr = wRes();
+    if (!(wr > 0) || wr > WMAX) { this.dataX = []; this.dataY = []; return; }
+    this.dataX = [0, HMAX];
+    this.dataY = [wr, wr];
+  };
+
+  Econ.pointOptimal(bO, function () { return Hopt(w()); }, w, { nom: '' });
+
+  Econ.texte(bO, 0.30 * HMAX, 0.94 * WMAX, 'offre de travail',
+             { fontSize: 12, strokeColor: Econ.COUL.second });
+
+  /* ------------------------------------------------------------------ */
+  /* Mise à jour                                                         */
+  /* ------------------------------------------------------------------ */
+
+  function maj() {
+    var L = Lopt(w()), H = Hopt(w()), Cv = Copt(w());
+    var wr = wRes(), Tv = T();
+    var coin0 = H <= 1e-9, coinT = H >= Tv - 1e-9;
+
+    var haut = CTOP();
+    bL.setBoundingBox([-0.08 * LMAX, haut, LMAX, -0.11 * haut], false);
+    if (axeYL) axeYL.defaultTicks.setAttribute({ ticksDistance: pasJoli(1.11 * haut) });
+
+    res.fixer('L', Econ.nb(L, 2) + ' h');
+    res.fixer('H', Econ.nb(H, 2) + ' h');
+    res.fixer('C', Econ.nb(Cv, 2));
+
+    res.fixer('wr', wr > 0
+      ? Econ.nb(wr, 2) + (wr > 8 ? ' (au-dessus de la plage du curseur)' : '')
+      : 'aucun (<em>m</em> ≤ <em>c<sub>0</sub></em>) : l\'agent travaille à tout salaire, ' +
+        'et la case « salaire de réserve » n\'a rien à montrer');
+
+    // La pente affichée est celle du segment réellement tracé. Dans les deux
+    // coins l'offre ne bouge plus avec w : la formule non contrainte
+    // a(m − c0)/w² ne s'applique pas.
+    if (coin0) {
+      res.fixer('pe', '0 — <em>H*</em> = 0 sur toute la plage <em>w</em> ≤ ' +
+                      '<em>w<sub>r</sub></em> : l\'offre longe l\'axe vertical');
+    } else if (coinT) {
+      res.fixer('pe', '0 — <em>H*</em> = <em>T</em> : segment vertical, convention ' +
+                      'd\'affichage (voir le diagnostic)');
+    } else if (Math.abs(m() - c0()) < 1e-12) {
+      res.fixer('pe', '0 — offre <strong>verticale</strong> à <em>H* = (1−a)T</em> = ' +
+                      Econ.nb((1 - sA.valeur()) * Tv, 2) + ' h');
+    } else if (m() > c0()) {
+      res.fixer('pe', '+' + Econ.nb(sA.valeur() * (m() - c0()) / (w() * w()), 3) +
+                      ' — <em>H*</em> <strong>augmente</strong> avec <em>w</em> ' +
+                      '(substitution &gt; revenu)');
+    } else {
+      res.fixer('pe', '−' + Econ.nb(sA.valeur() * (c0() - m()) / (w() * w()), 3) +
+                      ' — <em>H*</em> <strong>diminue</strong> avec <em>w</em>, et ce ' +
+                      'partout (revenu &gt; substitution)');
+    }
+
+    if (Iplein(w()) <= c0()) {
+      res.fixer('dg', 'Revenu plein <em>wT</em> + <em>m</em> = ' +
+                      Econ.nb(Iplein(w()), 2) + ' ≤ <em>c<sub>0</sub></em> : ' +
+                      'même en travaillant tout son temps l\'agent n\'atteint pas ' +
+                      '<em>c<sub>0</sub></em>. L\'utilité n\'est pas définie et il n\'y a ' +
+                      'pas d\'optimum ; le graphe applique la convention ' +
+                      '<em>H*</em> = <em>T</em>.');
+    } else if (coin0) {
+      res.fixer('dg', '<em>w</em> ≤ <em>w<sub>r</sub></em> : l\'agent <strong>ne travaille ' +
+                      'pas</strong> et reste au point de dotation.');
+    } else if (coinT) {
+      res.fixer('dg', 'Solution en coin : tout le temps est consacré au travail.');
+    } else {
+      res.fixer('dg', 'Optimum intérieur : TMS = <em>w</em>, soit ' +
+                      Econ.nb(SG.tms(L, Cv, par()), 2) + ' = ' + Econ.nb(w(), 2) + '.');
+    }
+
+    // La case du salaire de réserve n'a de sens que si w_r existe : on la
+    // désactive au lieu de la laisser cochable sans effet.
+    var aRes = wr > 0;
+    bReserve.element.disabled = !aRes;
+    bReserve.element.parentNode.style.opacity = aRes ? '' : '.5';
+
+    offre.setAttribute({ visible: bOffre.valeur() });
+    offreConv.setAttribute({ visible: bOffre.valeur() });
+    plancher.setAttribute({ visible: c0() > 0 });
+    budgetRes.setAttribute({ visible: bReserve.valeur() && aRes });
+    traitRes.setAttribute({ visible: bReserve.valeur() && aRes });
+
+    bL.update();
+    bO.update();
+  }
+
+  function majTout() { maj(); bL.fullUpdate(); bO.fullUpdate(); }
+
+  majTout();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Courbes d'indifférence et TMS — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 2 — Le consommateur</div>
+<h1>Courbes d'indifférence et TMS</h1>
+<p class="intro">
+Une carte d'indifférence résume des préférences&nbsp;: chaque courbe relie les paniers jugés
+équivalents, et l'utilité croît vers le nord-est. Déplacez le <strong>point violet</strong>
+dans le quadrant. Sa courbe d'indifférence le suit, et la tangente en ce point donne le
+<strong>TMS</strong>&nbsp;: le nombre d'unités de <em>Y</em> que le consommateur accepte de
+céder pour une unité de <em>X</em> de plus. Les résultats vérifient à chaque instant que
+TMS = UM<sub>X</sub> / UM<sub>Y</sub>.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe"><div id="graphe" class="jxgbox"></div></div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Cobb-Douglas, <em>a</em> = 0,5. Montez le point vers le coin haut à gauche, jusqu'à ce
+      que la ligne « Panier au point mobile » montre <em>Y</em> au moins trois fois plus grand que
+      <em>X</em>&nbsp;: le TMS affiché dépasse 3. Redescendez-le vers le coin bas à droite,
+      <em>X</em> au moins trois fois plus grand que <em>Y</em>&nbsp;: le TMS tombe sous 0,4. Le
+      TMS <em>décroît</em> quand on avance vers la droite&nbsp;: c'est ce que veut dire
+      « courbe convexe ».</li>
+    <li>Toujours Cobb-Douglas, faites glisser le point le long de la diagonale, en gardant
+      <em>X</em> et <em>Y</em> à peu près égaux. L'utilité affichée augmente à mesure qu'on
+      s'éloigne de l'origine, mais le TMS reste collé à 1. Le long d'un rayon issu de l'origine
+      le TMS ne dépend pas du niveau d'utilité.</li>
+    <li>Choisissez <em>substituts parfaits</em>&nbsp;: les courbes sont des droites parallèles.
+      UM<sub>X</sub> = <em>a</em> et UM<sub>Y</sub> = 1 − <em>a</em> ne dépendent pas du panier,
+      donc le TMS = <em>a</em>/(1 − <em>a</em>) est le même partout. Déplacez le point&nbsp;: le
+      nombre affiché ne bouge plus.</li>
+    <li>Choisissez <em>compléments parfaits</em> avec <em>a</em> = 0,5&nbsp;: la courbe est un L
+      dont le coude est sur la diagonale. Placez le point à droite de la diagonale
+      (<em>X</em> &gt; <em>Y</em>)&nbsp;: UM<sub>X</sub> = 0,000 et le TMS vaut 0,000, une unité
+      de <em>X</em> de plus n'apporte rien. Placez-le à gauche (<em>X</em> &lt; <em>Y</em>)&nbsp;:
+      UM<sub>Y</sub> = 0,000 et le TMS affiche ∞. Au coude lui-même il n'y a pas de tangente. La
+      condition de tangence ne s'appliquera pas à ce cas.</li>
+    <li>Choisissez <em>CES</em> et faites varier <em>r</em>&nbsp;: avec <em>r</em> = 0,9 les
+      courbes s'aplatissent vers des droites (biens très substituables)&nbsp;; avec
+      <em>r</em> = −3 elles se rapprochent d'un coude (biens très complémentaires). Faites
+      glisser <em>r</em> jusqu'à 0&nbsp;: les courbes ne disparaissent pas, elles deviennent
+      celles de Cobb-Douglas. À chaque réglage, comparez la ligne « TMS » et la ligne
+      « UM<sub>X</sub>/UM<sub>Y</sub> »&nbsp;: c'est le même nombre.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>Le long d'une courbe d'indifférence <em>u</em>(X, Y) = constante, on a
+  <span class="formule">UM<sub>X</sub> dX + UM<sub>Y</sub> dY = 0</span>, donc la pente vaut
+  <span class="formule">dY/dX = − UM<sub>X</sub>/UM<sub>Y</sub></span> et
+  <span class="formule">TMS = |dY/dX| = UM<sub>X</sub>/UM<sub>Y</sub></span>.</p>
+  <p>Utilités marginales utilisées ici&nbsp;:
+  Cobb-Douglas <span class="formule">u = X<sup>a</sup>Y<sup>1−a</sup></span> →
+  <span class="formule">UM<sub>X</sub> = a X<sup>a−1</sup>Y<sup>1−a</sup></span>,
+  <span class="formule">UM<sub>Y</sub> = (1−a) X<sup>a</sup>Y<sup>−a</sup></span>, donc
+  <span class="formule">TMS = [a/(1−a)]·(Y/X)</span>.
+  CES <span class="formule">u = (aX<sup>r</sup> + (1−a)Y<sup>r</sup>)<sup>1/r</sup></span> →
+  <span class="formule">UM<sub>X</sub> = a X<sup>r−1</sup>u<sup>1−r</sup></span>,
+  <span class="formule">UM<sub>Y</sub> = (1−a) Y<sup>r−1</sup>u<sup>1−r</sup></span>. En
+  <em>r</em> = 0 cette formule n'est pas définie, mais sa limite est Cobb-Douglas&nbsp;: c'est ce
+  que l'outil trace.
+  Quasi linéaire <span class="formule">u = a·ln X + Y</span> →
+  <span class="formule">UM<sub>X</sub> = a/X, UM<sub>Y</sub> = 1</span>.
+  Substituts <span class="formule">u = aX + (1−a)Y</span> →
+  <span class="formule">UM<sub>X</sub> = a, UM<sub>Y</sub> = 1−a</span>.</p>
+  <p>Compléments parfaits <span class="formule">u = min(X/a, Y/(1−a))</span>. Hors du coude, un
+  des deux biens est en excès&nbsp;: une unité de plus n'apporte rien. Sur la branche horizontale
+  (X/a &gt; Y/(1−a))&nbsp;: <span class="formule">UM<sub>X</sub> = 0</span>,
+  <span class="formule">UM<sub>Y</sub> = 1/(1−a)</span>, donc
+  <span class="formule">TMS = 0</span>. Sur la branche verticale (X/a &lt; Y/(1−a))&nbsp;:
+  <span class="formule">UM<sub>X</sub> = 1/a</span>,
+  <span class="formule">UM<sub>Y</sub> = 0</span>, donc
+  <span class="formule">TMS = ∞</span>. Au coude, X/a = Y/(1−a)&nbsp;: les utilités marginales
+  sautent, il n'y a pas de tangente et le TMS n'est pas défini.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var MAX = 20;                       // domaine utile
+  var b = Econ.board('graphe', [-1.8, MAX + 2, MAX + 2, -1.8], {
+    nomX: 'X', nomY: 'Y', pasGrad: 5
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* Utilités marginales ANALYTIQUES, famille par famille                */
+  /* ------------------------------------------------------------------ */
+
+  var UM = {
+    // u = X^a Y^(1-a)
+    cobb: function (X, Y, p) {
+      return { x: p.a * Math.pow(X, p.a - 1) * Math.pow(Y, 1 - p.a),
+               y: (1 - p.a) * Math.pow(X, p.a) * Math.pow(Y, -p.a) };
+    },
+    // u = (a X^r + (1-a) Y^r)^(1/r)   ⇒  UMx = a X^(r-1) u^(1-r)
+    // En r = 0 : UMx = a·u/X, exactement la valeur Cobb-Douglas, puisque
+    // Econ.pref.ces.u bascule alors sur Cobb-Douglas.
+    ces: function (X, Y, p) {
+      var u = Econ.pref.ces.u(X, Y, p);
+      return { x: p.a * Math.pow(X, p.r - 1) * Math.pow(u, 1 - p.r),
+               y: (1 - p.a) * Math.pow(Y, p.r - 1) * Math.pow(u, 1 - p.r) };
+    },
+    // u = a X + (1-a) Y
+    subs: function (X, Y, p) { return { x: p.a, y: 1 - p.a }; },
+    // u = min(X/a, Y/(1-a)) : le bien en excès n'apporte rien, son utilité
+    // marginale est nulle. Seul le coude n'a pas d'utilité marginale définie.
+    compl: function (X, Y, p) {
+      var cX = X / p.a, cY = Y / (1 - p.a);
+      if (Math.abs(cX - cY) < 1e-9) return { x: NaN, y: NaN };
+      return cX > cY ? { x: 0, y: 1 / (1 - p.a) }    // branche horizontale
+                     : { x: 1 / p.a, y: 0 };         // branche verticale
+    },
+    // u = a ln X + Y
+    quasi: function (X, Y, p) { return { x: p.a / X, y: 1 }; }
+  };
+
+  /* ------------------------------------------------------------------ */
+  /* Commandes                                                           */
+  /* ------------------------------------------------------------------ */
+
+  var cmd = document.getElementById('cmd');
+
+  var famille = Econ.choix(cmd, {
+    etiquette: 'Famille de préférences',
+    valeur: 'cobb',
+    options: [
+      ['cobb',  'Cobb-Douglas : X^a · Y^(1−a)'],
+      ['ces',   'CES (substitution imparfaite)'],
+      ['subs',  'Substituts parfaits'],
+      ['compl', 'Compléments parfaits'],
+      ['quasi', 'Quasi linéaire : a·ln X + Y']
+    ],
+    surChangement: changerFamille
+  });
+
+  var sA = Econ.curseur(cmd, {
+    etiquette: 'Goût pour <em>X</em>&nbsp;: <em>a</em>',
+    min: 0.1, max: 0.9, pas: 0.05, valeur: 0.5, surChangement: majTout
+  });
+  var sR = Econ.curseur(cmd, {
+    etiquette: 'Substituabilité&nbsp;: <em>r</em> (CES)',
+    min: -3, max: 0.9, pas: 0.1, valeur: -1, surChangement: majTout
+  });
+
+  var bCarte = Econ.bascule(cmd, {
+    etiquette: 'Montrer la carte d\'indifférence (5 niveaux)',
+    coche: true, surChangement: majTout
+  });
+  var bTang = Econ.bascule(cmd, {
+    etiquette: 'Montrer la tangente au point mobile',
+    coche: true, surChangement: majTout
+  });
+
+  Econ.boutonReinit(cmd, function () {
+    famille.fixer('cobb'); sR.fixer(-1);
+    bCarte.fixer(true); bTang.fixer(true);
+    changerFamille();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['pt',  'Panier au point mobile'],
+    ['u',   'Niveau d\'utilité <em>u</em>'],
+    ['tms', '<strong>TMS</strong> = |pente de la tangente|'],
+    ['umx', 'Utilité marginale UM<sub>X</sub>'],
+    ['umy', 'Utilité marginale UM<sub>Y</sub>'],
+    ['rap', 'Rapport UM<sub>X</sub>/UM<sub>Y</sub>']
+  ]);
+
+  /* ------------------------------------------------------------------ */
+  /* Paramètres courants                                                 */
+  /* ------------------------------------------------------------------ */
+
+  function fam() { return Econ.pref[famille.valeur()]; }
+  function par() { return { a: sA.valeur(), r: sR.valeur() }; }
+
+  /* ------------------------------------------------------------------ */
+  /* Le point mobile, contraint au quadrant positif                      */
+  /* ------------------------------------------------------------------ */
+
+  var M = b.create('point', [8, 8], {
+    name: 'M', size: 6, strokeColor: '#fff', strokeWidth: 2,
+    fillColor: Econ.COUL.tiers, highlight: true,
+    label: { fontSize: 15, offset: [10, 12] }
+  });
+
+  M.on('drag', function () {
+    var x = Math.min(Math.max(M.X(), 0.4), MAX);
+    var y = Math.min(Math.max(M.Y(), 0.4), MAX);
+    if (x !== M.X() || y !== M.Y()) {
+      M.setPosition(JXG.COORDS_BY_USER, [x, y]);
+      b.update();
+    }
+    maj();
+  });
+
+  var stPoint = { strokeColor: '#999', strokeWidth: 1, dash: 2,
+                  highlight: false, fixed: true,
+                  straightFirst: false, straightLast: false };
+  b.create('segment', [[0, function () { return M.Y(); }], M], stPoint);
+  b.create('segment', [[function () { return M.X(); }, 0], M], stPoint);
+
+  /* ------------------------------------------------------------------ */
+  /* Carte d'indifférence : niveaux u(k, k), k = 4, 7, 10, 13, 16        */
+  /* ------------------------------------------------------------------ */
+
+  // Econ.courbeIndiff trace le L complet pour les compléments parfaits, coude
+  // compris : il n'y a plus de branche verticale à ajouter ici.
+  var NIVEAUX = [4, 7, 10, 13, 16];
+  var cartes = [];
+
+  NIVEAUX.forEach(function (k) {
+    cartes.push(Econ.courbeIndiff(b, fam, par,
+      function () { return fam().u(k, k, par()); }, {
+      xmin: 0.02, xmax: MAX + 2, ymax: MAX + 2,
+      style: { strokeColor: '#b9c6d4', strokeWidth: 1.4 }
+    }));
+  });
+
+  // Courbe passant par le point mobile.
+  function nivM() { return fam().u(M.X(), M.Y(), par()); }
+  var indiffM = Econ.courbeIndiff(b, fam, par, nivM, {
+    xmin: 0.02, xmax: MAX + 2, ymax: MAX + 2,
+    style: { strokeColor: Econ.COUL.indiff, strokeWidth: 2.6 }
+  });
+
+  /* ------------------------------------------------------------------ */
+  /* Tangente au point mobile : y = Y_M − TMS·(x − X_M), coupée au cadre */
+  /* ------------------------------------------------------------------ */
+
+  var tang = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 2, highlight: false, fixed: true
+  });
+  tang.updateDataArray = function () {
+    var t = fam().tms(M.X(), M.Y(), par());
+    if (!bTang.valeur() || !isFinite(t) || isNaN(t) || t <= 0) {
+      this.dataX = []; this.dataY = []; return;
+    }
+    var s = coupe(M.X(), M.Y(), -t, 0, MAX + 1.6, 0, MAX + 1.6);
+    if (!s) { this.dataX = []; this.dataY = []; return; }
+    this.dataX = [s[0][0], s[1][0]];
+    this.dataY = [s[0][1], s[1][1]];
+  };
+
+  // Intersection de la droite (x0,y0) de pente m avec le rectangle du cadre.
+  function coupe(x0, y0, m, xa, xb, ya, yb) {
+    var pts = [], e = 1e-7;
+    function ajouter(x, y) {
+      if (x >= xa - e && x <= xb + e && y >= ya - e && y <= yb + e) pts.push([x, y]);
+    }
+    ajouter(xa, y0 + m * (xa - x0));
+    ajouter(xb, y0 + m * (xb - x0));
+    if (Math.abs(m) > 1e-9) {
+      ajouter(x0 + (ya - y0) / m, ya);
+      ajouter(x0 + (yb - y0) / m, yb);
+    }
+    if (pts.length < 2) return null;
+    var A = pts[0], B = pts[0], d = 0, i, dd;
+    for (i = 1; i < pts.length; i++) {
+      dd = (pts[i][0] - A[0]) * (pts[i][0] - A[0]) + (pts[i][1] - A[1]) * (pts[i][1] - A[1]);
+      if (dd > d) { d = dd; B = pts[i]; }
+    }
+    return d > 1e-9 ? [A, B] : null;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Mise à jour                                                         */
+  /* ------------------------------------------------------------------ */
+
+  function maj() {
+    var f = fam(), p = par(), X = M.X(), Y = M.Y();
+    var t = f.tms(X, Y, p);
+    var m = UM[famille.valeur()](X, Y, p);
+
+    // Trois cas distincts, et non un seul « non défini » : le TMS vaut 0 sur la
+    // branche horizontale du L, il est infini sur la verticale, et il n'existe
+    // qu'au coude lui-même.
+    res.fixer('pt', '(' + Econ.nb(X, 2) + ' ; ' + Econ.nb(Y, 2) + ')');
+    res.fixer('u',  Econ.nb(f.u(X, Y, p), 3));
+    // Le TMS vient d'une formule fermée, le rapport de deux utilités
+    // marginales calculées à part : algébriquement identiques, mais les deux
+    // chemins n'arrondissent pas pareil. À 3 décimales cela se voyait
+    // (1,563 contre 1,562) et faisait douter d'une égalité qui est exacte.
+    res.fixer('tms', isNaN(t) ? 'non défini au coude' : (isFinite(t) ? Econ.nb(t, 2) : '∞'));
+    res.fixer('umx', isNaN(m.x) ? 'non définie au coude' : Econ.nb(m.x, 3));
+    res.fixer('umy', isNaN(m.y) ? 'non définie au coude' : Econ.nb(m.y, 3));
+    res.fixer('rap', (isNaN(m.x) || isNaN(m.y)) ? 'non défini au coude'
+                     : (m.y === 0 ? '∞' : Econ.nb(m.x / m.y, 2)));
+
+    cartes.forEach(function (c) { c.setAttribute({ visible: bCarte.valeur() }); });
+    sR.element.parentNode.style.display = (famille.valeur() === 'ces') ? '' : 'none';
+  }
+
+  function majTout() { maj(); b.update(); }
+
+  // Le paramètre a ne veut pas dire la même chose d'une famille à l'autre : ni
+  // la même échelle, ni la même lecture. L'étiquette du curseur suit.
+  var libelleA = sA.element.parentNode.querySelector('label span');
+
+  function changerFamille() {
+    var q = famille.valeur();
+    if (q === 'quasi') {
+      // u = a·ln X + Y : a est le poids du terme logarithmique, pas une part.
+      sA.element.min = 1; sA.element.max = 12; sA.element.step = 0.5; sA.fixer(6);
+      libelleA.innerHTML = 'Poids du terme ln <em>X</em>&nbsp;: <em>a</em>';
+    } else {
+      sA.element.min = 0.1; sA.element.max = 0.9; sA.element.step = 0.05; sA.fixer(0.5);
+      libelleA.innerHTML = (q === 'compl')
+        ? 'Proportion de <em>X</em> dans le panier&nbsp;: <em>a</em>'
+        : 'Goût pour <em>X</em>&nbsp;: <em>a</em>';
+    }
+    // Pour les compléments parfaits, (8 ; 8) tombe pile sur le coude et tout
+    // s'affiche « non défini » dès l'ouverture : on part d'une branche.
+    M.setPosition(JXG.COORDS_BY_USER, q === 'compl' ? [10, 7] : [8, 8]);
+    majTout();
+  }
+
+  b.on('update', maj);
+  changerFamille();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

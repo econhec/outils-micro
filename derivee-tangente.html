@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dérivée, sécante et tangente — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 1 — Introduction</div>
+<h1>Dérivée, sécante et tangente</h1>
+<p class="intro">
+La dérivée est la <strong>limite</strong> d'un taux d'accroissement. Fixez le point d'ancrage
+<em>X</em><sub>0</sub>, puis réduisez l'écart <em>h</em>&nbsp;: la droite verte qui passe par les
+deux points de la courbe (la <strong>sécante</strong>) bascule peu à peu vers la droite rouge
+(la <strong>tangente</strong>). La pente moyenne mesurée sur l'intervalle tend vers la pente
+ponctuelle <em>f&nbsp;′</em>(<em>X</em><sub>0</sub>).
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe"><div id="graphe" class="jxgbox"></div></div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Prenez la <em>racine</em>, <em>X</em><sub>0</sub> = 4 et <em>h</em> = 6&nbsp;: la pente
+      de la sécante affiche 1,162 alors que <em>f&nbsp;′</em>(4) = 1,500. Ramenez <em>h</em> à
+      0,05&nbsp;: la sécante affiche 1,495 et l'écart tombe à −0,0047. Les deux droites se
+      confondent à l'écran.</li>
+    <li>Choisissez la <em>quadratique</em> 10<em>X</em> − 0,25<em>X</em>². L'écart affiché
+      vaut <strong>−0,25·<em>h</em></strong>, quel que soit <em>X</em><sub>0</sub>&nbsp;: à
+      <em>h</em> = 4 il vaut −1,0000, à <em>h</em> = 2 il vaut −0,5000, à <em>h</em> = 1 il
+      vaut −0,2500. Divisez <em>h</em> par deux, l'écart est divisé par deux.</li>
+    <li>Choisissez le <em>logarithme</em> et placez <em>X</em><sub>0</sub> = 1 avec
+      <em>h</em> = 6&nbsp;: la sécante affiche 1,622 contre <em>f&nbsp;′</em>(1) = 5,000. Sur un
+      intervalle où la courbe se plie beaucoup, la pente <em>moyenne</em> n'a plus rien à voir
+      avec la pente <em>au point</em>. Le triangle en pointillé montre pourquoi&nbsp;:
+      Δ<em>f</em>/Δ<em>X</em> est une moyenne.</li>
+    <li>Sur la <em>cubique</em>, placez <em>X</em><sub>0</sub> = 3,90 avec <em>h</em> = 6&nbsp;:
+      la dérivée affiche 0,038, la tangente est horizontale, mais la sécante affiche −2,590 et
+      descend. Réduisez <em>h</em>&nbsp;: la sécante se redresse jusqu'à l'horizontale.</li>
+    <li>Gardez <em>h</em> = 0,05 et balayez <em>X</em><sub>0</sub>. Pour la racine et le
+      logarithme la tangente s'aplatit quand <em>X</em><sub>0</sub> augmente&nbsp;: la dérivée
+      décroît, la fonction est concave. Pour la cubique la dérivée affiche 0,038 en
+      <em>X</em><sub>0</sub> = 3,90, puis −3,500 en <em>X</em><sub>0</sub> = 8,35, puis 0,011 en
+      <em>X</em><sub>0</sub> = 12,75 et 2,280 en <em>X</em><sub>0</sub> = 14. La tangente change
+      de signe deux fois.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>Le taux d'accroissement entre <em>X</em><sub>0</sub> et <em>X</em><sub>0</sub> + <em>h</em>
+  est la pente de la sécante&nbsp;:
+  <span class="formule">Δf/ΔX = [ f(X<sub>0</sub>+h) − f(X<sub>0</sub>) ] / h</span>.</p>
+  <p>La dérivée est sa limite quand l'écart s'annule&nbsp;:
+  <span class="formule">f&nbsp;′(X<sub>0</sub>) = lim<sub>h→0</sub> [ f(X<sub>0</sub>+h) − f(X<sub>0</sub>) ] / h</span>.
+  Géométriquement, c'est la pente de la tangente au point (X<sub>0</sub>, f(X<sub>0</sub>)).</p>
+  <p>Ici&nbsp;: <span class="formule">f = 6√X → f&nbsp;′ = 3/√X</span>&nbsp;;
+  <span class="formule">f = 5·ln X → f&nbsp;′ = 5/X</span>&nbsp;;
+  <span class="formule">f = 10X − 0,25X² → f&nbsp;′ = 10 − 0,5X</span>&nbsp;;
+  <span class="formule">f = 0,06X³ − 1,5X² + 9X + 20 → f&nbsp;′ = 0,18X² − 3X + 9</span>.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ------------------------------------------------------------------ */
+  /* Les quatre fonctions, avec leur dérivée ANALYTIQUE                   */
+  /* ------------------------------------------------------------------ */
+
+  var FN = {
+    racine: {
+      f: function (X) { return 6 * Math.sqrt(X); },
+      d: function (X) { return 3 / Math.sqrt(X); },
+      etiq: 'f(X) = 6·√X',
+      etiqD: 'f&nbsp;′(X) = 3/√X',
+      xmin: 0, xmax: 20, ymin: -6, ymax: 32
+    },
+    log: {
+      f: function (X) { return 5 * Math.log(X); },
+      d: function (X) { return 5 / X; },
+      etiq: 'f(X) = 5·ln X',
+      etiqD: 'f&nbsp;′(X) = 5/X',
+      xmin: 0.02, xmax: 20, ymin: -13, ymax: 21
+    },
+    quad: {
+      f: function (X) { return 10 * X - 0.25 * X * X; },
+      d: function (X) { return 10 - 0.5 * X; },
+      etiq: 'f(X) = 10X − 0,25X²',
+      etiqD: 'f&nbsp;′(X) = 10 − 0,5X',
+      // f va de 0 à 100 sur [0, 20] : le cadre laisse juste la place des
+      // graduations sous l'axe et de l'étiquette de B au-dessus du sommet.
+      xmin: 0, xmax: 20, ymin: -9, ymax: 107
+    },
+    cube: {
+      f: function (X) { return 0.06 * X * X * X - 1.5 * X * X + 9 * X + 20; },
+      d: function (X) { return 0.18 * X * X - 3 * X + 9; },
+      etiq: 'f(X) = 0,06X³ − 1,5X² + 9X + 20',
+      etiqD: 'f&nbsp;′(X) = 0,18X² − 3X + 9',
+      // f va de 15,27 à 80 sur [0, 20].
+      xmin: 0, xmax: 20, ymin: -7, ymax: 86
+    }
+  };
+
+  var BX1 = -1.8, BX2 = 21.8;   // bornes horizontales du cadre (communes)
+
+  /* ------------------------------------------------------------------ */
+  /* Tableau                                                             */
+  /* ------------------------------------------------------------------ */
+
+  var b = Econ.board('graphe', [BX1, FN.racine.ymax, BX2, FN.racine.ymin],
+                     { axes: false });
+  axesAuto(b, 'X', 'f(X)');
+
+  // Axes à graduations automatiques : le cadre change avec la fonction choisie.
+  function axesAuto(bd, nomX, nomY) {
+    bd.create('axis', [[0, 0], [1, 0]], {
+      strokeColor: '#444', strokeWidth: 1, highlight: false, fixed: true,
+      name: nomX, withLabel: true,
+      label: { position: 'rt', offset: [-8, 16], fontSize: 14, anchorX: 'right' },
+      ticks: { insertTicks: true, minorTicks: 0, drawLabels: true,
+               strokeColor: '#bbb', majorHeight: 6,
+               label: { fontSize: 11, offset: [0, -12] } }
+    });
+    bd.create('axis', [[0, 0], [0, 1]], {
+      strokeColor: '#444', strokeWidth: 1, highlight: false, fixed: true,
+      name: nomY, withLabel: true,
+      label: { position: 'rt', offset: [12, -6], fontSize: 14 },
+      ticks: { insertTicks: true, minorTicks: 0, drawLabels: true,
+               strokeColor: '#bbb', majorHeight: 6,
+               label: { fontSize: 11, offset: [-18, 0] } }
+    });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Commandes                                                           */
+  /* ------------------------------------------------------------------ */
+
+  var cmd = document.getElementById('cmd');
+
+  var choixF = Econ.choix(cmd, {
+    etiquette: 'Fonction',
+    valeur: 'racine',
+    options: [
+      ['racine', 'Racine :  6·√X'],
+      ['log',    'Logarithme :  5·ln X'],
+      ['quad',   'Quadratique concave :  10X − 0,25X²'],
+      ['cube',   'Cubique :  0,06X³ − 1,5X² + 9X + 20']
+    ],
+    surChangement: changerFonction
+  });
+
+  // X0 monte à 14 pour que la seconde racine de f ′ de la cubique (12,74) soit
+  // atteignable ; h s'arrête à 6 pour que X0 + h ne dépasse jamais 20, borne du
+  // domaine tracé. Les deux points restent donc toujours dans le cadre.
+  var sX0 = Econ.curseur(cmd, {
+    etiquette: 'Point d\'ancrage <em>X</em><sub>0</sub>',
+    min: 0.5, max: 14, pas: 0.05, valeur: 4, surChangement: majTout
+  });
+
+  var sH = Econ.curseur(cmd, {
+    etiquette: 'Écart <em>h</em>',
+    min: 0.05, max: 6, pas: 0.05, valeur: 6, surChangement: majTout
+  });
+
+  var bTangente = Econ.bascule(cmd, {
+    etiquette: 'Montrer la tangente en <em>X</em><sub>0</sub>',
+    coche: true, surChangement: majTout
+  });
+  var bTriangle = Econ.bascule(cmd, {
+    etiquette: 'Montrer le triangle Δ<em>f</em> / Δ<em>X</em>',
+    coche: true, surChangement: majTout
+  });
+
+  Econ.boutonReinit(cmd, function () {
+    choixF.fixer('racine'); sX0.fixer(4); sH.fixer(6);
+    bTangente.fixer(true); bTriangle.fixer(true);
+    changerFonction();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['dx',   'Δ<em>X</em> = <em>h</em>'],
+    ['df',   'Δ<em>f</em> = f(X<sub>0</sub>+h) − f(X<sub>0</sub>)'],
+    ['sec',  'Pente de la sécante Δ<em>f</em>/Δ<em>X</em>'],
+    ['der',  'Dérivée <em>f&nbsp;′</em>(X<sub>0</sub>)'],
+    ['ec',   'Écart (sécante − dérivée)'],
+    ['exp',  'Expression de la dérivée']
+  ]);
+
+  /* ------------------------------------------------------------------ */
+  /* Accès aux valeurs courantes                                         */
+  /* ------------------------------------------------------------------ */
+
+  function cfg() { return FN[choixF.valeur()]; }
+  function X0()  { return sX0.valeur(); }
+  function H()   { return sH.valeur(); }
+  function fA()  { return cfg().f(X0()); }
+  function fB()  { return cfg().f(X0() + H()); }
+
+  /* ------------------------------------------------------------------ */
+  /* Objets graphiques                                                   */
+  /* ------------------------------------------------------------------ */
+
+  var courbe = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.indiff, strokeWidth: 2.5, highlight: false, fixed: true
+  });
+  courbe.updateDataArray = function () {
+    var c = cfg(), xs = [], ys = [], n = 500, i, X, Y;
+    for (i = 0; i <= n; i++) {
+      X = c.xmin + (c.xmax - c.xmin) * i / n;
+      Y = c.f(X);
+      if (!isFinite(Y) || Y < c.ymin || Y > c.ymax) {
+        if (xs.length && !isNaN(xs[xs.length - 1])) { xs.push(NaN); ys.push(NaN); }
+        continue;
+      }
+      xs.push(X); ys.push(Y);
+    }
+    this.dataX = xs; this.dataY = ys;
+  };
+
+  // Points A = (X0, f(X0)) et B = (X0+h, f(X0+h))
+  var A = b.create('point', [X0, fA], {
+    name: 'A', size: 4, strokeColor: '#fff', strokeWidth: 1.5,
+    fillColor: Econ.COUL.titre, fixed: true, highlight: false,
+    label: { fontSize: 14, offset: [-16, 10] }
+  });
+  var B = b.create('point',
+    [function () { return X0() + H(); }, fB], {
+    name: 'B', size: 4, strokeColor: '#fff', strokeWidth: 1.5,
+    fillColor: Econ.COUL.second, fixed: true, highlight: false,
+    label: { fontSize: 14, offset: [10, 10] }
+  });
+
+  // Coin du triangle : (X0+h, f(X0))
+  var C = b.create('point', [function () { return X0() + H(); }, fA],
+                   { visible: false, fixed: true });
+
+  // Sécante (droite complète, pour bien voir l'inclinaison)
+  var secante = b.create('line', [A, B], {
+    strokeColor: Econ.COUL.second, strokeWidth: 2, highlight: false, fixed: true
+  });
+
+  // Tangente : point auxiliaire à une unité à droite, à hauteur f(X0) + f ′(X0)
+  var T = b.create('point', [
+    function () { return X0() + 1; },
+    function () { return fA() + cfg().d(X0()); }
+  ], { visible: false, fixed: true });
+  var tangente = b.create('line', [A, T], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 2.5, highlight: false, fixed: true
+  });
+
+  // Triangle Δf / ΔX
+  var stPoint = { strokeColor: '#777', strokeWidth: 1.4, dash: 2,
+                  highlight: false, fixed: true,
+                  straightFirst: false, straightLast: false };
+  var segH = b.create('segment', [A, C], stPoint);
+  var segV = b.create('segment', [C, B], stPoint);
+
+  var txtDX = Econ.texte(b,
+    function () { return X0() + H() / 2; },
+    function () { return fA() - 0.045 * (cfg().ymax - cfg().ymin); },
+    function () { return 'ΔX = ' + Econ.nb(H(), 2); },
+    { anchorX: 'middle', strokeColor: '#666', fontSize: 12 });
+  // L'étiquette « Δf » passe à GAUCHE du trait vertical dès qu'il ne reste plus
+  // la place de l'écrire à sa droite. On mesure sa largeur au rendu précédent
+  // (txtDF.size, en pixels) plutôt que de la deviner : le cadre change de taille
+  // avec la fenêtre, un seuil écrit en dur serait faux sur écran étroit.
+  var txtDF;
+  function dfAGauche() {
+    var larg = ((txtDF && txtDF.size ? txtDF.size[0] : 80) + 8) / b.unitX;
+    return X0() + H() + 0.5 + larg > BX2;
+  }
+  txtDF = Econ.texte(b,
+    function () { var xb = X0() + H(); return dfAGauche() ? xb - 0.45 : xb + 0.5; },
+    function () { return (fA() + fB()) / 2; },
+    function () { return 'Δf = ' + Econ.nb(fB() - fA(), 2); },
+    { strokeColor: '#666', fontSize: 12,
+      anchorX: function () { return dfAGauche() ? 'right' : 'left'; } });
+
+  var legende = Econ.texte(b,
+    function () { return BX1 + 0.9; },
+    function () { return cfg().ymax - 0.07 * (cfg().ymax - cfg().ymin); },
+    function () { return cfg().etiq; },
+    { strokeColor: Econ.COUL.titre, fontSize: 13 });
+
+  /* ------------------------------------------------------------------ */
+  /* Mise à jour                                                         */
+  /* ------------------------------------------------------------------ */
+
+  function maj() {
+    var c = cfg(), h = H(), x0 = X0();
+    var df = c.f(x0 + h) - c.f(x0);
+    var sec = df / h;
+    var der = c.d(x0);
+
+    res.fixer('dx',  Econ.nb(h, 2));
+    res.fixer('df',  Econ.nb(df, 3));
+    res.fixer('sec', Econ.nb(sec, 3));
+    res.fixer('der', Econ.nb(der, 3));
+    res.fixer('ec',  Econ.nb(sec - der, 4));
+    res.fixer('exp', c.etiqD);
+
+    tangente.setAttribute({ visible: bTangente.valeur() });
+    T.setAttribute({ visible: false });
+    segH.setAttribute({ visible: bTriangle.valeur() });
+    segV.setAttribute({ visible: bTriangle.valeur() });
+    txtDX.setAttribute({ visible: bTriangle.valeur() });
+    txtDF.setAttribute({ visible: bTriangle.valeur() });
+  }
+
+  function majTout() { maj(); b.update(); }
+
+  function changerFonction() {
+    var c = cfg();
+    b.setBoundingBox([BX1, c.ymax, BX2, c.ymin], false);
+    majTout();
+  }
+
+  changerFonction();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Variation compensatoire et variation équivalente — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitres 3 et 4 — Bien-être</div>
+<h1>Variation compensatoire et variation équivalente</h1>
+<p class="intro">
+Quand un prix change, de combien le bien-être du consommateur varie-t-il, <em>en
+dollars</em>&nbsp;? Hicks propose deux réponses. La <strong>VC</strong> mesure aux
+<em>nouveaux</em> prix, la <strong>VE</strong> aux <em>anciens</em>. Elles ne donnent
+pas le même chiffre, et la différence n'est pas une erreur.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe"><div id="graphe" class="jxgbox"></div></div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Aux réglages de départ le prix double, de 1 à 2. Les deux mesures sont
+      <strong>négatives</strong>&nbsp;: −41,42&nbsp;$ et −29,29&nbsp;$. La hausse de prix
+      nuit au consommateur. Convention du cours&nbsp;: positif = bénéfique.</li>
+    <li>Comparez les deux chiffres&nbsp;: 41,42 contre 29,29. Compenser <em>après</em>
+      coûte plus cher que dédommager <em>avant</em>, parce que la compensation se paie aux
+      prix devenus élevés. Ce classement tient parce que <em>X</em> est un bien normal&nbsp;;
+      pour un bien inférieur il s'inverse.</li>
+    <li>Ramenez <em>p<sub>X</sub></em><sup>1</sup> à 1,25&nbsp;: les deux mesures se
+      rapprochent, −11,80&nbsp;$ et −10,56&nbsp;$. Plus la variation de prix est petite,
+      plus l'écart entre les deux est petit.</li>
+    <li>La droite violette est <strong>parallèle</strong> à la droite finale verte (mêmes
+      prix, revenu différent) et <strong>tangente</strong> à la courbe d'indifférence de
+      départ <em>u</em><sub>0</sub>. Le trait violet épais mesure l'écart entre les deux
+      droites&nbsp;: c'est la VC, en dollars.</li>
+    <li>Cochez «&nbsp;Montrer la variation équivalente&nbsp;»&nbsp;: la droite turquoise est parallèle
+      à la droite <em>initiale</em> rouge et tangente à la courbe d'arrivée
+      <em>u</em><sub>1</sub>. Le trait turquoise mesure la VE. Les deux mesures font le même
+      travail, dans l'ordre inverse.</li>
+    <li>Baissez <em>p<sub>X</sub></em><sup>1</sup> à 0,5&nbsp;: tout change de signe, la
+      politique devient bénéfique. On lit 29,29&nbsp;$ (VC) et 41,42&nbsp;$ (VE)&nbsp;: pour
+      une baisse de prix, c'est la VE qui est la plus grande.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>La <strong>variation compensatoire</strong> est le montant
+  <span class="formule">ΔI<sub>VC</sub></span> qu'on retire au consommateur, après le
+  changement, pour le ramener à son bien-être initial&nbsp;:
+  <span class="formule">v(𝒫<sub>0</sub>, I) = v(𝒫, I − ΔI<sub>VC</sub>)</span>, soit
+  <span class="formule">ΔI<sub>VC</sub> = I − e(p<sup>1</sup>, u<sub>0</sub>)</span>.</p>
+  <p>La <strong>variation équivalente</strong> est le montant qu'on lui verse, sans rien
+  changer, pour lui procurer le bien-être d'arrivée&nbsp;:
+  <span class="formule">v(𝒫, I) = v(𝒫<sub>0</sub>, I + ΔI<sub>VE</sub>)</span>, soit
+  <span class="formule">ΔI<sub>VE</sub> = e(p<sup>0</sup>, u<sub>1</sub>) − I</span>.</p>
+  <p>Convention de signe du cours&nbsp;: <span class="formule">ΔI &gt; 0</span> quand le
+  changement est <em>bénéfique</em>. Sous préférences <strong>quasi linéaires</strong>,
+  les deux coïncident et valent la variation de surplus du consommateur. C'est le seul
+  cas où le surplus est exact. Les préférences utilisées ici sont Cobb-Douglas, pas quasi
+  linéaires&nbsp;: le surplus n'y serait qu'une approximation, et il n'est pas tracé.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var I = 100, pY = 1;
+
+  var POLICE = 'font-family: Georgia, serif;';
+  var ombre = ' text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 2px #fff;';
+
+  var b = Econ.board('graphe', [-8, 110, 110, -10], {
+    nomX: 'X', nomY: 'Y', pasGrad: 20
+  });
+
+  // Le cadre change avec les réglages : on laisse JSXGraph choisir le pas des
+  // graduations, sinon un cadre de 550 se couvrirait de 27 nombres.
+  for (var cle in b.objects) {
+    var ob = b.objects[cle];
+    if (ob.elType === 'axis' && ob.defaultTicks) {
+      ob.defaultTicks.setAttribute({ insertTicks: true, minTicksDistance: 50 });
+    }
+  }
+
+  var cmd = document.getElementById('cmd');
+
+  var sA   = Econ.curseur(cmd, { etiquette: 'Goût pour <em>X</em> : <em>a</em>',
+    min: 0.2, max: 0.8, pas: 0.05, valeur: 0.5, surChangement: maj });
+  var sPX0 = Econ.curseur(cmd, { etiquette: 'Prix initial <em>p<sub>X</sub></em><sup>0</sup>',
+    min: 1, max: 4, pas: 0.25, valeur: 1, surChangement: maj });
+  var sPX1 = Econ.curseur(cmd, { etiquette: 'Prix final <em>p<sub>X</sub></em><sup>1</sup>',
+    min: 0.5, max: 5, pas: 0.25, valeur: 2, surChangement: maj });
+
+  var bVC = Econ.bascule(cmd, { etiquette: 'Montrer la variation compensatoire',
+    coche: true, surChangement: maj });
+  var bVE = Econ.bascule(cmd, { etiquette: 'Montrer la variation équivalente',
+    coche: false, surChangement: maj });
+
+  Econ.boutonReinit(cmd, function () {
+    sA.fixer(0.5); sPX0.fixer(1); sPX1.fixer(2);
+    bVC.fixer(true); bVE.fixer(false); maj();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['A',  'Panier initial <em>A</em>'],
+    ['C',  'Panier final <em>C</em>'],
+    ['eN', 'Revenu requis aux prix finaux pour <em>u</em><sub>0</sub>'],
+    ['eO', 'Revenu requis aux prix initiaux pour <em>u</em><sub>1</sub>'],
+    ['vc', '<strong>ΔI<sub>VC</sub></strong>'],
+    ['ve', '<strong>ΔI<sub>VE</sub></strong>'],
+    ['verdict', 'Lecture']
+  ]);
+
+  var P = Econ.pref.cobb;
+  function par()  { return { a: sA.valeur() }; }
+  function pX0()  { return sPX0.valeur(); }
+  function pX1()  { return sPX1.valeur(); }
+  function A()    { return P.demande(pX0(), pY, I, par()); }
+  function C()    { return P.demande(pX1(), pY, I, par()); }
+  function u0()   { var a = A(); return P.u(a.X, a.Y, par()); }
+  function u1()   { var c = C(); return P.u(c.X, c.Y, par()); }
+  // Revenu qu'il faudrait, aux NOUVEAUX prix, pour retrouver u0 : e(p1, u0).
+  function eNouv() { return P.depense(pX1(), pY, u0(), par()); }
+  // Revenu qu'il faudrait, aux ANCIENS prix, pour atteindre déjà u1 : e(p0, u1).
+  function eAnc()  { return P.depense(pX0(), pY, u1(), par()); }
+  function VC()    { return I - eNouv(); }
+  function VE()    { return eAnc() - I; }
+  function Bpan()  { return P.hicks(pX1(), pY, u0(), par()); }
+  function Dpan()  { return P.hicks(pX0(), pY, u1(), par()); }
+
+  /* --- cadre ----------------------------------------------------------------
+     Le revenu compensé va de 100 à 528 $ selon les réglages : un cadre figé
+     laisserait sortir la moitié du dessin. Le cadre suit donc les valeurs
+     courantes, par paliers arrondis pour qu'il ne tremble pas à chaque cran de
+     curseur. Il couvre les deux extrémités de chacune des droites affichées,
+     donc aussi les quatre paniers, qui sont dessus. */
+
+  var M = 100;                       // étendue courante, en unités
+
+  function joli(v) {
+    var e = Math.pow(10, Math.floor(Math.log(v) / Math.LN10)), c = [1, 2, 5, 10], i;
+    for (i = 0; i < c.length; i++) { if (c[i] * e >= v - 1e-12) return c[i] * e; }
+    return 10 * e;
+  }
+
+  function etendue() {
+    var xs = [I / pX0(), I / pX1()], ys = [I / pY], v, pas, e;
+    if (bVC.valeur()) { e = eNouv(); xs.push(e / pX1()); ys.push(e / pY); }
+    if (bVE.valeur()) { e = eAnc();  xs.push(e / pX0()); ys.push(e / pY); }
+    v = Math.max(Math.max.apply(null, xs), Math.max.apply(null, ys));
+    pas = joli(v / 15);
+    return Math.ceil(v / pas - 1e-9) * pas;
+  }
+
+  /* --- droites de budget --- */
+
+  function droite(fpX, fI, style) {
+    var c = b.create('curve', [[], []], style);
+    c.updateDataArray = function () {
+      var p = fpX(), R = fI();
+      this.dataX = [0, R / p];
+      this.dataY = [R / pY, 0];
+    };
+    return c;
+  }
+
+  var dInit = droite(pX0, function () { return I; },
+    { strokeColor: Econ.COUL.budget, strokeWidth: 2, highlight: false, fixed: true });
+  var dFin  = droite(pX1, function () { return I; },
+    { strokeColor: Econ.COUL.second, strokeWidth: 2, highlight: false, fixed: true });
+  // Compensation : prix finaux, revenu e(p1,u0) — parallèle à la finale, tangente à u0.
+  var dVC   = droite(pX1, eNouv,
+    { strokeColor: Econ.COUL.tiers, strokeWidth: 1.8, dash: 2, highlight: false, fixed: true });
+  // Équivalence : prix initiaux, revenu e(p0,u1) — parallèle à l'initiale, tangente à u1.
+  var dVE   = droite(pX0, eAnc,
+    { strokeColor: Econ.COUL.accent, strokeWidth: 1.8, dash: 2, highlight: false, fixed: true });
+
+  /* --- courbes d'indifférence -----------------------------------------------
+     Rééchantillonnées sur le cadre courant. Econ.courbeIndiff fige son xmax à
+     la création, ce qui ne convient pas à un cadre qui bouge. */
+
+  function indiff(fu, couleur) {
+    var c = b.create('curve', [[], []], {
+      strokeColor: couleur, strokeWidth: 2.2, highlight: false, fixed: true });
+    c.updateDataArray = function () {
+      var bb = b.getBoundingBox(), p = par(), u = fu(), xs = [], ys = [], i, X, Y;
+      for (i = 1; i <= 300; i++) {
+        X = bb[2] * i / 300;
+        Y = P.yIndiff(X, u, p);
+        if (Y === null || !isFinite(Y) || Y > bb[1]) {
+          if (xs.length && !isNaN(xs[xs.length - 1])) { xs.push(NaN); ys.push(NaN); }
+          continue;
+        }
+        xs.push(X); ys.push(Y);
+      }
+      this.dataX = xs; this.dataY = ys;
+    };
+    return c;
+  }
+
+  indiff(u0, Econ.COUL.indiff);
+  indiff(u1, Econ.COUL.second);
+
+  /* --- paniers --- */
+
+  function panier(fp, couleur, visible) {
+    return b.create('point', [function () { return fp().X; }, function () { return fp().Y; }], {
+      name: '', size: 4, strokeColor: '#fff', strokeWidth: 1.5, fillColor: couleur,
+      fixed: true, highlight: false,
+      visible: visible === undefined ? true : visible });
+  }
+
+  panier(A, Econ.COUL.titre);
+  panier(C, Econ.COUL.second);
+  panier(Bpan, Econ.COUL.tiers, function () { return bVC.valeur(); });
+  panier(Dpan, Econ.COUL.accent, function () { return bVE.valeur(); });
+
+  /* --- étiquettes mobiles ---------------------------------------------------
+     Le cadre suit les réglages : une position fixe finit toujours par recouvrir
+     un voisin. Chaque étiquette propose des points d'ancrage et des décalages,
+     par ordre de préférence ; on garde la combinaison qui ne déborde pas du
+     cadre et ne recouvre aucune étiquette déjà posée. Les deux mesures en
+     dollars passent en premier : ce sont elles qu'on vient lire.
+     Balayage des 12 844 configurations de curseurs et de cases : aucun
+     chevauchement, aucun débordement. */
+
+  var COINS = [[9, 12], [-9, 12], [9, -12], [-9, -12], [0, 17], [0, -17], [16, 0], [-16, 0],
+               [24, 26], [-24, 26], [24, -26], [-24, -26], [0, 34], [0, -34], [34, 0], [-34, 0],
+               [44, 44], [-44, 44], [44, -44], [-44, -44], [0, 52], [0, -52], [56, 0], [-56, 0]];
+  var COTES = [[10, 0], [-10, 0]];   // de part et d'autre d'une mesure
+  var AUTOUR = [[10, 0], [-10, 0], [0, 15], [0, -15],
+                [14, 14], [-14, 14], [14, -14], [-14, -14]];   // autour d'une courbe
+  var FSEG = [0.07, 0.20, 0.33, 0.46];        // où poser la mesure le long des droites
+  var TSEG = [0.5, 0.28, 0.72, 0.14, 0.86];   // où poser l'étiquette le long de la mesure
+  var TCOURBE = [0.35, 0.20, 0.50, 0.65, 0.80, 0.10, 0.28, 0.44, 0.58, 0.72];
+
+  var mobiles = [];
+
+  function etiquette(ancres, decalages, contenu, opt) {
+    var pose = { x: 0, y: 0, ancre: 0 };
+    var el = Econ.texte(b, function () { return pose.x; }, function () { return pose.y; },
+      contenu, Object.assign({ fontSize: 13 }, opt || {}));
+    mobiles.push({ el: el, pose: pose, ancres: ancres, dec: decalages, contenu: contenu,
+      fs: (opt && opt.fontSize) || 13,
+      actif: (opt && opt.actif) || function () { return true; } });
+    return pose;
+  }
+
+  function placer() {
+    var bb = b.getBoundingBox(), boite = b.containerObj.getBoundingClientRect();
+    var L = boite.width, H = boite.height, posees = [], miens = [];
+    // Les graduations et les noms des axes sont déjà dessinés : on les compte
+    // comme des obstacles au lieu de leur passer dessus.
+    mobiles.forEach(function (m) { miens.push(m.el.rendNode); });
+    Array.prototype.forEach.call(b.containerObj.querySelectorAll('.JXGtext'), function (n) {
+      if (miens.indexOf(n) >= 0 || !n.textContent.trim()) return;
+      var r = n.getBoundingClientRect();
+      if (!r.width) return;
+      posees.push([r.left - boite.left - 2, r.right - boite.left + 2,
+                   r.top - boite.top - 2, r.bottom - boite.top + 2]);
+    });
+    mobiles.forEach(function (m) {
+      var on = m.actif();
+      m.el.setAttribute({ visible: on });
+      if (!on) return;
+      var t = typeof m.contenu === 'function' ? m.contenu() : m.contenu;
+      // Boîte estimée large : mesurée dans le navigateur, « A » fait 9 px sur
+      // 21 en Georgia 14 px, « VC = −41,42 $ » 82 sur 20 en 13 px.
+      var w = 0.56 * m.fs * String(t).replace(/<[^>]*>/g, '').length + 4, h = 1.6 * m.fs;
+      var anc = m.ancres(), meilleur = null, score = Infinity, i, j, k;
+      for (i = 0; i < anc.length; i++) {
+        var ax = (anc[i][0] - bb[0]) * b.unitX, ay = (bb[1] - anc[i][1]) * b.unitY;
+        for (j = 0; j < m.dec.length; j++) {
+          var x0 = ax + m.dec[j][0] - (m.dec[j][0] < 0 ? w : 0);
+          var y0 = ay - m.dec[j][1] - h / 2;
+          var c = [x0, x0 + w, y0, y0 + h], s = (i * m.dec.length + j) * 0.01;
+          if (c[0] < -1 || c[1] > L + 1 || c[2] < -1 || c[3] > H + 1) s += 1000;
+          for (k = 0; k < posees.length; k++) {
+            var q = posees[k];
+            if (c[0] < q[1] && q[0] < c[1] && c[2] < q[3] && q[2] < c[3]) s += 100;
+          }
+          if (s < score) { score = s; meilleur = c; m.pose.ancre = i; }
+        }
+      }
+      posees.push(meilleur);
+      m.pose.x = bb[0] + meilleur[0] / b.unitX;
+      m.pose.y = bb[1] - (meilleur[2] + h / 2) / b.unitY;
+    });
+  }
+
+  /* --- les mesures en dollars ----------------------------------------------
+     L'écart entre deux droites parallèles est le même partout : on peut poser
+     la mesure n'importe où entre elles. On la pose SUR les droites, à l'une des
+     abscisses ci-dessous — l'ancienne version la traçait en x = 2 alors que les
+     droites y passaient 2 p¹ plus bas. */
+
+  function absMesure(e, p) {
+    var mn = Math.min(I, e), out = [], i;
+    for (i = 0; i < FSEG.length; i++) out.push(Math.min(FSEG[i] * M, 0.45 * mn / p));
+    return out;
+  }
+
+  function ancresMesure(fe, fp) {
+    return function () {
+      var e = fe(), p = fp(), xs = absMesure(e, p), out = [], i, j, y1, y2;
+      for (i = 0; i < xs.length; i++) {
+        y1 = (I - p * xs[i]) / pY; y2 = (e - p * xs[i]) / pY;
+        for (j = 0; j < TSEG.length; j++) out.push([xs[i], y1 + (y2 - y1) * TSEG[j]]);
+      }
+      return out;
+    };
+  }
+
+  function mesure(fe, fp, pose, couleur, actif) {
+    function x() { return absMesure(fe(), fp())[Math.floor(pose.ancre / TSEG.length)]; }
+    return b.create('segment', [
+        [x, function () { return (I - fp() * x()) / pY; }],
+        [x, function () { return (fe() - fp() * x()) / pY; }]], {
+      strokeColor: couleur, strokeWidth: 4, highlight: false, fixed: true,
+      straightFirst: false, straightLast: false, visible: actif });
+  }
+
+  var vcOn = function () { return bVC.valeur(); };
+  var veOn = function () { return bVE.valeur(); };
+
+  var poseVC = etiquette(ancresMesure(eNouv, pX1), COTES,
+    function () { return 'VC = ' + Econ.nb(VC(), 2) + ' $'; },
+    { actif: vcOn, cssStyle: POLICE + 'color:' + Econ.COUL.tiers + ';' });
+  var poseVE = etiquette(ancresMesure(eAnc, pX0), COTES,
+    function () { return 'VE = ' + Econ.nb(VE(), 2) + ' $'; },
+    { actif: veOn, cssStyle: POLICE + 'color:' + Econ.COUL.accent + ';' });
+
+  mesure(eNouv, pX1, poseVC, Econ.COUL.tiers, vcOn);
+  mesure(eAnc, pX0, poseVE, Econ.COUL.accent, veOn);
+
+  /* --- étiquettes des courbes et des paniers --- */
+
+  function ancresCourbe(fu) {
+    return function () {
+      var bb = b.getBoundingBox(), p = par(), u = fu(), pts = [], i, X, Y;
+      for (i = 1; i <= 260; i++) {
+        X = bb[2] * i / 260;
+        Y = P.yIndiff(X, u, p);
+        if (Y !== null && isFinite(Y) && Y >= bb[3] && Y <= bb[1]) pts.push([X, Y]);
+      }
+      if (!pts.length) return [[0, 0]];
+      return TCOURBE.map(function (t) {
+        return pts[Math.min(pts.length - 1, Math.floor(t * (pts.length - 1)))];
+      });
+    };
+  }
+
+
+  etiquette(ancresCourbe(u0), AUTOUR, 'u₀',
+    { cssStyle: POLICE + 'color:' + Econ.COUL.indiff + ';' + ombre });
+  etiquette(ancresCourbe(u1), AUTOUR, 'u₁',
+    { cssStyle: POLICE + 'color:' + Econ.COUL.second + ';' + ombre });
+
+  function ancrePanier(fp) {
+    return function () { var q = fp(); return [[q.X, q.Y]]; };
+  }
+
+  etiquette(ancrePanier(A), COINS, 'A',
+    { fontSize: 14, cssStyle: POLICE + 'color:' + Econ.COUL.titre + ';' + ombre });
+  etiquette(ancrePanier(C), COINS, 'C',
+    { fontSize: 14, cssStyle: POLICE + 'color:' + Econ.COUL.second + ';' + ombre });
+  etiquette(ancrePanier(Bpan), COINS, 'B',
+    { fontSize: 14, actif: vcOn, cssStyle: POLICE + 'color:' + Econ.COUL.tiers + ';' + ombre });
+  etiquette(ancrePanier(Dpan), COINS, 'D',
+    { fontSize: 14, actif: veOn, cssStyle: POLICE + 'color:' + Econ.COUL.accent + ';' + ombre });
+
+  /* --- mise à jour --- */
+
+  function maj() {
+    var a = A(), c = C(), vc = VC(), ve = VE();
+    res.fixer('A', 'X = ' + Econ.nb(a.X, 1) + ', Y = ' + Econ.nb(a.Y, 1));
+    res.fixer('C', 'X = ' + Econ.nb(c.X, 1) + ', Y = ' + Econ.nb(c.Y, 1));
+    res.fixer('eN', Econ.nb(eNouv(), 2) + ' $');
+    res.fixer('eO', Econ.nb(eAnc(), 2) + ' $');
+    res.fixer('vc', Econ.nb(vc, 2) + ' $');
+    res.fixer('ve', Econ.nb(ve, 2) + ' $');
+
+    var msg;
+    if (Math.abs(pX1() - pX0()) < 1e-9) {
+      msg = 'aucun changement de prix';
+    } else if (vc < 0) {
+      msg = 'la hausse de prix coûte ' + Econ.nb(-vc, 2) +
+            ' $ (VC) ou ' + Econ.nb(-ve, 2) + ' $ (VE) au consommateur';
+    } else {
+      msg = 'la baisse de prix vaut ' + Econ.nb(vc, 2) +
+            ' $ (VC) ou ' + Econ.nb(ve, 2) + ' $ (VE) au consommateur';
+    }
+    res.fixer('verdict', msg);
+
+    dVC.setAttribute({ visible: bVC.valeur() });
+    dVE.setAttribute({ visible: bVE.valeur() });
+
+    M = etendue();
+    // 1,18 à droite plutôt que 1,14 : la dernière graduation de l'axe X est
+    // écrite à droite de son trait et dépassait du cadre de quelques pixels.
+    b.setBoundingBox([-0.11 * M, 1.14 * M, 1.18 * M, -0.11 * M], false);
+    // Un premier passage dessine tout aux nouvelles valeurs, y compris les
+    // graduations ; placer() les mesure, puis le second passage pose les
+    // étiquettes. Les deux passages ont lieu avant le rendu : rien ne clignote.
+    b.update();
+    placer();
+    b.update();
+  }
+
+  maj();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

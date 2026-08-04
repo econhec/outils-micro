@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Courbes de coût et courbe d'offre — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 7 — La production</div>
+<h1>Courbes de coût et courbe d'offre</h1>
+<p class="intro">
+Le coût de court terme est <span class="formule">C(Y) = F + aY³ − bY² + dY</span> : un coût
+fixe <em>F</em> et un coût variable en U. Toute la théorie de l'offre concurrentielle tient
+dans un seul graphe. Faites glisser le <strong>prix <em>p</em></strong> : l'entreprise produit
+là où <span class="formule">p = Cm</span>, sauf si le prix tombe sous le minimum du coût
+variable moyen — auquel cas elle <strong>ferme</strong>. Entre les deux minimums, elle perd de
+l'argent et continue pourtant à produire : c'est le point le plus contre-intuitif du chapitre.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe">
+    <div id="graphe" class="jxgbox"></div>
+    <p style="font-size:.85rem; color:#666; margin:.5rem 0 0; line-height:1.45">
+      <span style="color:#b0342d; font-weight:bold">———</span> coût marginal <em>Cm</em> &nbsp;
+      <span style="color:#1c3e66; font-weight:bold">———</span> coût total moyen <em>CTM</em> &nbsp;
+      <span style="color:#2e7d32; font-weight:bold">———</span> coût variable moyen <em>CVM</em> &nbsp;
+      <span style="color:#555; font-weight:bold">– – –</span> prix <em>p</em> &nbsp;
+      <span style="color:#2e7d32">▮</span> profit &nbsp;
+      <span style="color:#b0342d">▮</span> perte (à la fermeture, le coût fixe <em>F</em>)
+    </p>
+  </div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Repérez les deux points marqués : le minimum du <em>CVM</em> et le minimum du
+      <em>CTM</em>. La courbe de coût marginal passe <strong>exactement</strong> par les deux.
+      Ce n'est pas un hasard de tracé : une moyenne est stationnaire là où la valeur marginale
+      la croise.</li>
+    <li>Gardez les réglages de départ. Le prix <em>p</em> = 20,00 est au-dessus du minimum du
+      <em>CTM</em> (15,99) : le rectangle est vert. Descendez <em>p</em> à 15,50, juste sous ce
+      seuil : le rectangle devient rouge, mais <em>Y*</em> = 3,01 reste strictement positif et
+      la perte n'est que de −1,50, contre un coût fixe de 18. <strong>Perte, et on
+      continue</strong> : la recette couvre encore tout le coût variable.</li>
+    <li>Continuez à descendre <em>p</em> sous le minimum du <em>CVM</em> (8,65) : le verdict
+      bascule sur « fermeture » et <em>Y*</em> saute à 0. Le rectangle rouge cesse alors de
+      suivre le prix. Il montre l'écart entre le <em>CTM</em> et le <em>CVM</em>, dont l'aire
+      vaut exactement <em>F</em>. Baissez <em>p</em> encore : la perte reste −18,00.</li>
+    <li>Réinitialisez, puis montez <em>F</em> de 0 à 30. Le cadre ne change pas. Le
+      <em>CVM</em>, le <em>Cm</em> et la quantité offerte (<em>Y*</em> = 3,56) ne changent pas
+      non plus : la <strong>courbe d'offre est intacte</strong>. Seul le <em>CTM</em> monte,
+      son minimum passant de 8,65 à 19,62, et le profit tombe de 31,34 à 1,34. Un coût fixe
+      est irrécupérable à court terme : il ne change aucune décision marginale.</li>
+    <li>Cochez « montrer la courbe d'offre » : elle est exactement la portion croissante du
+      <em>Cm</em> au-dessus du minimum du <em>CVM</em>, prolongée par le segment collé à l'axe
+      des prix (offre nulle) en dessous. Montez <em>b</em> de 1,80 à 2,50 : le creux du
+      <em>CVM</em> se creuse et le seuil de fermeture descend de 8,65 à 7,40.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>Avec <span class="formule">C(Y) = F + aY³ − bY² + dY</span> :
+  <span class="formule">Cm = 3aY² − 2bY + d</span>,
+  <span class="formule">CVM = aY² − bY + d</span>,
+  <span class="formule">CTM = F/Y + aY² − bY + d</span>. Le <em>CVM</em> est minimal en
+  <span class="formule">Y = b/(2a)</span>, où il vaut
+  <span class="formule">d − b²/(4a)</span> — et l'on vérifie que
+  <span class="formule">Cm(b/(2a)) = 3b²/(4a) − b²/a + d = d − b²/(4a)</span> : le coût
+  marginal passe bien par ce minimum. Le <em>CTM</em> est minimal là où
+  <span class="formule">2aY³ − bY² − F = 0</span> (résolu ici par bissection), et le
+  <em>Cm</em> y passe également.</p>
+  <p>L'entreprise concurrentielle maximise <span class="formule">π = pY − C(Y)</span>, d'où
+  <span class="formule">p = Cm(Y)</span> sur la branche croissante :
+  <span class="formule">Y*(p) = [b + √(b² − 3a(d − p))] / (3a)</span>. Elle ne produit que si
+  la recette couvre le coût variable, c'est-à-dire si
+  <span class="formule">p ≥ min CVM = d − b²/(4a)</span>. La <strong>courbe d'offre</strong>
+  est donc la branche du <em>Cm</em> au-dessus de ce seuil, et 0 en dessous.</p>
+  <p>À <span class="formule">p = min CVM</span> exactement, l'entreprise est indifférente :
+  la recette couvre le coût variable et rien de plus, donc
+  <span class="formule">π = −F</span> qu'elle produise <span class="formule">b/(2a)</span> ou
+  qu'elle ferme. En dessous du seuil, <span class="formule">π = −F</span> aussi, mais parce
+  qu'elle ne produit plus. Comme <span class="formule">CTM(Y) − CVM(Y) = F/Y</span>, l'écart
+  entre les deux courbes multiplié par <em>Y</em> vaut <em>F</em> pour tout <em>Y</em> : c'est
+  le rectangle rouge affiché à la fermeture.</p>
+  <p>Notation : les notes écrivent le coût marginal <span class="formule">c(Y)</span>, en
+  minuscule, et réservent le <span class="formule">C</span> majuscule aux coûts totaux. La
+  condition d'offre s'y lit <span class="formule">p<sub>Y</sub> = c(Y)</span>. Cet outil
+  écrit <span class="formule">Cm</span> : c'est le même objet.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var PAL = [1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10];
+  function joli(v) {
+    if (!(v > 0) || !isFinite(v)) return 1;
+    var e = Math.pow(10, Math.floor(Math.log(v) / Math.LN10));
+    var m = v / e;
+    for (var i = 0; i < PAL.length; i++) if (m <= PAL[i] + 1e-9) return PAL[i] * e;
+    return 10 * e;
+  }
+
+  function axes(bd, nx, ny) {
+    bd.create('axis', [[0, 0], [1, 0]], {
+      strokeColor: '#444', strokeWidth: 1, highlight: false, fixed: true,
+      name: nx, withLabel: true,
+      label: { position: 'rt', offset: [-8, 16], fontSize: 14, anchorX: 'right' },
+      ticks: { insertTicks: true, minorTicks: 0, drawLabels: true,
+               label: { fontSize: 11, offset: [0, -12] }, strokeColor: '#999' }
+    });
+    bd.create('axis', [[0, 0], [0, 1]], {
+      strokeColor: '#444', strokeWidth: 1, highlight: false, fixed: true,
+      name: ny, withLabel: true,
+      label: { position: 'rt', offset: [14, -8], fontSize: 14 },
+      ticks: { insertTicks: true, minorTicks: 0, drawLabels: true,
+               label: { fontSize: 11, offset: [-16, 0] }, strokeColor: '#999' }
+    });
+  }
+
+  var b = Econ.board('graphe', [-0.6, 55, 6, -6], { axes: false });
+  axes(b, 'Y', 'coût, prix');
+
+  var cmd = document.getElementById('cmd');
+
+  // Plages choisies pour que b² < 3ad (donc Cm > 0 partout) et min CVM > 0.
+  var sP = Econ.curseur(cmd, { etiquette: 'Prix du marché : <em>p</em>',
+                               min: 0, max: 45, pas: 0.5, valeur: 20, surChangement: majTout });
+  var sA = Econ.curseur(cmd, { etiquette: 'Terme cubique : <em>a</em>',
+                               min: 0.4, max: 1.2, pas: 0.05, valeur: 0.6, surChangement: majTout });
+  var sB = Econ.curseur(cmd, { etiquette: 'Terme quadratique : <em>b</em>',
+                               min: 0.5, max: 2.5, pas: 0.1, valeur: 1.8, surChangement: majTout });
+  var sD = Econ.curseur(cmd, { etiquette: 'Terme linéaire : <em>d</em>',
+                               min: 6, max: 16, pas: 0.5, valeur: 10, surChangement: majTout });
+  var FMAX = 30;               // borne du curseur F ; sert aussi à figer le cadre
+  var sF = Econ.curseur(cmd, { etiquette: 'Coût fixe : <em>F</em>',
+                               min: 0, max: FMAX, pas: 1, valeur: 18, decimales: 0,
+                               surChangement: majTout });
+
+  var bOffre = Econ.bascule(cmd, { etiquette: 'Montrer la courbe d\'offre',
+                                   coche: false, surChangement: majTout });
+  var bProfit = Econ.bascule(cmd, { etiquette: 'Montrer le rectangle de profit',
+                                    coche: true, surChangement: majTout });
+
+  Econ.boutonReinit(cmd, function () {
+    sP.fixer(20); sA.fixer(0.6); sB.fixer(1.8); sD.fixer(10); sF.fixer(18);
+    bOffre.fixer(false); bProfit.fixer(true); majTout();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['ycvm', 'Minimum du <em>CVM</em>'],
+    ['yctm', 'Minimum du <em>CTM</em> (seuil de rentabilité)'],
+    ['Y',    'Quantité offerte <em>Y*</em>'],
+    ['R',    'Recette <em>pY*</em>'],
+    ['C',    'Coût total <em>C(Y*)</em>'],
+    ['pi',   'Profit <em>π</em>'],
+    ['verdict', 'Verdict']
+  ]);
+
+  /* --- paramètres et formules --- */
+  function pa() { return sA.valeur(); }
+  function pb() { return sB.valeur(); }
+  function pd() { return sD.valeur(); }
+  function pF() { return sF.valeur(); }
+  function prix() { return sP.valeur(); }
+
+  function CV(y)  { return pa() * y * y * y - pb() * y * y + pd() * y; }
+  function C(y)   { return pF() + CV(y); }
+  function Cm(y)  { return 3 * pa() * y * y - 2 * pb() * y + pd(); }
+  function CVM(y) { return pa() * y * y - pb() * y + pd(); }
+  function CTM(y) { return C(y) / y; }
+
+  function yCVM()   { return pb() / (2 * pa()); }          // argmin du CVM
+  function minCVM() { return pd() - pb() * pb() / (4 * pa()); }  // = Cm(yCVM) : voir .rappel
+
+  // Argmin du CTM quand le coût fixe vaut G : racine de 2aY³ − bY² − G.
+  // L'intervalle encadre toujours la racine (la fonction vaut −G près de 0 et
+  // dépasse 7·10⁵ en 100), mais Econ.bissection rend null si ce n'est pas le cas :
+  // on retombe alors sur l'argmin du CVM au lieu de propager une valeur fausse.
+  function argminCTM(G) {
+    if (!(G > 0)) return yCVM();
+    var r = Econ.bissection(function (y) {
+      return 2 * pa() * y * y * y - pb() * y * y - G;
+    }, 1e-5, 100);
+    return (r === null || !isFinite(r)) ? yCVM() : r;
+  }
+  function yCTM()   { return argminCTM(pF()); }
+  function minCTM() { return CTM(yCTM()); }
+
+  // Mêmes quantités au coût fixe maximal : ce sont des majorants, et ils ne
+  // dépendent pas de F. Le cadre s'appuie sur eux pour ne pas bouger quand on
+  // fait varier F (voir la puce 4).
+  function yCTMmaj()   { return argminCTM(FMAX); }
+  function minCTMmaj() { var y = yCTMmaj(); return FMAX / y + CVM(y); }
+
+  // Offre : p = Cm sur la branche croissante, et 0 sous le seuil de fermeture.
+  // À p = min CVM exactement, l'entreprise produit b/(2a) et fait −F : le même
+  // résultat qu'à la fermeture. On teste donc l'égalité à la tolérance près.
+  function tolP()  { return 1e-9 * Math.max(1, Math.abs(minCVM())); }
+  function ecart() { return prix() - minCVM(); }
+  function Yoffre() {
+    if (ecart() < -tolP()) return 0;
+    var disc = pb() * pb() - 3 * pa() * (pd() - prix());
+    if (disc < 0) return 0;
+    return (pb() + Math.sqrt(disc)) / (3 * pa());
+  }
+  function profit() {
+    var Y = Yoffre();
+    return Y > 0 ? prix() * Y - C(Y) : -pF();
+  }
+  function Yf() { return b.getBoundingBox()[2] / 1.08; }   // borne « utile » en Y
+
+  /* --- rectangle de profit (ou de perte) --- */
+  Econ.zone(b, function () {
+    var Y = Yoffre(), p = prix();
+    if (Y <= 0 || !bProfit.valeur() || p < CTM(Y)) return [];
+    var c = CTM(Y);
+    return [[0, c], [Y, c], [Y, p], [0, p]];
+  }, { couleur: '#2e7d32', opacite: 0.16 });
+
+  Econ.zone(b, function () {
+    var Y = Yoffre(), p = prix();
+    if (Y <= 0 || !bProfit.valeur() || p >= CTM(Y)) return [];
+    var c = CTM(Y);
+    return [[0, c], [Y, c], [Y, p], [0, p]];
+  }, { couleur: '#b0342d', opacite: 0.20 });
+
+  /* --- à la fermeture, la perte vaut le coût fixe ---
+     CTM(y) − CVM(y) = F/y, donc l'écart entre les deux courbes multiplié par y
+     vaut F quel que soit y. On dessine ce rectangle au minimum du CTM : son aire
+     est exactement la perte de l'entreprise fermée, et il tient dans le cadre. */
+  function fermee() { return Yoffre() <= 0 && bProfit.valeur() && pF() > 0; }
+  Econ.zone(b, function () {
+    if (!fermee()) return [];
+    var y = yCTM(), bas = CVM(y), haut = CTM(y);
+    return [[0, bas], [y, bas], [y, haut], [0, haut]];
+  }, { couleur: '#b0342d', opacite: 0.20 });
+
+  Econ.texte(b, function () { return yCTM() * 0.5; },
+                function () { var y = yCTM(); return (CVM(y) + CTM(y)) / 2; },
+             'perte = <em>F</em>',
+             { fontSize: 12, anchorX: 'middle', anchorY: 'middle',
+               strokeColor: '#b0342d', visible: fermee,
+               cssStyle: 'font-family: Georgia, serif; text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 2px #fff;' });
+
+  /* --- courbe d'offre en surbrillance (tracée avant Cm pour rester dessous) --- */
+  var offre = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.tiers, strokeWidth: 7, strokeOpacity: 0.35,
+    highlight: false, fixed: true
+  });
+  offre.updateDataArray = function () {
+    var y0 = yCVM(), y1 = Yf() * 1.02, xs = [0, 0, NaN], ys = [0, minCVM(), NaN];
+    var n = 120;
+    for (var i = 0; i <= n; i++) {
+      var y = y0 + (y1 - y0) * i / n;
+      xs.push(y); ys.push(Cm(y));
+    }
+    this.dataX = xs; this.dataY = ys;
+  };
+
+  /* --- les trois courbes de coût --- */
+  function courbe(f, style, depart) {
+    var c = b.create('curve', [[], []], Object.assign({
+      strokeWidth: 2.2, highlight: false, fixed: true
+    }, style));
+    c.updateDataArray = function () {
+      var y1 = Yf() * 1.05, y0 = depart, n = 260;
+      var haut = b.getBoundingBox()[1] * 1.4;
+      var xs = [], ys = [];
+      for (var i = 0; i <= n; i++) {
+        var y = y0 + (y1 - y0) * i / n;
+        var v = f(y);
+        if (!isFinite(v) || v > haut) {
+          if (xs.length && !isNaN(xs[xs.length - 1])) { xs.push(NaN); ys.push(NaN); }
+          continue;
+        }
+        xs.push(y); ys.push(v);
+      }
+      this.dataX = xs; this.dataY = ys;
+    };
+    return c;
+  }
+  courbe(CVM, { strokeColor: Econ.COUL.second }, 0);
+  courbe(CTM, { strokeColor: Econ.COUL.titre }, 0.02);
+  courbe(Cm,  { strokeColor: Econ.COUL.budget, strokeWidth: 2.6 }, 0);
+
+  /* --- droite de prix --- */
+  var dPrix = b.create('curve', [[], []], {
+    strokeColor: '#555', strokeWidth: 1.6, dash: 2, highlight: false, fixed: true
+  });
+  dPrix.updateDataArray = function () {
+    this.dataX = [0, Yf() * 1.06];
+    this.dataY = [prix(), prix()];
+  };
+
+  /* --- points remarquables --- */
+  // Les deux minimums se rejoignent quand F tend vers 0 : on écrit l'un sous le
+  // point et l'autre au-dessus pour que les étiquettes ne se recouvrent jamais.
+  function marque(fx, fy, nom, coul, dy) {
+    return b.create('point', [fx, fy], {
+      name: nom, size: 3, strokeColor: '#fff', strokeWidth: 1.2, fillColor: coul,
+      fixed: true, highlight: false, label: { fontSize: 12, offset: [6, dy] }
+    });
+  }
+  var mCVM = marque(yCVM, minCVM, 'min CVM', Econ.COUL.second, -16);
+  var mCTM = marque(yCTM, minCTM, 'min CTM', Econ.COUL.titre, 12);
+
+  // Quand p < min CVM, ce point vient se coller sur l'axe des prix : c'est très
+  // exactement ce que dit la courbe d'offre (quantité offerte nulle).
+  Econ.pointOptimal(b, Yoffre, function () { return prix(); }, { nom: '' });
+
+  /* --- étiquettes des courbes, au bord droit --- */
+  // Écarts choisis pour que les trois étiquettes restent séparées même quand le
+  // CTM et le CVM se rejoignent (F petit), sans jamais sortir du cadre.
+  Econ.texte(b, function () { return Yf() * 0.93; },
+                function () { return Cm(Yf() * 0.93) * 1.06; }, 'Cm',
+             { strokeColor: Econ.COUL.budget, fontSize: 14 });
+  Econ.texte(b, function () { return Yf() * 0.93; },
+                function () { return CTM(Yf() * 0.93) * 1.02; }, 'CTM',
+             { strokeColor: Econ.COUL.titre, fontSize: 14 });
+  Econ.texte(b, function () { return Yf() * 0.93; },
+                function () { return CVM(Yf() * 0.93) * 0.86; }, 'CVM',
+             { strokeColor: Econ.COUL.second, fontSize: 14 });
+
+  /* --- mise à jour --- */
+  function majTout() {
+    var Y = Yoffre(), p = prix(), mv = minCVM(), mt = minCTM();
+
+    // Cadre adaptatif, mais indépendant de F : on prend les majorants obtenus au
+    // coût fixe maximal. Sans cela, monter F rétrécirait le Cm et le CVM à l'écran
+    // alors qu'ils ne bougent pas. Le dernier terme majore le sommet du rectangle
+    // de perte, qui vaut CTM(Y*).
+    var yUtile = Math.max(Y, yCTMmaj(), yCVM(), 0.8);
+    var W = joli(1.3 * yUtile);
+    var hRect = Y > 0 ? FMAX / Y + CVM(Y) : 0;
+    var H = joli(1.12 * Math.max(Cm(W), p, minCTMmaj(), hRect));
+    b.setBoundingBox([-0.10 * W, 1.10 * H, 1.08 * W, -0.12 * H], false);
+
+    res.fixer('ycvm', Econ.nb(mv, 2) + ' &nbsp;(en <em>Y</em> = ' + Econ.nb(yCVM(), 2) + ')');
+    res.fixer('yctm', Econ.nb(mt, 2) + ' &nbsp;(en <em>Y</em> = ' + Econ.nb(yCTM(), 2) + ')');
+    res.fixer('Y', Econ.nb(Y, 2));
+    res.fixer('R', Econ.nb(Y > 0 ? p * Y : 0, 2));
+    res.fixer('C', Econ.nb(Y > 0 ? C(Y) : pF(), 2));
+    res.fixer('pi', Econ.nb(profit(), 2));
+
+    var v, e = ecart(), tol = tolP();
+    if (e < -tol) {
+      v = '<strong>Fermeture</strong> — <em>p</em> &lt; min CVM : produire ne couvrirait ' +
+          'même pas le coût variable. <em>Y*</em> = 0 et la perte se limite au coût fixe.';
+    } else if (Math.abs(e) <= tol) {
+      v = '<strong>Seuil de fermeture</strong> — <em>p</em> = min CVM : la recette couvre ' +
+          'exactement le coût variable. Produire ou fermer donne la même perte, −<em>F</em>. ' +
+          'L\'entreprise est indifférente.';
+    } else if (p < mt) {
+      v = '<strong>Perte, mais on continue</strong> — min CVM ≤ <em>p</em> &lt; min CTM : ' +
+          'la recette couvre tout le coût variable et une partie du coût fixe. Fermer ' +
+          'coûterait plus cher.';
+    } else {
+      v = '<strong>Profit</strong> — <em>p</em> ≥ min CTM : la recette couvre l\'ensemble ' +
+          'des coûts.';
+    }
+    res.fixer('verdict', v);
+
+    offre.setAttribute({ visible: bOffre.valeur() });
+
+    // À F = 0 le CTM se confond avec le CVM : un seul point, une seule étiquette.
+    var confondus = pF() <= 0;
+    mCTM.setAttribute({ visible: !confondus });
+    var nomCVM = confondus ? 'min CVM = min CTM' : 'min CVM';
+    if (mCVM.name !== nomCVM) mCVM.setName(nomCVM);
+
+    b.update();
+  }
+
+  majTout();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

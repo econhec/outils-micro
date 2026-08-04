@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Utilité espérée et équivalent certain — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 5 — Le risque</div>
+<h1>Utilité espérée, équivalent certain et prime de risque</h1>
+<p class="intro">
+Une loterie donne <em>Z</em><sub>1</sub> avec probabilité <em>π</em> et
+<em>Z</em><sub>2</sub> sinon. Toute la géométrie de l'aversion au risque tient dans un
+seul écart&nbsp;: celui entre la <strong>corde</strong> (l'utilité espérée) et la
+<strong>courbe</strong> (l'utilité de l'espérance). L'axe vertical n'est pas gradué&nbsp;:
+l'utilité n'a pas d'unité, seule la forme de la courbe compte.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe"><div id="graphe" class="jxgbox"></div></div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Aux réglages de départ, le trait violet mesure l'écart entre la corde et la
+      courbe&nbsp;: <span class="formule">E[u(Z)] &lt; u(E[Z])</span>. C'est l'inégalité de
+      Jensen. L'agent préfère l'espérance certaine à la loterie.</li>
+    <li>Poussez <em>σ</em> à 0&nbsp;: la courbe s'aplatit sur la corde, le trait violet
+      disparaît et la prime tombe à 0,00. Un agent neutre au risque ne regarde que
+      l'espérance.</li>
+    <li>Montez <em>σ</em> à 4&nbsp;: le trait violet s'allonge, la prime passe de 14,29 à
+      31,14 et l'équivalent certain descend à 18,9, tout près du mauvais état.</li>
+    <li>Réinitialisez, puis écartez les deux états sans toucher à l'espérance
+      (<em>Z</em><sub>1</sub> à 5, <em>Z</em><sub>2</sub> à 95)&nbsp;: <em>E</em>[<em>Z</em>]
+      reste à 50,0 et la prime passe de 14,29 à 28,21. C'est le risque, pas le rendement,
+      qui coûte.</li>
+    <li>Rapprochez-les au maximum (<em>Z</em><sub>1</sub> à 50, <em>Z</em><sub>2</sub> à
+      55)&nbsp;: la prime tombe à 0,06. Un petit risque ne coûte presque rien, parce que
+      l'aversion au risque est un phénomène du second ordre.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>L'<strong>utilité espérée</strong> est
+  <span class="formule">E[u(Z)] = π·u(Z<sub>1</sub>) + (1−π)·u(Z<sub>2</sub>)</span>&nbsp;:
+  elle se lit sur la corde, à l'abscisse
+  <span class="formule">E[Z] = π·Z<sub>1</sub> + (1−π)·Z<sub>2</sub></span>.</p>
+  <p>L'<strong>équivalent certain</strong> EC est le montant sûr qui procure la même
+  utilité&nbsp;: <span class="formule">u(EC) = E[u(Z)]</span>. La
+  <strong>prime de risque</strong> est <span class="formule">π<sub>R</sub> = E[Z] − EC</span>,
+  ce que l'agent accepte de sacrifier pour supprimer le risque.</p>
+  <p>La fonction utilisée est la CRRA
+  <span class="formule">u(Z) = (Z<sup>1−σ</sup> − 1)/(1 − σ)</span>, qui devient
+  <span class="formule">u(Z) = ln Z</span> quand <em>σ</em> → 1. Le dessin en montre une
+  transformation affine croissante, choisie pour tenir dans le cadre. Ni l'équivalent
+  certain ni la prime n'en dépendent&nbsp;: ce sont des montants, pas des utilités.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var ZMIN = 4, ZMAX = 100;      // domaine de richesse
+  var YBAS = 8, YHAUT = 92;      // bande verticale occupée par le graphe de u
+  var ECART = 40;                // écart de référence entre les deux états
+
+  var b = Econ.board('graphe', [-8, 104, 112, -26], {
+    nomX: 'Z (richesse)', nomY: 'u(Z)', pasGrad: 10, pasGradY: 20
+  });
+
+  // L'échelle verticale est arbitraire : on retire les nombres de l'axe
+  // vertical et on ne garde que ceux de l'axe des richesses.
+  for (var cle in b.objects) {
+    var ob = b.objects[cle];
+    if (ob.elType === 'axis' && ob.point1 && ob.point2 &&
+        Math.abs(ob.point2.X() - ob.point1.X()) < 1e-9 && ob.defaultTicks) {
+      ob.defaultTicks.setAttribute({ drawLabels: false });
+    }
+  }
+
+  var cmd = document.getElementById('cmd');
+
+  var sZ1 = Econ.curseur(cmd, { etiquette: 'Mauvais état <em>Z</em><sub>1</sub>',
+    min: 5, max: 50, pas: 1, valeur: 15, decimales: 0, surChangement: maj });
+  var sZ2 = Econ.curseur(cmd, { etiquette: 'Bon état <em>Z</em><sub>2</sub>',
+    min: 55, max: 100, pas: 1, valeur: 85, decimales: 0, surChangement: maj });
+  var sPi = Econ.curseur(cmd, { etiquette: 'Probabilité du mauvais état <em>π</em>',
+    min: 0.05, max: 0.95, pas: 0.05, valeur: 0.5, surChangement: maj });
+  var sSig = Econ.curseur(cmd, { etiquette: 'Aversion au risque <em>σ</em>',
+    min: 0, max: 4, pas: 0.1, valeur: 1, surChangement: maj });
+
+  Econ.boutonReinit(cmd, function () {
+    sZ1.fixer(15); sZ2.fixer(85); sPi.fixer(0.5); sSig.fixer(1); maj();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['ez',    'Espérance <em>E[Z]</em>'],
+    ['ec',    'Équivalent certain <em>EC</em>'],
+    ['prime', 'Prime de risque <em>π<sub>R</sub></em>'],
+    ['jensen', 'Comparaison']
+  ]);
+
+  function sig()  { return sSig.valeur(); }
+  function Z1()   { return sZ1.valeur(); }
+  function Z2()   { return sZ2.valeur(); }
+  function pi()   { return sPi.valeur(); }
+  function EZ()   { return pi() * Z1() + (1 - pi()) * Z2(); }
+
+  /* --- utilité CRRA, puis mise à l'échelle pour l'affichage ------------------
+     uBrut est la vraie CRRA. u en est une transformation affine croissante :
+     elle laisse l'équivalent certain et la prime de risque inchangés.
+
+     Les deux points d'ancrage sont Z1 et un plafond Zhaut, jamais σ. C'est le
+     point important : ancrer sur [ZMIN, ZMAX], donc refaire l'échelle pour
+     chaque σ, écrase le dessin quand l'aversion monte. Sur les réglages de
+     départ, l'écart entre la corde et la courbe tombait alors de 8,79 (σ = 1) à
+     0,76 (σ = 4) pendant que la prime, elle, montait de 14,29 à 31,14. Avec
+     l'ancrage ci-dessous le même écart passe de 16,30 à 40,18 : il suit la
+     prime au lieu de la contredire.
+
+     Le plafond n'est pas Z2 mais max(Z2, Z1 + ECART) : sans ce garde-fou, une
+     loterie serrée (Z1 = 50, Z2 = 55) étirerait la verticale au point que la
+     courbe traverserait le cadre presque à la verticale. */
+
+  function uBrut(Z, s) {
+    if (Z <= 0) return -Infinity;
+    if (Math.abs(1 - s) < 1e-6) return Math.log(Z);
+    return (Math.pow(Z, 1 - s) - 1) / (1 - s);
+  }
+  function Zhaut() { return Math.max(Z2(), Z1() + ECART); }
+  function u(Z, s) {
+    var lo = uBrut(Z1(), s), hi = uBrut(Zhaut(), s);
+    return YBAS + (uBrut(Z, s) - lo) / (hi - lo) * (YHAUT - YBAS);
+  }
+
+  function Eu() { return pi() * u(Z1(), sig()) + (1 - pi()) * u(Z2(), sig()); }
+
+  // EC : la richesse certaine dont l'utilité égale l'utilité espérée.
+  // Econ.bissection rend null quand l'intervalle n'encadre aucune racine ; on
+  // propage alors NaN, que Econ.nb affiche « — » et que les tracés masquent,
+  // plutôt qu'un zéro qui passerait pour un résultat.
+  function EC() {
+    var s = sig(), cible = Eu();
+    var r = Econ.bissection(function (Z) { return u(Z, s) - cible; }, ZMIN, ZMAX, 1e-7);
+    return r === null ? NaN : r;
+  }
+  function ECok() { return isFinite(EC()); }
+
+  // Décalages exprimés en pixels, convertis en unités du graphe.
+  function dx(p) { return p / b.unitX; }
+  function dy(p) { return p / b.unitY; }
+
+  /* --- tracé --- */
+
+  var courbe = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.indiff, strokeWidth: 2.5, highlight: false, fixed: true
+  });
+  // La courbe est coupée aux bords du cadre : sous forte aversion, la CRRA
+  // plonge très bas à gauche de Z1 et sortirait du dessin.
+  courbe.updateDataArray = function () {
+    var s = sig(), bb = b.getBoundingBox(), xs = [], ys = [], n = 300, i, Z, y;
+    for (i = 0; i <= n; i++) {
+      Z = ZMIN + (ZMAX - ZMIN) * i / n;
+      y = u(Z, s);
+      if (!isFinite(y) || y < bb[3] || y > bb[1]) {
+        if (xs.length && !isNaN(xs[xs.length - 1])) { xs.push(NaN); ys.push(NaN); }
+        continue;
+      }
+      xs.push(Z); ys.push(y);
+    }
+    this.dataX = xs; this.dataY = ys;
+  };
+
+  // La corde : utilité espérée pour toutes les combinaisons des deux états.
+  var A = b.create('point', [Z1, function () { return u(Z1(), sig()); }],
+    { name: '', size: 3, fillColor: Econ.COUL.budget, strokeColor: '#fff', fixed: true, highlight: false });
+  var B = b.create('point', [Z2, function () { return u(Z2(), sig()); }],
+    { name: '', size: 3, fillColor: Econ.COUL.budget, strokeColor: '#fff', fixed: true, highlight: false });
+  b.create('segment', [A, B], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 2, highlight: false, fixed: true
+  });
+
+  // Point d'utilité espérée (sur la corde) et point d'utilité de l'espérance (sur la courbe).
+  var Pesp = b.create('point', [EZ, Eu], {
+    name: '', size: 4, fillColor: Econ.COUL.budget, strokeColor: '#fff', strokeWidth: 1.5,
+    fixed: true, highlight: false
+  });
+  var Pcourbe = b.create('point', [EZ, function () { return u(EZ(), sig()); }], {
+    name: '', size: 4, fillColor: Econ.COUL.indiff, strokeColor: '#fff', strokeWidth: 1.5,
+    fixed: true, highlight: false
+  });
+  // Point d'équivalent certain, sur la courbe, à la même hauteur que E[u].
+  var Pec = b.create('point', [EC, Eu], {
+    name: '', size: 4, fillColor: Econ.COUL.second, strokeColor: '#fff', strokeWidth: 1.5,
+    fixed: true, highlight: false, visible: ECok
+  });
+
+  var pointille = { strokeColor: '#888', strokeWidth: 1, dash: 2,
+                    highlight: false, fixed: true, straightFirst: false, straightLast: false };
+
+  // Verticales de la barre de prime jusqu'aux points, horizontale au niveau de
+  // l'utilité espérée.
+  b.create('segment', [[EC, barreY], Pec], Object.assign({}, pointille, { visible: ECok }));
+  b.create('segment', [[EZ, barreY], Pesp], pointille);
+  b.create('segment', [[0, Eu], Pesp], pointille);
+  // L'écart de Jensen.
+  b.create('segment', [Pesp, Pcourbe], {
+    strokeColor: Econ.COUL.tiers, strokeWidth: 2.5, highlight: false, fixed: true,
+    straightFirst: false, straightLast: false
+  });
+
+  // La prime de risque : le segment horizontal entre EC et E[Z], sous l'axe.
+  // Les hauteurs sont comptées en pixels : la place occupée par un texte ne
+  // rétrécit pas quand le graphe rétrécit.
+  function barreY() { return -dy(34); }
+  function primeY() { return -dy(58); }
+
+  b.create('segment', [[EC, barreY], [EZ, barreY]], {
+    strokeColor: Econ.COUL.second, strokeWidth: 4, highlight: false, fixed: true,
+    straightFirst: false, straightLast: false, visible: ECok
+  });
+
+  /* --- étiquettes -----------------------------------------------------------
+     Aucune ne peut en recouvrir une autre, par construction. EC est toujours à
+     gauche de E[Z] : « EC » se couche vers la gauche, « E[Z] » vers la droite.
+     E[u] et u(E[Z]) partagent la même abscisse : l'une se pose sous son point,
+     l'autre au-dessus du sien. Tous les décalages sont en pixels, sinon un
+     petit écran les verrait grossir en unités du graphe et se toucher.
+     Balayage de 844 284 réglages, à quatre tailles de cadre entre 430 et
+     611 pixels : aucun chevauchement, aucun débordement, graduations de l'axe
+     des richesses comprises. */
+
+  var POLICE = 'font-family: Georgia, serif;';
+  var OMBRE  = ' text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 2px #fff;';
+
+  Econ.texte(b, EZ, function () { return Eu() - dy(14); }, 'E[u]',
+    { fontSize: 13, anchorX: 'middle',
+      cssStyle: POLICE + 'color:' + Econ.COUL.budget + ';' + OMBRE });
+  Econ.texte(b, EZ, function () { return u(EZ(), sig()) + dy(14); }, 'u(E[Z])',
+    { fontSize: 13, anchorX: 'middle',
+      cssStyle: POLICE + 'color:' + Econ.COUL.indiff + ';' + OMBRE });
+
+  Econ.texte(b, function () { return EC() - dx(6); }, barreY, 'EC',
+    { fontSize: 13, anchorX: 'right', visible: ECok,
+      cssStyle: POLICE + 'color:' + Econ.COUL.second + ';' });
+  Econ.texte(b, function () { return EZ() + dx(6); }, barreY, 'E[Z]',
+    { fontSize: 13, anchorX: 'left', cssStyle: POLICE });
+
+  Econ.texte(b, function () { return (EC() + EZ()) / 2; }, primeY,
+    function () { return 'π<sub>R</sub> = ' + Econ.nb(EZ() - EC(), 1); },
+    { fontSize: 13, anchorX: 'middle', visible: ECok,
+      cssStyle: POLICE + 'color:' + Econ.COUL.second + ';' });
+
+  function maj() {
+    res.fixer('ez', Econ.nb(EZ(), 1));
+    res.fixer('ec', Econ.nb(EC(), 1));
+    var p = EZ() - EC();
+    res.fixer('prime', Econ.nb(p, 2));
+    if (!isFinite(p)) {
+      res.fixer('jensen', 'équivalent certain introuvable sur [' + ZMIN + ', ' + ZMAX + ']');
+    } else if (sig() < 0.05) {
+      res.fixer('jensen', 'neutre au risque : EC = E[Z]');
+    } else {
+      res.fixer('jensen', 'riscophobe : il paie ' + Econ.nb(p, 1) +
+                ' pour supprimer le risque');
+    }
+    b.update();
+  }
+
+  maj();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

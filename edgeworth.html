@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La boîte d'Edgeworth — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 6 — L'échange</div>
+<h1>La boîte d'Edgeworth : échange et équilibre</h1>
+<p class="intro">
+Deux agents, deux biens, aucune production. Tout ce qui existe est dans la boîte :
+ce qu'Anne ne consomme pas, Bruno le consomme. <strong>Déplacez la dotation</strong>
+(le point creux) et regardez où l'échange volontaire peut mener.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe"><div id="graphe" class="jxgbox"></div></div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Les deux courbes d'indifférence se croisent à la dotation : elle est un
+      <strong>sommet</strong> de la lentille, pas un point intérieur. Toute allocation à
+      l'intérieur de la lentille améliore faiblement le sort des deux agents et
+      strictement celui d'au moins un. C'est le gain de l'échange.</li>
+    <li>L'équilibre de marché tombe <strong>sur la courbe des contrats</strong>, là où les
+      deux courbes d'indifférence sont tangentes. C'est le premier théorème du bien-être :
+      un équilibre concurrentiel est Pareto-optimal.</li>
+    <li>À l'équilibre, la droite de prix passe par la dotation <em>et</em> par le point
+      d'équilibre : chacun vend un bien pour acheter l'autre, et les deux marchés
+      s'équilibrent au même prix.</li>
+    <li>Déplacez la dotation le long de la droite de prix : l'équilibre ne bouge pas.
+      Seule la valeur de la dotation compte, pas sa composition.</li>
+    <li>Rendez les goûts identiques (<em>a<sub>A</sub></em> = <em>a<sub>B</sub></em>) :
+      la courbe des contrats devient la diagonale. Mettez ensuite
+      <em>a<sub>A</sub></em> = 0,85 et <em>a<sub>B</sub></em> = 0,15 : elle plonge vers le
+      coin en bas à droite. C'est le coin où Anne détient presque tout le <em>X</em> et
+      Bruno presque tout le <em>Y</em>, soit le bien que chacun préfère.</li>
+    <li>Placez la dotation <em>sur</em> la courbe des contrats : la lentille se referme,
+      il n'y a plus d'échange mutuellement avantageux. On y est déjà.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>Une allocation est <strong>Pareto-optimale</strong> quand on ne peut plus améliorer
+  le sort de l'un sans nuire à l'autre, c'est-à-dire quand les TMS sont égaux :
+  <span class="formule">TMS<sub>A</sub> = TMS<sub>B</sub></span>. Le lieu de ces points
+  est la <strong>courbe des contrats</strong>.</p>
+  <p>À l'<strong>équilibre concurrentiel</strong>, chacun maximise son utilité sous la
+  valeur de sa dotation et les marchés s'équilibrent. Avec des préférences
+  Cobb-Douglas et <span class="formule">p<sub>Y</sub> = 1</span>, le prix d'équilibre est
+  <span class="formule">p<sub>X</sub> = (a<sub>A</sub>ω<sub>YA</sub> + a<sub>B</sub>ω<sub>YB</sub>)
+  / (ω<sub>X</sub> − a<sub>A</sub>ω<sub>XA</sub> − a<sub>B</sub>ω<sub>XB</sub>)</span>.</p>
+  <p>Par la <strong>loi de Walras</strong>, si le marché de <em>X</em> s'équilibre, celui
+  de <em>Y</em> s'équilibre aussi : il n'y a qu'un prix relatif à trouver.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var WX = 100, WY = 100;   // dimensions de la boîte (dotations totales)
+
+  var b = Econ.board('graphe', [-14, 116, 116, -14], {
+    nomX: '', nomY: '', pasGrad: 20, graduations: false, axes: false
+  });
+
+  var cmd = document.getElementById('cmd');
+
+  var sAA = Econ.curseur(cmd, { etiquette: 'Goût d\'Anne pour <em>X</em> : <em>a<sub>A</sub></em>',
+    min: 0.15, max: 0.85, pas: 0.05, valeur: 0.6, surChangement: maj });
+  var sAB = Econ.curseur(cmd, { etiquette: 'Goût de Bruno pour <em>X</em> : <em>a<sub>B</sub></em>',
+    min: 0.15, max: 0.85, pas: 0.05, valeur: 0.3, surChangement: maj });
+  var sEX = Econ.curseur(cmd, { etiquette: 'Dotation d\'Anne en <em>X</em>',
+    min: 5, max: 95, pas: 1, valeur: 70, decimales: 0, surChangement: majDot });
+  var sEY = Econ.curseur(cmd, { etiquette: 'Dotation d\'Anne en <em>Y</em>',
+    min: 5, max: 95, pas: 1, valeur: 25, decimales: 0, surChangement: majDot });
+
+  var bContrats = Econ.bascule(cmd, { etiquette: 'Courbe des contrats', coche: true, surChangement: maj });
+  var bLentille = Econ.bascule(cmd, { etiquette: 'Lentille des échanges avantageux', coche: true, surChangement: maj });
+  var bEquil    = Econ.bascule(cmd, { etiquette: 'Équilibre de marché et droite de prix', coche: true, surChangement: maj });
+
+  Econ.boutonReinit(cmd, function () {
+    sAA.fixer(0.6); sAB.fixer(0.3); sEX.fixer(70); sEY.fixer(25);
+    bContrats.fixer(true); bLentille.fixer(true); bEquil.fixer(true);
+    E.moveTo([70, 25]); maj();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['prix', 'Prix d\'équilibre <em>p<sub>X</sub></em> (avec <em>p<sub>Y</sub></em> = 1)'],
+    ['anne', 'Anne à l\'équilibre'],
+    ['bruno', 'Bruno à l\'équilibre'],
+    ['echange', 'Échange réalisé'],
+    ['verif', 'Vérification']
+  ]);
+
+  function aA() { return sAA.valeur(); }
+  function aB() { return sAB.valeur(); }
+  function eX() { return E.X(); }
+  function eY() { return E.Y(); }
+
+  /* --- prix d'équilibre (Cobb-Douglas, pY = 1) --- */
+  function prix() {
+    var num = aA() * eY() + aB() * (WY - eY());
+    var den = WX - aA() * eX() - aB() * (WX - eX());
+    return num / den;
+  }
+
+  /* --- allocation d'équilibre --- */
+  function equilibre() {
+    var p = prix();
+    var IA = p * eX() + eY();
+    return { XA: aA() * IA / p, YA: (1 - aA()) * IA, p: p };
+  }
+
+  /* --- la boîte --- */
+  b.create('polygon', [[0, 0], [WX, 0], [WX, WY], [0, WY]], {
+    fillColor: 'none', borders: { strokeColor: '#444', strokeWidth: 1.5, highlight: false },
+    highlight: false, fixed: true, vertices: { visible: false }
+  });
+  Econ.texte(b, -10, -9, 'O<sub>A</sub>', { fontSize: 14 });
+  Econ.texte(b, WX + 3, WY + 4, 'O<sub>B</sub>', { fontSize: 14 });
+  Econ.texte(b, WX / 2, -10, 'bien X', { fontSize: 13, anchorX: 'middle' });
+  // Ancré à gauche sur le bord du cadre : centré en −12, le texte débordait.
+  Econ.texte(b, -13, WY / 2, 'bien Y', { fontSize: 13, anchorX: 'left' });
+  Econ.texte(b, WX / 2, WY + 5, 'X de Bruno ←', { fontSize: 12, anchorX: 'middle',
+    cssStyle: 'color:#8e44ad;' });
+  Econ.texte(b, WX + 1, WY / 2, 'Y de<br>Bruno ↓', { fontSize: 11, anchorX: 'left',
+    cssStyle: 'color:#8e44ad; line-height:1.15;' });
+
+  /* --- utilités --- */
+  function uA(X, Y) { return Math.pow(X, aA()) * Math.pow(Y, 1 - aA()); }
+  function uB(X, Y) { return Math.pow(X, aB()) * Math.pow(Y, 1 - aB()); }
+
+  // Courbe d'indifférence d'Anne (coordonnées d'Anne, origine en bas à gauche).
+  function courbeA(niveau, style) {
+    var c = b.create('curve', [[], []], style);
+    c.updateDataArray = function () {
+      var u = niveau(), a = aA(), xs = [], ys = [], n = 220, i, X, Y;
+      for (i = 1; i <= n; i++) {
+        X = WX * i / n;
+        Y = Math.pow(u / Math.pow(X, a), 1 / (1 - a));
+        if (!isFinite(Y) || Y > WY) { xs.push(NaN); ys.push(NaN); continue; }
+        xs.push(X); ys.push(Y);
+      }
+      this.dataX = xs; this.dataY = ys;
+    };
+    return c;
+  }
+
+  // Courbe d'indifférence de Bruno, retournée dans les coordonnées d'Anne.
+  function courbeB(niveau, style) {
+    var c = b.create('curve', [[], []], style);
+    c.updateDataArray = function () {
+      var u = niveau(), a = aB(), xs = [], ys = [], n = 220, i, XB, YB;
+      for (i = 1; i <= n; i++) {
+        XB = WX * i / n;
+        YB = Math.pow(u / Math.pow(XB, a), 1 / (1 - a));
+        if (!isFinite(YB) || YB > WY) { xs.push(NaN); ys.push(NaN); continue; }
+        xs.push(WX - XB); ys.push(WY - YB);   // retournement
+      }
+      this.dataX = xs; this.dataY = ys;
+    };
+    return c;
+  }
+
+  /* --- courbe des contrats : TMS_A = TMS_B --- */
+  var contrats = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.accent, strokeWidth: 2.5, dash: 0, highlight: false, fixed: true
+  });
+  contrats.updateDataArray = function () {
+    var kA = aA() / (1 - aA()), kB = aB() / (1 - aB());
+    var xs = [], ys = [], n = 200, i, X, Y;
+    for (i = 0; i <= n; i++) {
+      X = WX * i / n;
+      // Y_A = kB·X·ω_Y / (kA·ω_X + X·(kB − kA))
+      Y = kB * X * WY / (kA * WX + X * (kB - kA));
+      if (!isFinite(Y)) { xs.push(NaN); ys.push(NaN); continue; }
+      xs.push(X); ys.push(Math.max(0, Math.min(WY, Y)));
+    }
+    this.dataX = xs; this.dataY = ys;
+  };
+
+  /* --- lentille : les deux courbes d'indifférence passant par la dotation --- */
+  var indA0 = courbeA(function () { return uA(eX(), eY()); },
+    { strokeColor: Econ.COUL.indiff, strokeWidth: 2, highlight: false, fixed: true });
+  var indB0 = courbeB(function () { return uB(WX - eX(), WY - eY()); },
+    { strokeColor: Econ.COUL.tiers, strokeWidth: 2, highlight: false, fixed: true });
+
+  /* --- courbes d'indifférence à l'équilibre (tangentes) --- */
+  var indA1 = courbeA(function () { var e = equilibre(); return uA(e.XA, e.YA); },
+    { strokeColor: Econ.COUL.indiff, strokeWidth: 1.6, dash: 2, highlight: false, fixed: true });
+  var indB1 = courbeB(function () { var e = equilibre(); return uB(WX - e.XA, WY - e.YA); },
+    { strokeColor: Econ.COUL.tiers, strokeWidth: 1.6, dash: 2, highlight: false, fixed: true });
+
+  /* --- droite de prix passant par la dotation --- */
+  var droitePrix = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 2, highlight: false, fixed: true
+  });
+  droitePrix.updateDataArray = function () {
+    var p = prix(), R = p * eX() + eY();   // valeur de la dotation d'Anne
+    // Y = R − p·X, borné à la boîte
+    var x1 = 0, y1 = R, x2 = R / p, y2 = 0;
+    if (y1 > WY) { y1 = WY; x1 = (R - WY) / p; }
+    if (x2 > WX) { x2 = WX; y2 = R - p * WX; }
+    this.dataX = [x1, x2]; this.dataY = [y1, y2];
+  };
+
+  /* --- dotation (déplaçable) et équilibre --- */
+  var E = b.create('point', [70, 25], {
+    name: 'ω', size: 5, strokeColor: Econ.COUL.titre, strokeWidth: 2, fillColor: '#fff',
+    label: { fontSize: 15, offset: [10, -6] }
+  });
+  // Bornes et pas identiques à ceux des curseurs : le point se cale sur les
+  // mêmes valeurs entières, sinon le panneau et les curseurs racontent deux
+  // histoires différentes (curseur à 5 pendant que le point est à 3, curseur à
+  // 71 pendant que le calcul utilise 70,6).
+  var DOT_MIN = 5, DOT_MAX = 95;
+  E.on('drag', function () {
+    var x = Math.min(DOT_MAX, Math.max(DOT_MIN, Math.round(E.X())));
+    var y = Math.min(DOT_MAX, Math.max(DOT_MIN, Math.round(E.Y())));
+    if (x !== E.X() || y !== E.Y()) E.moveTo([x, y]);
+    sEX.fixer(x); sEY.fixer(y);
+    maj();
+  });
+
+  var PE = b.create('point', [function () { return equilibre().XA; },
+                              function () { return equilibre().YA; }], {
+    name: 'E', size: 4.5, strokeColor: '#fff', strokeWidth: 1.5,
+    fillColor: Econ.COUL.budget, fixed: true, highlight: false,
+    label: { fontSize: 15, offset: [10, 8] }
+  });
+
+  function majDot() { E.moveTo([sEX.valeur(), sEY.valeur()]); maj(); }
+
+  function maj() {
+    var e = equilibre(), p = e.p;
+    res.fixer('prix', Econ.nb(p, 3));
+    res.fixer('anne', 'X = ' + Econ.nb(e.XA, 1) + ', Y = ' + Econ.nb(e.YA, 1));
+    res.fixer('bruno', 'X = ' + Econ.nb(WX - e.XA, 1) + ', Y = ' + Econ.nb(WY - e.YA, 1));
+
+    var dX = e.XA - eX(), dY = e.YA - eY();
+    res.fixer('echange', 'Anne ' + (dX >= 0 ? 'achète ' : 'vend ') + Econ.nb(Math.abs(dX), 1) +
+      ' de X et ' + (dY >= 0 ? 'achète ' : 'vend ') + Econ.nb(Math.abs(dY), 1) + ' de Y');
+
+    // Contrôle : les TMS doivent s'égaler à l'équilibre, et valoir le prix relatif.
+    var tmsA = (aA() / (1 - aA())) * (e.YA / e.XA);
+    var tmsB = (aB() / (1 - aB())) * ((WY - e.YA) / (WX - e.XA));
+    var ecart = Math.max(Math.abs(tmsA - p), Math.abs(tmsB - p));
+    res.fixer('verif', 'TMS<sub>A</sub> = ' + Econ.nb(tmsA, 3) + ', TMS<sub>B</sub> = ' +
+      Econ.nb(tmsB, 3) + (ecart < 1e-6 ? ' = p<sub>X</sub> ✓' : ''));
+
+    contrats.setAttribute({ visible: bContrats.valeur() });
+    indA0.setAttribute({ visible: bLentille.valeur() });
+    indB0.setAttribute({ visible: bLentille.valeur() });
+    indA1.setAttribute({ visible: bEquil.valeur() });
+    indB1.setAttribute({ visible: bEquil.valeur() });
+    droitePrix.setAttribute({ visible: bEquil.valeur() });
+    PE.setAttribute({ visible: bEquil.valeur() });
+    b.update();
+  }
+
+  maj();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

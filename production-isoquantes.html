@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Isoquantes, TMST et rendements à l'échelle — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 7 — La production</div>
+<h1>Isoquantes, TMST et rendements à l'échelle</h1>
+<p class="intro">
+La fonction de production <span class="formule">F(X, Z) = A·X<sup>α</sup>·Z<sup>β</sup></span>
+se lit entièrement sur sa <strong>carte d'isoquantes</strong> : chaque courbe rassemble les
+combinaisons d'intrants (les « inputs » des notes) qui donnent le même niveau de
+production. Le curseur « Position » fait glisser le point le long de l'isoquante bleue et
+affiche le <strong>TMST</strong>, la pente de cette isoquante. La case « doubler les
+intrants » compare ensuite le point doublé à l'isoquante du niveau 2<em>Y</em> : la
+production ne double que si <span class="formule">α + β = 1</span>.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe">
+    <div id="graphe" class="jxgbox"></div>
+    <p style="font-size:.85rem; color:#666; margin:.5rem 0 0; line-height:1.45">
+      <span style="color:#1c3e66; font-weight:bold">———</span> isoquante du point &nbsp;
+      <span style="color:#9aa9b8; font-weight:bold">———</span> autres isoquantes &nbsp;
+      <span style="color:#b0342d; font-weight:bold">– – –</span> tangente (pente = TMST) &nbsp;
+      <span style="color:#8e44ad; font-weight:bold">– – –</span> isoquante du niveau <em>2Y</em> &nbsp;
+      <span style="color:#888; font-weight:bold">·····</span> rayon de l'origine à (2<em>X</em>, 2<em>Z</em>)
+    </p>
+  </div>
+  <div class="commandes" id="cmd"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Poussez le curseur « Position » vers la droite : le point descend le long de
+      l'isoquante bleue. Le TMST est négatif et remonte vers 0 : il passe de −4,27 en position 0,00
+      à −0,23 en position 1,00. Sa valeur absolue diminue, donc la tangente s'aplatit. Une
+      unité de <em>X</em> de plus permet d'économiser de moins en moins de <em>Z</em>.</li>
+    <li>Regardez les deux productivités marginales pendant ce déplacement :
+      Pm<sub>X</sub> = α<em>Y</em>/<em>X</em> baisse et Pm<sub>Z</sub> = β<em>Y</em>/<em>Z</em>
+      monte. Le TMST est l'opposé de leur rapport.</li>
+    <li>Réinitialisez, puis montez α et β ensemble jusqu'à 0,90. Les cinq isoquantes ne
+      bougent pas : à <em>A</em> = 1,00, la carte ne dépend que du rapport α/β. Seuls les
+      niveaux changent, et la production affichée passe de 3,00 à 7,22. Les rendements à
+      l'échelle ne se lisent donc pas sur la forme des courbes. Bougez maintenant α seul :
+      les isoquantes gardent les mêmes points sur la diagonale mais se redressent.</li>
+    <li>Cochez « doubler les intrants » avec α = β = 0,50 : le point doublé <em>B′</em> tombe
+      exactement sur l'isoquante violette du niveau 2<em>Y</em>. Rendements constants.</li>
+    <li>Refaites-le avec α = β = 0,70 : <em>B′</em> passe au-dessus de l'isoquante violette,
+      la production est multipliée par 2<sup>1,4</sup> ≈ 2,64. Avec α = β = 0,35,
+      <em>B′</em> reste en dessous : 2<sup>0,7</sup> ≈ 1,62.</li>
+    <li>Montez <em>A</em> de 1,00 à 1,40 : toutes les isoquantes glissent vers l'origine.
+      Les niveaux tracés sont fixés, donc la production affichée reste 3,00, mais le point
+      passe de (3,00 ; 3,00) à (2,13 ; 2,16). Même production, moins d'intrants.
+      <em>A</em> ne change rien aux rendements à l'échelle.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>Une isoquante de niveau <em>Y</em> s'écrit
+  <span class="formule">Z = (Y / (A·X<sup>α</sup>))<sup>1/β</sup></span>. Sa pente est le
+  taux marginal de substitution technique
+  <span class="formule">TMST = dZ/dX = −Pm<sub>X</sub>/Pm<sub>Z</sub> = −(α/β)·(Z/X)</span>,
+  avec <span class="formule">Pm<sub>X</sub> = α<em>Y</em>/<em>X</em></span> et
+  <span class="formule">Pm<sub>Z</sub> = β<em>Y</em>/<em>Z</em></span>. Comme dans les notes,
+  le TMST est <strong>négatif</strong> : les deux productivités marginales sont positives,
+  donc il faut céder du <em>Z</em> pour gagner du <em>X</em> à production constante.</p>
+  <p>La forme des isoquantes ne dépend que du rapport α/β. En remplaçant <em>Y</em> par
+  <span class="formule">A·d<sup>α+β</sup></span>, l'isoquante qui coupe la diagonale en
+  <em>d</em> s'écrit <span class="formule">Z = d<sup>1+α/β</sup>·X<sup>−α/β</sup></span> :
+  α + β a disparu. Les rendements à l'échelle se lisent sur les <em>niveaux</em>, pas sur
+  les courbes.</p>
+  <p>Multiplier les deux intrants par <em>t</em> multiplie la production par
+  <span class="formule">t<sup>α+β</sup></span> : les rendements à l'échelle sont croissants
+  si α + β &gt; 1, constants si α + β = 1, décroissants si α + β &lt; 1. Attention à ne pas
+  confondre avec la décroissance de la productivité marginale de <em>chaque</em> intrant,
+  qui tient dès que α &lt; 1 et β &lt; 1.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var MAX = 12;                 // cadre visible
+  var HORS = 17;                // au-delà, on coupe la courbe
+  var A0  = 1;                  // productivité de référence des niveaux tracés
+  var DIAG = [1.5, 3, 4.5, 6, 7.5];   // points de la diagonale servant de repères
+  var IREF = 1;                 // isoquante portant le point mobile (passe par (3,3) si A = 1)
+
+  // Bornes du point mobile. Elles servent à garder dans le cadre à la fois le point
+  // doublé (2X, 2Z) et l'isoquante 2Y qui lui sert de référence. Cette isoquante est
+  // la dilatée de l'isoquante du point par 2^(1/(α+β)) ; à l'abscisse 2X elle vaut
+  // Z·2^((1−α)/β), d'où le plafond adaptatif sur Z ci-dessous.
+  var PMAX = 6.2, PMIN = 0.75, XMIN = 0.6, PLAF = 12.4;
+
+  var b = Econ.board('graphe', [-1.3, MAX + 0.9, MAX + 0.9, -1.3], {
+    nomX: 'X', nomY: 'Z', pasGrad: 2
+  });
+
+  var cmd = document.getElementById('cmd');
+
+  var sAl = Econ.curseur(cmd, { etiquette: 'Élasticité de <em>Y</em> par rapport à <em>X</em> : <em>α</em>',
+                                min: 0.35, max: 0.9, pas: 0.05, valeur: 0.5, surChangement: majTout });
+  var sBe = Econ.curseur(cmd, { etiquette: 'Élasticité de <em>Y</em> par rapport à <em>Z</em> : <em>β</em>',
+                                min: 0.35, max: 0.9, pas: 0.05, valeur: 0.5, surChangement: majTout });
+  var sA  = Econ.curseur(cmd, { etiquette: 'Productivité globale : <em>A</em>',
+                                min: 0.8, max: 1.4, pas: 0.05, valeur: 1, surChangement: majTout });
+  var sT  = Econ.curseur(cmd, { etiquette: 'Position du point sur l\'isoquante',
+                                min: 0, max: 1, pas: 0.01, valeur: 0.5, decimales: 2,
+                                surChangement: majTout });
+
+  var bTan = Econ.bascule(cmd, { etiquette: 'Montrer la tangente au point',
+                                 coche: true, surChangement: majTout });
+  var bDbl = Econ.bascule(cmd, { etiquette: 'Doubler les intrants : (2<em>X</em>, 2<em>Z</em>)',
+                                 coche: false, surChangement: majTout });
+
+  Econ.boutonReinit(cmd, function () {
+    sAl.fixer(0.5); sBe.fixer(0.5); sA.fixer(1); sT.fixer(0.5);
+    bTan.fixer(true); bDbl.fixer(false);
+    majTout();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['XZ',   'Point <em>(X, Z)</em>'],
+    ['Y',    'Production <em>Y</em> = <em>F(X, Z)</em>'],
+    ['tmst', 'TMST = d<em>Z</em>/d<em>X</em> = −(α/β)·(<em>Z</em>/<em>X</em>)'],
+    ['pmx',  'Pm<sub>X</sub> = α<em>Y</em>/<em>X</em>'],
+    ['pmz',  'Pm<sub>Z</sub> = β<em>Y</em>/<em>Z</em>'],
+    ['som',  'α + β'],
+    ['rend', 'Rendements à l\'échelle'],
+    ['dbl',  'Si on double les intrants']
+  ]);
+
+  /* --- paramètres courants --- */
+  function al() { return sAl.valeur(); }
+  function be() { return sBe.valeur(); }
+  function AA() { return sA.valeur(); }
+  function F(X, Z) { return AA() * Math.pow(X, al()) * Math.pow(Z, be()); }
+
+  // Niveau de l'isoquante d'indice k : fixé une fois pour toutes à partir de A0,
+  // de sorte que A déplace réellement la carte au lieu de disparaître dans les niveaux.
+  function niveau(k) { return A0 * Math.pow(DIAG[k], al() + be()); }
+
+  // Z le long de l'isoquante de niveau Y.
+  function Ziso(X, Y) { return Math.pow(Y / (AA() * Math.pow(X, al())), 1 / be()); }
+
+  /* --- position du point mobile : on la borne pour rester dans le cadre --- */
+  // Sur l'isoquante de référence, Z = K·X^(-α/β) avec K = (Y1/A)^(1/β) ;
+  // donc Z = z  <=>  X = (K/z)^(β/α).
+  function bornes() {
+    var K = Math.pow(niveau(IREF) / AA(), 1 / be());
+    var e = be() / al();
+    // Plafond sur Z : au-delà, l'isoquante 2Y sortirait du cadre au-dessus de (2X, 2Z).
+    var zmax = Math.min(PMAX, PLAF * Math.pow(2, -(1 - al()) / be()));
+    var lo = Math.max(XMIN, Math.pow(K / zmax, e));
+    var hi = Math.min(PMAX, Math.pow(K / PMIN, e));
+    if (!(hi > lo * 1.02) || !isFinite(lo) || !isFinite(hi)) { lo = 1.5; hi = 4.5; }
+    return [lo, hi];
+  }
+  function ptX() {
+    var v = bornes();
+    return v[0] * Math.pow(v[1] / v[0], sT.valeur());   // interpolation géométrique
+  }
+  function ptZ() { return Ziso(ptX(), niveau(IREF)); }
+  // Convention des notes : TMST = dZ/dX = −Pm_X/Pm_Z, donc négatif.
+  function tmst() { return -(al() / be()) * (ptZ() / ptX()); }
+
+  /* --- tracé des isoquantes --- */
+  function isoquante(fnY, style) {
+    var c = b.create('curve', [[], []], Object.assign({
+      strokeColor: '#9aa9b8', strokeWidth: 1.4, highlight: false, fixed: true
+    }, style || {}));
+    c.updateDataArray = function () {
+      var Y = fnY(), xs = [], ys = [], n = 300, x0 = 0.05, x1 = MAX + 1.2;
+      for (var i = 0; i <= n; i++) {
+        var X = x0 * Math.pow(x1 / x0, i / n);       // échantillonnage log : net près de l'axe
+        var Z = Ziso(X, Y);
+        if (!isFinite(Z) || Z > HORS) {
+          if (xs.length && !isNaN(xs[xs.length - 1])) { xs.push(NaN); ys.push(NaN); }
+          continue;
+        }
+        xs.push(X); ys.push(Z);
+      }
+      this.dataX = xs; this.dataY = ys;
+    };
+    return c;
+  }
+
+  DIAG.forEach(function (d, k) {
+    if (k === IREF) return;
+    isoquante(function () { return niveau(k); });
+  });
+  isoquante(function () { return niveau(IREF); },
+            { strokeColor: Econ.COUL.indiff, strokeWidth: 2.6 });
+
+  // Isoquante du niveau double, pour juger le point (2X, 2Z).
+  var isoDbl = isoquante(function () { return 2 * niveau(IREF); },
+                         { strokeColor: Econ.COUL.tiers, strokeWidth: 1.8, dash: 2 });
+
+  /* --- tangente au point : sa pente est le TMST, donc négative --- */
+  var tang = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.budget, strokeWidth: 1.6, dash: 2, highlight: false, fixed: true
+  });
+  tang.updateDataArray = function () {
+    var X = ptX(), Z = ptZ(), t = -tmst();   // t = valeur absolue de la pente
+    if (!isFinite(t) || t <= 0) { this.dataX = []; this.dataY = []; return; }
+    var haut = MAX + 0.7;
+    var dg = Math.min(X - 0.05, (haut - Z) / t, 3.6);   // vers le haut-gauche
+    var dd = Math.min(haut - X, Z / t, 3.6);            // vers le bas-droite
+    dg = Math.max(dg, 0); dd = Math.max(dd, 0);
+    this.dataX = [X - dg, X + dd];
+    this.dataY = [Z + dg * t, Z - dd * t];
+  };
+
+  /* --- rayon d'expansion proportionnelle et point doublé --- */
+  var rayon = b.create('curve', [[], []], {
+    strokeColor: Econ.COUL.gris, strokeWidth: 1, dash: 1, highlight: false, fixed: true
+  });
+  rayon.updateDataArray = function () {
+    this.dataX = [0, 2 * ptX()];
+    this.dataY = [0, 2 * ptZ()];
+  };
+
+  var P = Econ.pointOptimal(b, ptX, ptZ, { nom: 'B' });
+  var D = b.create('point', [function () { return 2 * ptX(); },
+                             function () { return 2 * ptZ(); }], {
+    name: 'B\'', size: 4, strokeColor: '#fff', strokeWidth: 1.5,
+    fillColor: Econ.COUL.tiers, fixed: true, highlight: false,
+    label: { fontSize: 14, offset: [8, 10] }
+  });
+
+  function majTout() {
+    var X = ptX(), Z = ptZ(), Y = F(X, Z), s = al() + be(), t = tmst();
+
+    res.fixer('XZ', '(' + Econ.nb(X, 2) + ' ; ' + Econ.nb(Z, 2) + ')');
+    res.fixer('Y', Econ.nb(Y, 2));
+    res.fixer('tmst', Econ.nb(t, 2));
+    res.fixer('pmx', Econ.nb(al() * Y / X, 3));
+    res.fixer('pmz', Econ.nb(be() * Y / Z, 3));
+    res.fixer('som', Econ.nb(s, 2));
+
+    var verdict;
+    if (s > 1.001)      verdict = 'croissants (α + β &gt; 1)';
+    else if (s < 0.999) verdict = 'décroissants (α + β &lt; 1)';
+    else                verdict = 'constants (α + β = 1)';
+    res.fixer('rend', verdict);
+
+    var f = Math.pow(2, s);
+    res.fixer('dbl', 'production × ' + Econ.nb(f, 2) +
+                     ' &nbsp;(= 2<sup>' + Econ.nb(s, 2) + '</sup>)');
+
+    var v = bDbl.valeur();
+    D.setAttribute({ visible: v });
+    rayon.setAttribute({ visible: v });
+    isoDbl.setAttribute({ visible: v });
+    tang.setAttribute({ visible: bTan.valeur() });
+
+    b.update();
+  }
+
+  majTout();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>

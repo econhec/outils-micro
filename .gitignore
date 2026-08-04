@@ -1,0 +1,4 @@
+# Fichiers deposes automatiquement par le systeme, a ne pas versionner.
+.DS_Store
+Thumbs.db
+desktop.ini

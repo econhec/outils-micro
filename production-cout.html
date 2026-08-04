@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De la production au coût — ECON 20851</title>
+<link rel="stylesheet" href="commun/jsxgraph.css">
+<link rel="stylesheet" href="commun/style.css?v=13">
+</head>
+<body>
+
+<div class="chapitre">Chapitre 7 — La production</div>
+<h1>De la production au coût</h1>
+<p class="intro">
+La fonction de coût n'est pas donnée : elle se <strong>construit</strong>. Pour chaque niveau
+de production visé <em>Y</em>, l'entreprise cherche la combinaison d'intrants (les « inputs »
+des notes) la moins chère sur l'isoquante : le point de tangence entre l'isoquante et une
+droite d'isocoût (graphe de gauche). En balayant <em>Y</em>, on obtient la courbe
+<span class="formule">C(Y)</span>
+(graphe de droite). Faites varier <em>Y</em> et regardez le point courant se déplacer
+simultanément dans les deux espaces.
+</p>
+
+<div class="atelier">
+  <div class="zonegraphe">
+    <div id="gXZ" class="jxgbox"></div>
+    <p style="font-size:.85rem; color:#666; margin:.5rem 0 0; line-height:1.45">
+      Espace des intrants. <span style="color:#1c3e66; font-weight:bold">———</span>
+      isoquante <em>Y</em> visé &nbsp;
+      <span style="color:#b0342d; font-weight:bold">———</span> isocoût minimal &nbsp;
+      <span style="color:#b8b8b8; font-weight:bold">———</span> isocoûts voisins &nbsp;
+      <span style="color:#888; font-weight:bold">·····</span> sentier d'expansion
+    </p>
+  </div>
+  <div class="zonegraphe">
+    <div id="gC" class="jxgbox"></div>
+    <p style="font-size:.85rem; color:#666; margin:.5rem 0 0; line-height:1.45">
+      Fonction de coût. <span style="color:#2e7d32; font-weight:bold">———</span>
+      <em>C(Y)</em> &nbsp;
+      <span style="color:#8e44ad; font-weight:bold">– – –</span> tangente (pente = coût marginal)
+    </p>
+  </div>
+</div>
+
+<div class="atelier" style="margin-top:1rem">
+  <div class="commandes" id="cmd" style="flex:1 1 100%"><h3>Réglages</h3></div>
+</div>
+
+<div class="observer">
+  <h3>À observer</h3>
+  <ol>
+    <li>Déplacez <em>Y</em> visé : à gauche, l'isoquante se déplace et le point de tangence
+      glisse le long d'un rayon issu de l'origine (le <em>sentier d'expansion</em> : le
+      rapport <em>Z*/X*</em> = β<em>p<sub>X</sub></em>/(α<em>p<sub>Z</sub></em>) ne dépend pas
+      de <em>Y</em>). À droite, le point remonte la courbe <em>C(Y)</em>.</li>
+    <li>Augmentez <em>p<sub>X</sub></em> de 2,00 à 4,00 : les isocoûts se redressent et
+      s'éloignent de l'origine. Aucun point n'est fixe, les deux intercepts bougent : celui
+      de l'axe <em>X</em> passe de 8,00 à 5,66, celui de l'axe <em>Z</em> de 8,00 à 11,31.
+      Le point de tangence glisse le long de l'isoquante vers le haut à gauche :
+      l'entreprise <strong>substitue <em>Z</em> à <em>X</em></strong>. Le coût minimal
+      augmente quand même, de 16,00 à 22,63. La substitution amortit le choc, elle ne
+      l'annule pas.</li>
+    <li>Réinitialisez : α = β = 0,50, donc α + β = 1 et rendements constants. <em>C(Y)</em>
+      est une <strong>droite</strong> issue de l'origine et le coût marginal est constant,
+      égal au coût moyen. Le panneau affiche 4,000 pour les deux.</li>
+    <li>Passez à α = β = 0,75 (α + β = 1,5 &gt; 1) : <em>C(Y)</em> devient
+      <strong>concave</strong> et le coût marginal <em>décroît</em> (1,680 contre un coût
+      moyen de 2,520). Avec α = β = 0,40 (α + β = 0,8 &lt; 1), <em>C(Y)</em> devient
+      <strong>convexe</strong> et le coût marginal croît (7,071 contre 5,657). La forme de la
+      fonction de coût est le reflet des rendements à l'échelle. Réserve : avec α + β &gt; 1,
+      la condition <em>p<sub>Y</sub></em> = <em>c(Y)</em> ne donne pas un maximum de profit,
+      et aucun maximum n'existe en concurrence parfaite. Cet outil construit un coût, il ne
+      construit pas une offre.</li>
+    <li>Vérifiez la ligne « contrôle » du panneau : elle recalcule
+      <em>F(X*, Z*)</em> à partir des demandes conditionnelles. Elle doit toujours afficher
+      exactement le <em>Y</em> visé.</li>
+  </ol>
+</div>
+
+<div class="rappel">
+  <h3>Ce que dit la théorie</h3>
+  <p>Minimiser <span class="formule">p<sub>X</sub>X + p<sub>Z</sub>Z</span> sous la contrainte
+  <span class="formule">A·X<sup>α</sup>Z<sup>β</sup> = Y</span> impose l'égalité entre le TMST
+  et l'opposé du rapport des prix, comme dans les notes :
+  <span class="formule">TMST = −(α/β)(Z/X) = −p<sub>X</sub>/p<sub>Z</sub></span>,
+  soit <span class="formule">Z = β p<sub>X</sub> X / (α p<sub>Z</sub>)</span>. En reportant dans
+  la contrainte, on obtient les <strong>demandes conditionnelles</strong>
+  <span class="formule">X* = [ (Y/A)·(α p<sub>Z</sub> / (β p<sub>X</sub>))<sup>β</sup>
+  ]<sup>1/(α+β)</sup></span> et
+  <span class="formule">Z* = (β p<sub>X</sub> / (α p<sub>Z</sub>))·X*</span>.</p>
+  <p>Le coût minimal vaut
+  <span class="formule">C(Y) = p<sub>X</sub>X* + p<sub>Z</sub>Z*
+  = p<sub>X</sub>X*·(α+β)/α</span>, c'est-à-dire
+  <span class="formule">C(Y) = K·Y<sup>1/(α+β)</sup></span> avec <em>K</em> indépendant de
+  <em>Y</em>. D'où le coût marginal, obtenu <strong>analytiquement</strong> par dérivation :
+  <span class="formule">Cm(Y) = C(Y) / ((α+β)·Y) = CM(Y)/(α+β)</span>. Le coût marginal est donc
+  inférieur au coût moyen quand α + β &gt; 1, et supérieur quand α + β &lt; 1.</p>
+  <p>Notation : les notes écrivent le coût marginal <span class="formule">c(Y)</span>, en
+  minuscule, et réservent le <span class="formule">C</span> majuscule aux coûts totaux. La
+  condition d'offre s'y lit <span class="formule">p<sub>Y</sub> = c(Y)</span>. Cet outil
+  écrit <span class="formule">Cm</span> : c'est le même objet.</p>
+</div>
+
+<script src="commun/jsxgraphcore.js"></script>
+<script src="commun/econ.js?v=13"></script>
+<script>
+(function () {
+  'use strict';
+
+  var AA = 1;          // productivité globale, fixée
+  var YMAX = 8;        // borne du curseur Y et de l'axe du graphe de droite
+
+  /* ---- arrondi « joli » pour les cadres adaptatifs ---- */
+  var PAL = [1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10];
+  function joli(v) {
+    if (!(v > 0) || !isFinite(v)) return 1;
+    var e = Math.pow(10, Math.floor(Math.log(v) / Math.LN10));
+    var m = v / e;
+    for (var i = 0; i < PAL.length; i++) if (m <= PAL[i] + 1e-9) return PAL[i] * e;
+    return 10 * e;
+  }
+
+  /* ---- axes à graduations adaptatives (le cadre change avec les réglages) ---- */
+  function axes(bd, nx, ny) {
+    var tk = {
+      insertTicks: true, minorTicks: 0, drawLabels: true,
+      label: { fontSize: 11, offset: [0, -12] }, strokeColor: '#999'
+    };
+    bd.create('axis', [[0, 0], [1, 0]], {
+      strokeColor: '#444', strokeWidth: 1, highlight: false, fixed: true,
+      name: nx, withLabel: true,
+      label: { position: 'rt', offset: [-8, 16], fontSize: 14, anchorX: 'right' },
+      ticks: tk
+    });
+    bd.create('axis', [[0, 0], [0, 1]], {
+      strokeColor: '#444', strokeWidth: 1, highlight: false, fixed: true,
+      name: ny, withLabel: true,
+      label: { position: 'rt', offset: [14, -8], fontSize: 14 },
+      ticks: {
+        insertTicks: true, minorTicks: 0, drawLabels: true,
+        label: { fontSize: 11, offset: [-16, 0] }, strokeColor: '#999'
+      }
+    });
+  }
+
+  var bXZ = Econ.board('gXZ', [-2, 22, 22, -2], { axes: false });
+  axes(bXZ, 'X', 'Z');
+  var bC = Econ.board('gC', [-1, 40, YMAX + 0.8, -4], { axes: false });
+  axes(bC, 'Y', 'C');
+
+  var cmd = document.getElementById('cmd');
+
+  var sY  = Econ.curseur(cmd, { etiquette: 'Production visée : <em>Y</em>',
+                                min: 0.5, max: YMAX, pas: 0.25, valeur: 4, surChangement: majTout });
+  var sPX = Econ.curseur(cmd, { etiquette: 'Prix de <em>X</em> : <em>p<sub>X</sub></em>',
+                                min: 1, max: 4, pas: 0.25, valeur: 2, surChangement: majTout });
+  var sPZ = Econ.curseur(cmd, { etiquette: 'Prix de <em>Z</em> : <em>p<sub>Z</sub></em>',
+                                min: 1, max: 4, pas: 0.25, valeur: 2, surChangement: majTout });
+  var sAl = Econ.curseur(cmd, { etiquette: 'Élasticité de <em>Y</em> par rapport à <em>X</em> : <em>α</em>',
+                                min: 0.35, max: 0.8, pas: 0.05, valeur: 0.5, surChangement: majTout });
+  var sBe = Econ.curseur(cmd, { etiquette: 'Élasticité de <em>Y</em> par rapport à <em>Z</em> : <em>β</em>',
+                                min: 0.35, max: 0.8, pas: 0.05, valeur: 0.5, surChangement: majTout });
+
+  var bTan = Econ.bascule(cmd, { etiquette: 'Tangente à <em>C(Y)</em> (coût marginal)',
+                                 coche: true, surChangement: majTout });
+
+  Econ.boutonReinit(cmd, function () {
+    sY.fixer(4); sPX.fixer(2); sPZ.fixer(2); sAl.fixer(0.5); sBe.fixer(0.5);
+    bTan.fixer(true); majTout();
+  });
+
+  var res = Econ.resultats(cmd, [
+    ['X',    'Demande conditionnelle <em>X*</em>'],
+    ['Z',    'Demande conditionnelle <em>Z*</em>'],
+    ['ctrl', 'Contrôle : <em>F(X*, Z*)</em>'],
+    ['C',    'Coût minimal <em>C(Y)</em>'],
+    ['CM',   'Coût moyen <em>C(Y)/Y</em>'],
+    ['Cm',   'Coût marginal <em>C′(Y)</em>'],
+    ['rend', 'Rendements à l\'échelle'],
+    ['forme', 'Forme de <em>C(Y)</em>']
+  ]);
+
+  /* --- paramètres --- */
+  function Yc() { return sY.valeur(); }
+  function pX() { return sPX.valeur(); }
+  function pZ() { return sPZ.valeur(); }
+  function al() { return sAl.valeur(); }
+  function be() { return sBe.valeur(); }
+
+  /* --- demandes conditionnelles et coût --- */
+  function Xopt(y) {
+    return Math.pow((y / AA) * Math.pow(al() * pZ() / (be() * pX()), be()), 1 / (al() + be()));
+  }
+  function Zopt(y) { return (be() * pX() / (al() * pZ())) * Xopt(y); }
+  // C = pX·X* + pZ·Z* = pX·X*·(α+β)/α  (Z* substitué)
+  function cout(y) { return pX() * Xopt(y) * (al() + be()) / al(); }
+  // Cm analytique : C = K·Y^(1/(α+β)) donc C′ = C / ((α+β)·Y)
+  function coutM(y) { return cout(y) / ((al() + be()) * y); }
+  function prod(X, Z) { return AA * Math.pow(X, al()) * Math.pow(Z, be()); }
+
+  /* ================= graphe de gauche : espace (X, Z) ================= */
+
+  var iso = bXZ.create('curve', [[], []], {
+    strokeColor: Econ.COUL.indiff, strokeWidth: 2.6, highlight: false, fixed: true
+  });
+  iso.updateDataArray = function () {
+    var Y = Yc(), W = bXZ.getBoundingBox()[2];
+    var xs = [], ys = [], n = 300, x0 = W * 0.004, x1 = W * 1.05;
+    for (var i = 0; i <= n; i++) {
+      var X = x0 * Math.pow(x1 / x0, i / n);
+      var Z = Math.pow(Y / (AA * Math.pow(X, al())), 1 / be());
+      if (!isFinite(Z) || Z > W * 1.6) {
+        if (xs.length && !isNaN(xs[xs.length - 1])) { xs.push(NaN); ys.push(NaN); }
+        continue;
+      }
+      xs.push(X); ys.push(Z);
+    }
+    this.dataX = xs; this.dataY = ys;
+  };
+
+  // isocoûts voisins (au-dessous : inatteignable ; au-dessus : réalisable mais cher)
+  [0.78, 1.22].forEach(function (k) {
+    Econ.droiteBudget(bXZ, pX, pZ, function () { return k * cout(Yc()); },
+                      { style: { strokeColor: '#b8b8b8', strokeWidth: 1.2 } });
+  });
+  // isocoût minimal, tangent à l'isoquante
+  Econ.droiteBudget(bXZ, pX, pZ, function () { return cout(Yc()); },
+                    { style: { strokeWidth: 2.2 } });
+
+  // sentier d'expansion : Z* / X* est indépendant de Y
+  var sentier = bXZ.create('curve', [[], []], {
+    strokeColor: Econ.COUL.gris, strokeWidth: 1, dash: 1, highlight: false, fixed: true
+  });
+  sentier.updateDataArray = function () {
+    var W = bXZ.getBoundingBox()[2], r = be() * pX() / (al() * pZ());
+    var xe = Math.min(W, W / r);
+    this.dataX = [0, xe]; this.dataY = [0, r * xe];
+  };
+
+  Econ.pointOptimal(bXZ, function () { return Xopt(Yc()); },
+                         function () { return Zopt(Yc()); }, { nom: 'E' });
+
+  /* ================= graphe de droite : la fonction de coût ================= */
+
+  var courbeC = bC.create('curve', [[], []], {
+    strokeColor: Econ.COUL.second, strokeWidth: 2.6, highlight: false, fixed: true
+  });
+  courbeC.updateDataArray = function () {
+    var xs = [], ys = [], n = 220;
+    for (var i = 0; i <= n; i++) {
+      var y = 0.02 + (YMAX - 0.02) * i / n;
+      xs.push(y); ys.push(cout(y));
+    }
+    this.dataX = xs; this.dataY = ys;
+  };
+
+  var tanC = bC.create('curve', [[], []], {
+    strokeColor: Econ.COUL.tiers, strokeWidth: 1.6, dash: 2, highlight: false, fixed: true
+  });
+  tanC.updateDataArray = function () {
+    var y = Yc(), c = cout(y), m = coutM(y), h = YMAX * 0.28;
+    var y0 = Math.max(0, y - h), y1 = Math.min(YMAX, y + h);
+    this.dataX = [y0, y1];
+    this.dataY = [c + m * (y0 - y), c + m * (y1 - y)];
+  };
+
+  Econ.pointOptimal(bC, Yc, function () { return cout(Yc()); }, { nom: '' });
+
+  /* ================= mise à jour ================= */
+
+  function majTout() {
+    var y = Yc(), X = Xopt(y), Z = Zopt(y), C = cout(y), s = al() + be();
+
+    // cadres adaptatifs : les quantités d'intrants varient énormément avec α + β
+    var W = joli(1.35 * Math.max(X, Z, 0.8));
+    bXZ.setBoundingBox([-0.10 * W, 1.13 * W, 1.13 * W, -0.11 * W], false);
+
+    var H = joli(1.15 * cout(YMAX));
+    bC.setBoundingBox([-0.09 * YMAX, 1.10 * H, 1.08 * YMAX, -0.12 * H], false);
+
+    res.fixer('X', Econ.nb(X, 2));
+    res.fixer('Z', Econ.nb(Z, 2));
+    res.fixer('ctrl', Econ.nb(prod(X, Z), 3) + ' &nbsp;(<em>Y</em> visé : ' +
+                      Econ.nb(y, 3) + ')');
+    res.fixer('C', Econ.nb(C, 2));
+    res.fixer('CM', Econ.nb(C / y, 3));
+    res.fixer('Cm', Econ.nb(coutM(y), 3));
+
+    var verdict, forme;
+    if (s > 1.001)      { verdict = 'croissants'; forme = 'concave — Cm décroissant, Cm &lt; CM'; }
+    else if (s < 0.999) { verdict = 'décroissants'; forme = 'convexe — Cm croissant, Cm &gt; CM'; }
+    else                { verdict = 'constants'; forme = 'linéaire — Cm = CM constant'; }
+    res.fixer('rend', verdict + ' (α + β = ' + Econ.nb(s, 2) + ')');
+    res.fixer('forme', forme);
+
+    tanC.setAttribute({ visible: bTan.valeur() });
+
+    bXZ.update(); bC.update();
+  }
+
+  majTout();
+  Econ.pied();
+})();
+</script>
+</body>
+</html>
