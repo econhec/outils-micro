@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Les deux théorèmes du bien-être — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -26,10 +26,6 @@ second à l'œuvre. Choisissez l'allocation visée, puis déplacez la dotation <
 <div class="observer">
   <h3>À observer</h3>
   <ol>
-    <li><strong>Second théorème.</strong> Choisissez une allocation visée, puis faites
-      glisser <em>ω</em> d'un bout à l'autre de la droite de prix rouge. Le point <em>E</em>
-      ne bouge pas et le verdict reste vert sur toute la course. Toutes ces dotations
-      mènent au même optimum.</li>
     <li>Décochez « garder la dotation sur la droite de prix » et déplacez <em>ω</em>.
       Le verdict passe au rouge. Une droite verte pointillée apparaît : c'est la vraie
       contrainte budgétaire, celle qui passe par la nouvelle dotation. Elle ne passe plus
@@ -40,10 +36,6 @@ second à l'œuvre. Choisissez l'allocation visée, puis déplacez la dotation <
     <li>Poussez l'allocation visée vers <em>O</em><sub>A</sub> : Anne obtient presque rien.
       C'est encore un optimum de Pareto. Efficacité et équité sont deux questions
       séparées.</li>
-    <li>Déplacez l'allocation visée et lisez <em>p<sub>X</sub></em> : chaque optimum a son
-      prix. Un cas fait exception. Mettez <em>a<sub>A</sub></em> = <em>a<sub>B</sub></em> =
-      0,60 : la courbe des contrats devient la diagonale et <em>p<sub>X</sub></em> reste
-      figé à 1,500 pour toutes les cibles.</li>
   </ol>
 </div>
 
@@ -61,7 +53,8 @@ second à l'œuvre. Choisissez l'allocation visée, puis déplacez la dotation <
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -284,6 +277,8 @@ second à l'œuvre. Choisissez l'allocation visée, puis déplacez la dotation <
                               function () { return equilibre().YA; }], {
     name: 'E', size: 4, strokeColor: '#fff', strokeWidth: 1.5,
     fillColor: Econ.COUL.budget, fixed: true, highlight: false,
+    // Affiché pendant les questions, E répondrait à la première d'entre elles.
+    visible: function () { return !Pred.retenu(); },
     label: { fontSize: 14, offset: [8, -12] }
   });
 
@@ -344,6 +339,102 @@ second à l'œuvre. Choisissez l'allocation visée, puis déplacez la dotation <
 
   placerDot();
   basculer();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* La première question joue le théorème par son échec : une dotation    */
+  /* HORS de la droite de prix mène le marché ailleurs — toujours sur la   */
+  /* courbe des contrats, mais jamais à la cible. Tout est recalculé au    */
+  /* moment du clic, rien n'est affirmé.                                   */
+  /* ------------------------------------------------------------------ */
+
+  // Équilibre de marché à partir d'une dotation quelconque (Cobb-Douglas,
+  // p_Y = 1), identique au calcul de l'outil « boîte d'Edgeworth ».
+  function equilDepuis(dx, dy) {
+    var num = aA() * dy + aB() * (WY - dy);
+    var den = WX - aA() * dx - aB() * (WX - dx);
+    var p = num / den;
+    var IA = p * dx + dy;
+    return { p: p, XA: aA() * IA / p, YA: (1 - aA()) * IA };
+  }
+
+  Pred.init([
+    {
+      id: 'tb-q1',
+      type: 'choix',
+      texte: 'On déplace la dotation <em>ω</em> <strong>hors</strong> de la droite de ' +
+             'prix rouge, puis on laisse le marché fonctionner. On aboutira :',
+      options: ['à l\'allocation visée quand même',
+                'à un autre point de la courbe des contrats',
+                'à la dotation même : aucun échange n\'aura lieu'],
+      reponse: function () {
+        // Une dotation représentative hors de la droite : même X que la
+        // dotation courante, Y décalé vers l'intérieur de la boîte.
+        var d = dot();
+        var dy = d.Y > WY / 2 ? -18 : 18;
+        var e = equilDepuis(d.X, Math.min(WY - 2, Math.max(2, d.Y + dy)));
+        if (Math.hypot(e.XA - cibleX(), e.YA - cibleY()) < 0.15) return 0;
+        var tA = kA() * (e.YA / e.XA);
+        var tB = kB() * ((WY - e.YA) / (WX - e.XA));
+        return Math.abs(tA - tB) < 1e-6 ? 1 : 2;
+      },
+      explication: 'Le deuxième théorème exige une redistribution <em>sur la droite de ' +
+        'prix qui passe par la cible</em>. Une dotation ailleurs a une autre valeur à ce ' +
+        'prix. Le marché mène alors à un autre optimum de Pareto : efficace, mais pas ' +
+        'celui qu\'on visait. Décochez la case et déplacez <em>ω</em> pour le voir — la ' +
+        'droite verte montre le budget réellement en vigueur.'
+    },
+    {
+      id: 'tb-q2',
+      type: 'choix',
+      texte: 'Le prix qui soutient l\'allocation visée est égal :',
+      options: ['au TMS commun des deux agents au point visé',
+                'au rapport des goûts <em>a<sub>A</sub></em>/<em>a<sub>B</sub></em>',
+                'à l\'inverse de ce TMS commun'],
+      reponse: function () {
+        // Le prix de soutien est comparé au TMS calculé du côté de BRUNO :
+        // s'ils coïncident, l'identité tient sans circularité.
+        var t = prixSoutien();
+        var tB = kB() * ((WY - cibleY()) / (WX - cibleX()));
+        if (Math.abs(t - tB) < 1e-6) return 0;
+        var cand = [tB, aA() / aB(), 1 / t], best = 0;
+        for (var i = 1; i < 3; i++) {
+          if (Math.abs(t - cand[i]) < Math.abs(t - cand[best])) best = i;
+        }
+        return best;
+      },
+      explication: 'À son optimum, chaque agent égalise son TMS au prix. Au point visé, ' +
+        'les deux TMS sont déjà égaux — c\'est la courbe des contrats. Ce TMS commun est ' +
+        'donc le seul prix qui arrête les deux agents exactement là. Le rappel donne la ' +
+        'forme close ; déplacez la cible et le prix suit.'
+    },
+    {
+      id: 'tb-q3',
+      type: 'choix',
+      texte: 'Poussez l\'allocation visée tout près de <em>O<sub>A</sub></em> : Anne ' +
+             'n\'a presque rien. Cette allocation est-elle Pareto-optimale ?',
+      options: ['oui : les deux TMS y sont égaux',
+                'non : elle est trop inégale pour être efficace',
+                'seulement si les deux agents ont les mêmes goûts'],
+      reponse: function () {
+        // Évalué au bord gauche du curseur : Anne à 10 unités de X.
+        var x = 10, y = contratY(x);
+        var tA = kA() * (y / x);
+        var tB = kB() * ((WY - y) / (WX - x));
+        return Math.abs(tA - tB) < 1e-6 ? 0 : 1;
+      },
+      explication: 'Pareto-optimal veut dire : aucun échange ne peut améliorer l\'un sans ' +
+        'nuire à l\'autre. C\'est vrai partout sur la courbe des contrats, même tout près ' +
+        'de <em>O<sub>A</sub></em>. L\'efficacité ne juge pas le partage. Pour un partage ' +
+        'différent, on redistribue la dotation, puis on laisse le marché faire — c\'est ' +
+        'tout le deuxième théorème.'
+    }
+  ]);
+
+  document.addEventListener('pred-retenu', maj);
+  document.addEventListener('pred-revele', maj);
+
   Econ.pied();
 })();
 </script>

@@ -5,15 +5,50 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Demande marshallienne et demande hicksienne — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 <style>
-  .zonegraphe.double { flex: 1 1 620px; }
-  .paire { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
-  .paire .jxgbox { max-height: 360px; }
+  /* Cette page porte DEUX graphiques. La disposition habituelle en deux
+     colonnes (figures à gauche, commandes à droite) donnait ici une colonne
+     de commandes deux fois plus haute que les figures : atteindre la question
+     faisait sortir les graphiques de l'écran, ce qui est exactement ce qu'il
+     ne faut pas quand la question porte sur ce qu'ils montrent. On met donc
+     les figures en haut, sur toute la largeur, et les commandes en bande
+     sous elles. */
+  .atelier { display: block; }
+  .zonegraphe.double { flex: none; }
+  .paire { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; align-items: start; }
+  /* Le panneau de gauche a un cadre carré (setBoundingBox) : l'étirer
+     fausserait les pentes, donc les tangences. On garde le rapport 1/1 et
+     on plafonne la taille pour que la bande de commandes reste à l'écran. */
+  .paire .jxgbox { aspect-ratio: 1 / 1; max-height: 330px; max-width: 330px; margin: 0 auto; }
   .paire figure { margin: 0; }
   .paire figcaption {
     font-size: .82rem; color: #666; text-align: center; margin-top: .25rem;
   }
+
+  .commandes {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.4rem;
+    align-items: flex-start;
+  }
+  .commandes h3 { flex: 1 1 100%; margin-bottom: .5rem; }
+  .commandes .curseur { flex: 1 1 190px; margin-bottom: .55rem; }
+  .commandes .bascule { flex: 1 1 auto; }
+  .commandes .reinit { flex: none; margin: 0 0 0 auto; }
+  .commandes .prediction,
+  .commandes .resultats { flex: 1 1 100%; }
+
+  /* En bande large, les options tiennent sur une ligne et les résultats se
+     lisent en deux colonnes : la carte reste basse, l'œil garde les figures. */
+  @media (min-width: 861px) {
+    .commandes .pred-options { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .commandes .pred-options label { margin-bottom: 0; }
+    .commandes .resultats { columns: 2; column-gap: 1.6rem; }
+    .commandes .resultats div { break-inside: avoid; }
+  }
+
   @media (max-width: 860px) { .paire { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -43,6 +78,16 @@ la demande <strong>marshallienne</strong> retient les deux.
         <figcaption>Les deux courbes de demande</figcaption>
       </figure>
     </div>
+    <p style="font-size:.85rem; color:#666; margin:.5rem 0 0; line-height:1.45">
+      À gauche : <span style="color:#b0342d; font-weight:bold">———</span> budget initial
+      (<em>p<sub>X</sub></em><sup>0</sup>) &nbsp;
+      <span style="color:#2e7d32; font-weight:bold">———</span> budget final
+      (<em>p<sub>X</sub></em><sup>1</sup>) &nbsp;
+      <span style="color:#8e44ad; font-weight:bold">– – –</span> budget compensé &nbsp;
+      <span style="color:#1c3e66; font-weight:bold">———</span> indifférence initiale.
+      À droite : <span style="color:#b0342d; font-weight:bold">———</span> marshallienne &nbsp;
+      <span style="color:#8e44ad; font-weight:bold">———</span> hicksienne.
+    </p>
   </div>
   <div class="commandes" id="cmd"><h3>Réglages</h3></div>
 </div>
@@ -50,23 +95,17 @@ la demande <strong>marshallienne</strong> retient les deux.
 <div class="observer">
   <h3>À observer</h3>
   <ol>
-    <li>Aux réglages de départ le prix baisse de 6 à 3. À gauche, la droite verte pivote
+    <li>Aux réglages de départ le prix baisse. À gauche, la droite verte pivote
       vers la droite et la droite violette, qui lui est parallèle, reste tangente à la
       courbe d'indifférence <em>initiale</em>. Le passage A → B est la substitution, le
-      passage B → C l'effet de revenu.</li>
-    <li>Lisez la ligne «&nbsp;Vérification&nbsp;»&nbsp;: 3,45 + 4,88 = 8,33. Effet de substitution
-      + effet de revenu = effet total, quelles que soient les valeurs des curseurs.</li>
-    <li>Le signe de l'effet de substitution est <strong>toujours</strong> opposé à celui de
-      la variation de prix&nbsp;: montez <em>p<sub>X</sub><sup>1</sup></em> à 9 et B passe à
-      gauche de A. La ligne «&nbsp;Revenu compensé&nbsp;» indique alors qu'il faut <em>ajouter</em> du
-      revenu. C'est la seule partie de la réaction dont la théorie garantit le signe.</li>
+      passage B → C l'effet de revenu&nbsp;; la ligne «&nbsp;Vérification&nbsp;» confirme que les
+      deux morceaux somment à l'effet total, quels que soient les curseurs.</li>
     <li>À droite, les deux courbes <strong>se croisent</strong> au prix initial
       <em>p<sub>X</sub><sup>0</sup></em>&nbsp;: c'est là que la compensation est nulle.
       Bougez <em>p<sub>X</sub><sup>0</sup></em> et le point de croisement suit.</li>
-    <li>Comparez les pentes&nbsp;: la hicksienne (violette) est plus <strong>raide</strong>
-      que la marshallienne (rouge), parce qu'elle ne contient pas l'effet de revenu qui,
-      pour un bien normal, renforce la réaction. Montez <em>a</em> à 0,8&nbsp;: l'écart
-      entre les deux courbes s'accentue, car l'effet de revenu devient plus important.</li>
+    <li>Montez <em>a</em> à 0,8&nbsp;: l'écart entre les deux courbes de demande
+      s'accentue, car l'effet de revenu — la seule chose qui les distingue — devient
+      plus important quand <em>X</em> pèse plus lourd dans le budget.</li>
   </ol>
 </div>
 
@@ -93,7 +132,8 @@ la demande <strong>marshallienne</strong> retient les deux.
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -448,6 +488,83 @@ la demande <strong>marshallienne</strong> retient les deux.
   function majTout() { maj(); bG.fullUpdate(); bD.fullUpdate(); }
 
   majTout();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* Les bonnes réponses sont calculées à partir des mêmes fonctions que  */
+  /* celles qui font tourner l'outil : A(), B(), xM, xH. Rien n'est écrit  */
+  /* en dur, donc rien ne devient faux si on bouge un curseur ou si l'on   */
+  /* change une valeur par défaut.                                        */
+  /* ------------------------------------------------------------------ */
+
+  Pred.init([
+    {
+      id: 'mh-q1',
+      type: 'direction',
+      texte: 'Aux réglages actuels, <em>p<sub>X</sub></em> passe de ' +
+             '<em>p<sub>X</sub><sup>0</sup></em> à <em>p<sub>X</sub><sup>1</sup></em>. ' +
+             'L\'effet de <strong>substitution</strong> sur <em>X</em> — le passage de ' +
+             '<strong>A</strong> à <strong>B</strong> — sera :',
+      options: ['positif : <em>X</em> augmente',
+                'négatif : <em>X</em> diminue',
+                'nul'],
+      reponse: function () {
+        var sub = B().X - A().X;
+        if (Math.abs(sub) < 0.005) return 2;
+        return sub > 0 ? 0 : 1;
+      },
+      explication: 'L\'effet de substitution se lit à utilité constante, le long de la ' +
+        'courbe d\'indifférence initiale : le consommateur se tourne vers le bien devenu ' +
+        'relativement moins cher. Il va donc <em>toujours</em> dans le sens contraire de la ' +
+        'variation de prix, quelles que soient les préférences. C\'est la seule partie de la ' +
+        'réaction dont la théorie garantit le signe ; l\'effet de revenu, lui, dépend de la ' +
+        'normalité du bien.'
+    },
+    {
+      id: 'mh-q2',
+      type: 'choix',
+      texte: 'Dans le plan <em>(X, p<sub>X</sub>)</em>, à droite, laquelle des deux courbes ' +
+             'de demande est la plus <strong>raide</strong> ?',
+      options: ['la marshallienne',
+                'la hicksienne',
+                'les deux ont la même pente'],
+      reponse: function () {
+        // Plus raide dans le plan (X, p) = moins de déplacement horizontal pour
+        // la même variation de prix. On mesure les deux autour du prix initial.
+        var p = pX0(), h = 0.05;
+        var dM = Math.abs(xM(p + h) - xM(p - h));
+        var dH = Math.abs(xH(p + h) - xH(p - h));
+        if (Math.abs(dM - dH) < 1e-6) return 2;
+        return dH < dM ? 1 : 0;
+      },
+      explication: 'La hicksienne ne retient que l\'effet de substitution ; la marshallienne ' +
+        'y ajoute l\'effet de revenu, qui pour un bien normal pousse dans le même sens. La ' +
+        'marshallienne réagit donc plus fortement à une variation de prix : elle est plus ' +
+        'élastique, donc plus plate. Avec Cobb-Douglas, ' +
+        '<span class="formule">X<sup>M</sup> ∝ p<sub>X</sub><sup>−1</sup></span> alors que ' +
+        '<span class="formule">X<sup>H</sup> ∝ p<sub>X</sub><sup>a−1</sup></span> avec ' +
+        '<em>a</em> &lt; 1.'
+    },
+    {
+      id: 'mh-q3',
+      type: 'numerique',
+      texte: 'Estimez maintenant l\'<strong>effet total</strong> ' +
+             '<em>X<sub>C</sub> − X<sub>A</sub></em>. Les curseurs vous donnent ' +
+             '<em>a</em>, <em>I</em>, <em>p<sub>X</sub><sup>0</sup></em> et ' +
+             '<em>p<sub>X</sub><sup>1</sup></em> : la formule de la demande suffit.',
+      unite: 'unités de <em>X</em>',
+      tolerance: 0.02,
+      reponse: function () { return Cc().X - A().X; },
+      explication: 'Avec des préférences Cobb-Douglas, la part du budget consacrée à <em>X</em> ' +
+        'est constante et vaut <em>a</em> : la demande marshallienne s\'écrit ' +
+        '<span class="formule">X<sup>M</sup> = a I / p<sub>X</sub></span>. Elle est donc ' +
+        'inversement proportionnelle au prix — diviser le prix par deux double la quantité. ' +
+        'L\'effet total se lit directement sur cette formule, sans passer par la décomposition ; ' +
+        'celle-ci sert à expliquer <em>pourquoi</em> le déplacement se fait, pas à le calculer.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

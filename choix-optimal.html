@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Le choix optimal du consommateur — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -26,34 +26,18 @@ avantageux à faire.
 <div class="observer">
   <h3>À observer</h3>
   <ol>
-    <li>Réglages de départ&nbsp; Cobb-Douglas, <em>a</em> = 0,50, <em>p<sub>X</sub></em> = 5,
-      <em>p<sub>Y</sub></em> = 4, <em>I</em> = 100. L'optimum est en <em>X*</em> = 10,00.
-      Amenez le point creux vers <em>X</em> = 5&nbsp; le panneau affiche un TMS voisin de 3,75,
-      supérieur au rapport des prix 1,25, et conseille d'acheter plus de <em>X</em>.</li>
-    <li>Faites passer <em>p<sub>X</sub></em> de 5 à 10&nbsp; la droite pivote autour de
-      <em>I</em>/<em>p<sub>Y</sub></em> = 25 et <em>X*</em> tombe de 10,00 à 5,00. C'est un
-      point de la courbe de demande.</li>
-    <li>Revenez à <em>p<sub>X</sub></em> = 5 et faites passer <em>I</em> de 100 à 140&nbsp; la
-      droite se déplace parallèlement, <em>X*</em> passe de 10,00 à 14,00 et <em>Y*</em> de
-      12,50 à 17,50. Le rapport <em>Y*</em>/<em>X*</em> ne bouge pas&nbsp; les parts de dépense
-      sont constantes.</li>
-    <li>Choisissez les préférences <em>CES</em> et amenez <em>r</em> à 0&nbsp; on retrouve
-      exactement Cobb-Douglas, <em>X*</em> = 10,00 et <em>Y*</em> = 12,50. La CES contient
-      Cobb-Douglas comme cas limite.</li>
-    <li>Passez aux <em>substituts parfaits</em>&nbsp; l'optimum est en (0,00&nbsp; 25,00), sur
-      l'axe des <em>Y</em>. Posez le point creux dessus&nbsp; le panneau annonce une solution
-      de coin. Baissez <em>p<sub>X</sub></em> à 3&nbsp; l'optimum saute sur l'autre axe, en
-      (33,33&nbsp; 0,00). La tangence ne s'applique plus.</li>
-    <li>Passez aux <em>compléments parfaits</em>&nbsp; l'optimum est au coude, en
-      (11,11&nbsp; 11,11), et le TMS n'y est pas défini. Placez le point creux à droite du
-      coude&nbsp; le TMS vaut 0, il faut acheter plus de <em>Y</em>. À gauche&nbsp; le TMS est
-      infini, il faut acheter plus de <em>X</em>. Les deux ramènent au coude.</li>
-    <li>Passez au <em>quasi linéaire</em>&nbsp; le curseur <em>a</em> change d'échelle, car
-      l'utilité est <em>a</em>·ln <em>X</em> + <em>Y</em>. Avec <em>a</em> = 6,
-      <em>X*</em> = <em>a p<sub>Y</sub></em>/<em>p<sub>X</sub></em> = 4,80 quel que soit le
-      revenu&nbsp; tout supplément de revenu va en <em>Y</em>. Poussez ensuite <em>a</em> à 12,
-      <em>p<sub>Y</sub></em> à 10 et <em>I</em> à 60&nbsp; l'optimum tombe en coin, en
-      (12,00&nbsp; 0,00).</li>
+    <li>Faites monter le <em>revenu</em> : la droite se déplace parallèlement, <em>X*</em>
+      et <em>Y*</em> augmentent tous deux dans la même proportion, et le rapport
+      <em>Y*</em>/<em>X*</em> ne bouge pas. Avec Cobb-Douglas, les parts de dépense sont
+      constantes : c'est ce qui donnera une courbe d'Engel rectiligne au chapitre 3.</li>
+    <li>Passez aux <em>substituts parfaits</em> : l'optimum se pose sur un axe, et le
+      panneau annonce une solution de <strong>coin</strong>. Baissez <em>p<sub>X</sub></em>
+      assez pour renverser le classement et l'optimum saute sur l'autre axe. La tangence ne
+      s'applique plus : on compare directement ce que chaque dollar rapporte.</li>
+    <li>Passez aux <em>compléments parfaits</em> : l'optimum est au coude, où le TMS n'est
+      pas défini. Posez le point creux à droite du coude : le TMS vaut 0, il faut acheter
+      plus de <em>Y</em>. À gauche, il est infini et il faut acheter plus de <em>X</em>. Les
+      deux raisonnements ramènent au même point.</li>
   </ol>
 </div>
 
@@ -72,7 +56,8 @@ avantageux à faire.
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -286,6 +271,79 @@ avantageux à faire.
   G.on('drag', maj);
 
   changerFamille();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* La première question se lit au point creux G, là où l'étudiant l'a   */
+  /* laissé : sa réponse dépend donc de l'endroit exact où il se trouve   */
+  /* sur la contrainte, et devient « déjà à l'optimum » à la tangence.    */
+  /* Les deux autres passent par opt(), la demande qui sert au tracé.     */
+  /* ------------------------------------------------------------------ */
+
+  Pred.init([
+    {
+      id: 'co-q1',
+      type: 'choix',
+      texte: 'Regardez le <strong>point creux</strong> là où il se trouve sur la ' +
+             'contrainte. Pour améliorer son sort, le consommateur devrait :',
+      options: ['acheter plus de <em>X</em> et moins de <em>Y</em>',
+                'acheter plus de <em>Y</em> et moins de <em>X</em>',
+                'ne rien changer : il est déjà à l\'optimum'],
+      reponse: function () {
+        var t = fam().tms(G.X(), G.Y(), par()), r = pX() / pY();
+        if (isNaN(t)) return 2;
+        if (Math.abs(t - r) < 0.01) return 2;
+        return t > r ? 0 : 1;
+      },
+      explication: 'Le TMS dit ce que le consommateur <em>accepterait</em> de sacrifier pour ' +
+        'une unité de <em>X</em> ; le rapport des prix dit ce que le marché lui ' +
+        '<em>demande</em>. Quand le TMS est le plus élevé des deux, <em>X</em> lui rapporte ' +
+        'plus qu\'il ne coûte : il gagne à en prendre davantage, jusqu\'à ce que la convexité ' +
+        'fasse redescendre son TMS au niveau du prix. L\'inégalité inverse conduit au ' +
+        'raisonnement symétrique. Faites glisser le point creux et regardez la ligne ' +
+        '«&nbsp;Au point creux&nbsp;» changer d\'avis.'
+    },
+    {
+      id: 'co-q2',
+      type: 'numerique',
+      texte: 'Quelle valeur prendra le <strong>TMS au point optimal</strong> ?',
+      tolerance: 0.02,
+      decimales: 3,
+      reponse: function () {
+        var o = opt();
+        var t = fam().tms(o.X, o.Y, par());
+        return isFinite(t) ? t : pX() / pY();
+      },
+      explication: 'À l\'optimum intérieur la courbe d\'indifférence est <em>tangente</em> à ' +
+        'la contrainte : les deux pentes coïncident, donc ' +
+        '<span class="formule">TMS = p<sub>X</sub>/p<sub>Y</sub></span>. Le nombre se lit donc ' +
+        'directement sur les curseurs de prix, sans rien savoir des préférences — c\'est ' +
+        'remarquable : le goût <em>a</em> détermine <em>où</em> se place l\'optimum, mais pas ' +
+        'la valeur du TMS qu\'on y trouve. Tous les consommateurs qui font face aux mêmes prix ' +
+        'finissent avec le même TMS, et c\'est ce qui rendra les gains à l\'échange nuls à ' +
+        'l\'équilibre, au chapitre 6.'
+    },
+    {
+      id: 'co-q3',
+      type: 'direction',
+      texte: 'Si <em>p<sub>X</sub></em> augmentait, la quantité <em>X*</em> à l\'optimum :',
+      options: ['augmenterait', 'diminuerait', 'resterait identique'],
+      reponse: function () {
+        var x0 = opt().X;
+        var x1 = fam().demande(pX() * 1.25, pY(), I(), par()).X;
+        if (Math.abs(x1 - x0) < 1e-9) return 2;
+        return x1 > x0 ? 0 : 1;
+      },
+      explication: 'Deux forces vont dans le même sens ici : <em>X</em> devient relativement ' +
+        'plus cher, donc on lui substitue <em>Y</em> ; et le revenu réel baisse, ce qui réduit ' +
+        'encore la consommation d\'un bien normal. Le nouvel optimum se trouve sur une courbe ' +
+        'd\'indifférence <em>plus basse</em> : une hausse de prix appauvrit réellement. Séparer ' +
+        'ces deux forces est précisément l\'objet du chapitre 3, et de l\'outil ' +
+        '<em>Demande marshallienne et hicksienne</em>.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

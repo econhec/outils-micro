@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>La boîte d'Edgeworth — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -13,8 +13,13 @@
 <h1>La boîte d'Edgeworth : échange et équilibre</h1>
 <p class="intro">
 Deux agents, deux biens, aucune production. Tout ce qui existe est dans la boîte :
-ce qu'Anne ne consomme pas, Bruno le consomme. <strong>Déplacez la dotation</strong>
-(le point creux) et regardez où l'échange volontaire peut mener.
+ce qu'Anne ne consomme pas, Bruno le consomme. Les préférences sont Cobb-Douglas :
+<span class="formule">u<sub>A</sub> = X<sup>a<sub>A</sub></sup>Y<sup>1−a<sub>A</sub></sup></span>
+et <span class="formule">u<sub>B</sub> = X<sup>a<sub>B</sub></sup>Y<sup>1−a<sub>B</sub></sup></span>.
+Les dotations totales valent
+<span class="formule">ω<sub>X</sub> = ω<sub>Y</sub> = 100</span>.
+<strong>Déplacez la dotation</strong> (le point creux) et regardez où l'échange
+volontaire peut mener.
 </p>
 
 <div class="atelier">
@@ -29,19 +34,8 @@ ce qu'Anne ne consomme pas, Bruno le consomme. <strong>Déplacez la dotation</st
       <strong>sommet</strong> de la lentille, pas un point intérieur. Toute allocation à
       l'intérieur de la lentille améliore faiblement le sort des deux agents et
       strictement celui d'au moins un. C'est le gain de l'échange.</li>
-    <li>L'équilibre de marché tombe <strong>sur la courbe des contrats</strong>, là où les
-      deux courbes d'indifférence sont tangentes. C'est le premier théorème du bien-être :
-      un équilibre concurrentiel est Pareto-optimal.</li>
-    <li>À l'équilibre, la droite de prix passe par la dotation <em>et</em> par le point
-      d'équilibre : chacun vend un bien pour acheter l'autre, et les deux marchés
-      s'équilibrent au même prix.</li>
     <li>Déplacez la dotation le long de la droite de prix : l'équilibre ne bouge pas.
       Seule la valeur de la dotation compte, pas sa composition.</li>
-    <li>Rendez les goûts identiques (<em>a<sub>A</sub></em> = <em>a<sub>B</sub></em>) :
-      la courbe des contrats devient la diagonale. Mettez ensuite
-      <em>a<sub>A</sub></em> = 0,85 et <em>a<sub>B</sub></em> = 0,15 : elle plonge vers le
-      coin en bas à droite. C'est le coin où Anne détient presque tout le <em>X</em> et
-      Bruno presque tout le <em>Y</em>, soit le bien que chacun préfère.</li>
     <li>Placez la dotation <em>sur</em> la courbe des contrats : la lentille se referme,
       il n'y a plus d'échange mutuellement avantageux. On y est déjà.</li>
   </ol>
@@ -63,7 +57,8 @@ ce qu'Anne ne consomme pas, Bruno le consomme. <strong>Déplacez la dotation</st
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -80,9 +75,9 @@ ce qu'Anne ne consomme pas, Bruno le consomme. <strong>Déplacez la dotation</st
     min: 0.15, max: 0.85, pas: 0.05, valeur: 0.6, surChangement: maj });
   var sAB = Econ.curseur(cmd, { etiquette: 'Goût de Bruno pour <em>X</em> : <em>a<sub>B</sub></em>',
     min: 0.15, max: 0.85, pas: 0.05, valeur: 0.3, surChangement: maj });
-  var sEX = Econ.curseur(cmd, { etiquette: 'Dotation d\'Anne en <em>X</em>',
+  var sEX = Econ.curseur(cmd, { etiquette: 'Dotation d\'Anne en <em>X</em> : <em>ω<sub>XA</sub></em>',
     min: 5, max: 95, pas: 1, valeur: 70, decimales: 0, surChangement: majDot });
-  var sEY = Econ.curseur(cmd, { etiquette: 'Dotation d\'Anne en <em>Y</em>',
+  var sEY = Econ.curseur(cmd, { etiquette: 'Dotation d\'Anne en <em>Y</em> : <em>ω<sub>YA</sub></em>',
     min: 5, max: 95, pas: 1, valeur: 25, decimales: 0, surChangement: majDot });
 
   var bContrats = Econ.bascule(cmd, { etiquette: 'Courbe des contrats', coche: true, surChangement: maj });
@@ -270,6 +265,75 @@ ce qu'Anne ne consomme pas, Bruno le consomme. <strong>Déplacez la dotation</st
   }
 
   maj();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* prix() et equilibre() sont les fonctions qui placent déjà le point   */
+  /* d'équilibre : les réponses suivent donc la dotation et les goûts,    */
+  /* y compris quand on fait glisser le point E dans la boîte.            */
+  /* ------------------------------------------------------------------ */
+
+  Pred.init([
+    {
+      id: 'ed-q1',
+      type: 'choix',
+      texte: 'Aux réglages actuels, en échangeant au prix d\'équilibre, ' +
+             '<strong>Anne</strong> va :',
+      options: ['vendre du <em>X</em> et acheter du <em>Y</em>',
+                'acheter du <em>X</em> et vendre du <em>Y</em>',
+                'ne rien échanger du tout'],
+      reponse: function () {
+        var e = equilibre(), d = e.XA - eX();
+        if (Math.abs(d) < 0.05) return 2;
+        return d < 0 ? 0 : 1;
+      },
+      explication: 'Comparez la dotation d\'Anne à son panier d\'équilibre. Elle vend le bien ' +
+        'dont elle est <em>relativement</em> bien pourvue au regard de ses goûts, et achète ' +
+        'l\'autre. Ce n\'est pas la quantité absolue qui décide, mais la comparaison entre son ' +
+        'TMS à la dotation et le prix du marché : si son TMS y est inférieur au prix de ' +
+        '<em>X</em>, elle valorise <em>X</em> moins que le marché et a intérêt à en vendre. ' +
+        'Déplacez le point <strong>E</strong> et regardez le sens de l\'échange s\'inverser.'
+    },
+    {
+      id: 'ed-q2',
+      type: 'choix',
+      texte: 'À l\'équilibre de marché, le TMS d\'Anne et celui de Bruno :',
+      options: ['sont égaux entre eux',
+                'celui d\'Anne est le plus élevé',
+                'celui de Bruno est le plus élevé'],
+      reponse: function () {
+        var e = equilibre(), p = e.p;
+        var tA = (aA() / (1 - aA())) * (e.YA / e.XA);
+        var XB = WX - e.XA, YB = WY - e.YA;
+        var tB = (aB() / (1 - aB())) * (YB / XB);
+        if (Math.abs(tA - tB) < 1e-6) return 0;
+        return tA > tB ? 1 : 2;
+      },
+      explication: 'Chacun choisit son panier en égalisant son TMS au <em>même</em> rapport de ' +
+        'prix : les deux TMS se retrouvent donc égaux, sans que personne ne se soit concerté. ' +
+        'C\'est précisément la condition d\'efficacité au sens de Pareto — l\'équilibre tombe ' +
+        'sur la <strong>courbe des contrats</strong>. Aucun échange supplémentaire ne peut plus ' +
+        'améliorer l\'un sans nuire à l\'autre : c\'est le premier théorème du bien-être, ' +
+        'visible d\'un coup d\'œil dans la boîte.'
+    },
+    {
+      id: 'ed-q3',
+      type: 'numerique',
+      texte: 'Estimez le <strong>prix d\'équilibre</strong> <em>p<sub>X</sub></em> ' +
+             '(avec <em>p<sub>Y</sub></em> = 1). Le rappel en donne la formule.',
+      tolerance: 0.02,
+      decimales: 3,
+      reponse: function () { return prix(); },
+      explication: 'La méthode : la demande totale de <em>X</em> doit égaler la dotation ' +
+        'totale. Chaque agent demande <span class="formule">a·I/p</span>, avec un revenu ' +
+        '<span class="formule">I = p·e<sub>X</sub> + e<sub>Y</sub></span>. On somme, on égale ' +
+        'à <span class="formule">ω<sub>X</sub></span>, on résout en <em>p</em> : c\'est la ' +
+        'forme close du rappel. La loi de Walras dispense de vérifier l\'autre marché — si ' +
+        '<em>X</em> s\'équilibre, <em>Y</em> s\'équilibre aussi.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

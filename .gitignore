@@ -2,3 +2,14 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+outils_prof/
+dossier/
+guide_pedagogique*
+memo_*
+plan_*
+revue_*
+HANDOFF*
+handoff*
+notes_prof*
+corrige*

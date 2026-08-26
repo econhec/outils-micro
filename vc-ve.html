@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Variation compensatoire et variation équivalente — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
 Quand un prix change, de combien le bien-être du consommateur varie-t-il, <em>en
 dollars</em>&nbsp;? Hicks propose deux réponses. La <strong>VC</strong> mesure aux
 <em>nouveaux</em> prix, la <strong>VE</strong> aux <em>anciens</em>. Elles ne donnent
-pas le même chiffre, et la différence n'est pas une erreur.
+pas le même chiffre. L'écart entre les deux a un sens.
 </p>
 
 <div class="atelier">
@@ -26,27 +26,18 @@ pas le même chiffre, et la différence n'est pas une erreur.
 <div class="observer">
   <h3>À observer</h3>
   <ol>
-    <li>Aux réglages de départ le prix double, de 1 à 2. Les deux mesures sont
-      <strong>négatives</strong>&nbsp;: −41,42&nbsp;$ et −29,29&nbsp;$. La hausse de prix
-      nuit au consommateur. Convention du cours&nbsp;: positif = bénéfique.</li>
-    <li>Comparez les deux chiffres&nbsp;: 41,42 contre 29,29. Compenser <em>après</em>
-      coûte plus cher que dédommager <em>avant</em>, parce que la compensation se paie aux
-      prix devenus élevés. Ce classement tient parce que <em>X</em> est un bien normal&nbsp;;
-      pour un bien inférieur il s'inverse.</li>
-    <li>Ramenez <em>p<sub>X</sub></em><sup>1</sup> à 1,25&nbsp;: les deux mesures se
-      rapprochent, −11,80&nbsp;$ et −10,56&nbsp;$. Plus la variation de prix est petite,
-      plus l'écart entre les deux est petit.</li>
     <li>La droite violette est <strong>parallèle</strong> à la droite finale verte (mêmes
       prix, revenu différent) et <strong>tangente</strong> à la courbe d'indifférence de
       départ <em>u</em><sub>0</sub>. Le trait violet épais mesure l'écart entre les deux
-      droites&nbsp;: c'est la VC, en dollars.</li>
-    <li>Cochez «&nbsp;Montrer la variation équivalente&nbsp;»&nbsp;: la droite turquoise est parallèle
+      droites : c'est la VC, en dollars.</li>
+    <li>Cochez « Montrer la variation équivalente » : la droite turquoise est parallèle
       à la droite <em>initiale</em> rouge et tangente à la courbe d'arrivée
-      <em>u</em><sub>1</sub>. Le trait turquoise mesure la VE. Les deux mesures font le même
-      travail, dans l'ordre inverse.</li>
-    <li>Baissez <em>p<sub>X</sub></em><sup>1</sup> à 0,5&nbsp;: tout change de signe, la
-      politique devient bénéfique. On lit 29,29&nbsp;$ (VC) et 41,42&nbsp;$ (VE)&nbsp;: pour
-      une baisse de prix, c'est la VE qui est la plus grande.</li>
+      <em>u</em><sub>1</sub>. Les deux mesures font le même travail, dans l'ordre inverse :
+      l'une compense après coup, l'autre dédommage d'avance.</li>
+    <li>Rapprochez <em>p<sub>X</sub></em><sup>1</sup> de <em>p<sub>X</sub></em><sup>0</sup> :
+      les deux mesures se rapprochent l'une de l'autre, et se rejoignent quand le prix ne
+      change plus. Plus la variation de prix est petite, plus l'effet de revenu qui les
+      sépare est faible.</li>
   </ol>
 </div>
 
@@ -69,7 +60,8 @@ pas le même chiffre, et la différence n'est pas une erreur.
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -330,8 +322,10 @@ pas le même chiffre, et la différence n'est pas une erreur.
       straightFirst: false, straightLast: false, visible: actif });
   }
 
-  var vcOn = function () { return bVC.valeur(); };
-  var veOn = function () { return bVE.valeur(); };
+  // Les étiquettes « VC = … $ » donneraient la réponse de la question 3 :
+  // elles restent masquées tant que la série de prédictions n'est pas finie.
+  var vcOn = function () { return bVC.valeur() && !Pred.retenu(); };
+  var veOn = function () { return bVE.valeur() && !Pred.retenu(); };
 
   var poseVC = etiquette(ancresMesure(eNouv, pX1), COTES,
     function () { return 'VC = ' + Econ.nb(VC(), 2) + ' $'; },
@@ -418,6 +412,77 @@ pas le même chiffre, et la différence n'est pas une erreur.
   }
 
   maj();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* VC() et VE() sont les mêmes fonctions que celles du panneau. Les     */
+  /* réglages de départ reprennent l'exemple chiffré des notes du         */
+  /* chapitre 4 : a = 0,5, prix de 1 à 2, revenu 100, d'où VC = −41,42 $  */
+  /* et VE = −29,29 $. Le classement des deux mesures s'inverse si le     */
+  /* prix baisse au lieu de monter — c'est ce que la question 2 teste.    */
+  /* ------------------------------------------------------------------ */
+
+  Pred.init([
+    {
+      id: 'vv-q1',
+      type: 'direction',
+      texte: 'Aux réglages actuels, la variation compensatoire ' +
+             '<em>ΔI<sub>VC</sub></em> sera :',
+      options: ['positive', 'négative', 'nulle'],
+      reponse: function () {
+        var v = VC();
+        if (Math.abs(v) < 0.005) return 2;
+        return v > 0 ? 0 : 1;
+      },
+      explication: 'La convention du cours veut que <em>ΔI<sub>VC</sub></em> soit ' +
+        '<strong>positive quand le changement est bénéfique</strong>. Une hausse de prix ' +
+        'appauvrit le consommateur : il faudrait lui verser de l\'argent pour le ramener à son ' +
+        'bien-être initial, et la mesure est donc négative. Une baisse de prix donne l\'inverse. ' +
+        'Faites passer <em>p<sub>X</sub></em><sup>1</sup> sous <em>p<sub>X</sub></em><sup>0</sup> ' +
+        'et le signe change.'
+    },
+    {
+      id: 'vv-q2',
+      type: 'choix',
+      texte: 'Laquelle des deux mesures est la plus grande <strong>en valeur ' +
+             'absolue</strong> ?',
+      options: ['la variation compensatoire <em>ΔI<sub>VC</sub></em>',
+                'la variation équivalente <em>ΔI<sub>VE</sub></em>',
+                'les deux sont égales'],
+      reponse: function () {
+        var a = Math.abs(VC()), b = Math.abs(VE());
+        if (Math.abs(a - b) < 1e-9) return 2;
+        return a > b ? 0 : 1;
+      },
+      explication: 'Les deux mesurent le même changement, mais à des prix différents : la VC ' +
+        'aux prix d\'<em>arrivée</em>, la VE aux prix de <em>départ</em>. Pour une hausse de ' +
+        'prix, compenser après coup coûte plus cher que d\'acheter le renoncement d\'avance, ' +
+        'donc |VC| &gt; |VE| — c\'est l\'exemple des notes, −41,42 $ contre −29,29 $. Pour une ' +
+        '<em>baisse</em> de prix le classement s\'inverse. Les deux ne coïncident que si le prix ' +
+        'ne bouge pas, ou en l\'absence d\'effet de revenu : c\'est le cas quasi-linéaire, où ' +
+        'VC, VE et surplus du consommateur se confondent.'
+    },
+    {
+      id: 'vv-q3',
+      type: 'numerique',
+      texte: 'Estimez maintenant <em>ΔI<sub>VC</sub></em>, en dollars. Le revenu vaut 100&nbsp;$ ' +
+             'et <em>p<sub>Y</sub></em> = 1 ; le rappel donne la fonction de dépense.',
+      unite: '$',
+      tolerance: 0.02,
+      reponse: function () { return VC(); },
+      explication: 'Avec <span class="formule">u = X<sup>a</sup>Y<sup>1−a</sup></span> la ' +
+        'dépense requise pour garder <em>u</em><sub>0</sub> aux nouveaux prix vaut ' +
+        '<span class="formule">I·(p<sub>X</sub><sup>1</sup>/p<sub>X</sub><sup>0</sup>)<sup>a</sup></span>, ' +
+        'donc <span class="formule">ΔI<sub>VC</sub> = I[1 − (p<sub>X</sub><sup>1</sup>/p<sub>X</sub><sup>0</sup>)<sup>a</sup>]</span>. ' +
+        'Aux réglages de départ : 100(1 − √2) ≈ −41,42 $ — le chiffre même de l\'exemple du ' +
+        'chapitre 4. Seul le <em>rapport</em> des prix compte, pas leur niveau.'
+    }
+  ]);
+
+  document.addEventListener('pred-retenu', maj);
+  document.addEventListener('pred-revele', maj);
+
   Econ.pied();
 })();
 </script>

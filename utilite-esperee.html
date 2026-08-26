@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Utilité espérée et équivalent certain — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -13,8 +13,8 @@
 <h1>Utilité espérée, équivalent certain et prime de risque</h1>
 <p class="intro">
 Une loterie donne <em>Z</em><sub>1</sub> avec probabilité <em>π</em> et
-<em>Z</em><sub>2</sub> sinon. Toute la géométrie de l'aversion au risque tient dans un
-seul écart&nbsp;: celui entre la <strong>corde</strong> (l'utilité espérée) et la
+<em>Z</em><sub>2</sub> sinon. L'aversion au risque se lit dans un écart&nbsp;: celui entre
+la <strong>corde</strong> (l'utilité espérée) et la
 <strong>courbe</strong> (l'utilité de l'espérance). L'axe vertical n'est pas gradué&nbsp;:
 l'utilité n'a pas d'unité, seule la forme de la courbe compte.
 </p>
@@ -28,20 +28,16 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
   <h3>À observer</h3>
   <ol>
     <li>Aux réglages de départ, le trait violet mesure l'écart entre la corde et la
-      courbe&nbsp;: <span class="formule">E[u(Z)] &lt; u(E[Z])</span>. C'est l'inégalité de
+      courbe : <span class="formule">E[u(Z)] &lt; u(E[Z])</span>. C'est l'inégalité de
       Jensen. L'agent préfère l'espérance certaine à la loterie.</li>
-    <li>Poussez <em>σ</em> à 0&nbsp;: la courbe s'aplatit sur la corde, le trait violet
-      disparaît et la prime tombe à 0,00. Un agent neutre au risque ne regarde que
-      l'espérance.</li>
-    <li>Montez <em>σ</em> à 4&nbsp;: le trait violet s'allonge, la prime passe de 14,29 à
-      31,14 et l'équivalent certain descend à 18,9, tout près du mauvais état.</li>
-    <li>Réinitialisez, puis écartez les deux états sans toucher à l'espérance
-      (<em>Z</em><sub>1</sub> à 5, <em>Z</em><sub>2</sub> à 95)&nbsp;: <em>E</em>[<em>Z</em>]
-      reste à 50,0 et la prime passe de 14,29 à 28,21. C'est le risque, pas le rendement,
-      qui coûte.</li>
-    <li>Rapprochez-les au maximum (<em>Z</em><sub>1</sub> à 50, <em>Z</em><sub>2</sub> à
-      55)&nbsp;: la prime tombe à 0,06. Un petit risque ne coûte presque rien, parce que
-      l'aversion au risque est un phénomène du second ordre.</li>
+    <li>Poussez <em>σ</em> à 0 : la courbe s'aplatit sur la corde, le trait violet
+      disparaît et la prime tombe à zéro. Un agent neutre au risque ne regarde que
+      l'espérance. Remontez <em>σ</em> : le trait s'allonge et l'équivalent certain
+      descend vers le mauvais état.</li>
+    <li>Rapprochez les deux états au maximum (<em>Z</em><sub>1</sub> à 50,
+      <em>Z</em><sub>2</sub> à 55) : la prime devient minuscule. Un petit risque ne coûte
+      presque rien, parce que l'aversion au risque est un phénomène du <em>second ordre</em> :
+      la prime suit la variance, pas l'écart lui-même.</li>
   </ol>
 </div>
 
@@ -63,7 +59,8 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -154,6 +151,11 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
   }
   function ECok() { return isFinite(EC()); }
 
+  // Pendant les questions, ces éléments donneraient les réponses : l'écart de
+  // Jensen répond à la première, l'étiquette de la prime donne sa valeur.
+  function horsGate() { return !Pred.retenu(); }
+  function ecVis() { return ECok() && !Pred.retenu(); }
+
   // Décalages exprimés en pixels, convertis en unités du graphe.
   function dx(p) { return p / b.unitX; }
   function dy(p) { return p / b.unitY; }
@@ -191,16 +193,16 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
   // Point d'utilité espérée (sur la corde) et point d'utilité de l'espérance (sur la courbe).
   var Pesp = b.create('point', [EZ, Eu], {
     name: '', size: 4, fillColor: Econ.COUL.budget, strokeColor: '#fff', strokeWidth: 1.5,
-    fixed: true, highlight: false
+    fixed: true, highlight: false, visible: horsGate
   });
   var Pcourbe = b.create('point', [EZ, function () { return u(EZ(), sig()); }], {
     name: '', size: 4, fillColor: Econ.COUL.indiff, strokeColor: '#fff', strokeWidth: 1.5,
-    fixed: true, highlight: false
+    fixed: true, highlight: false, visible: horsGate
   });
   // Point d'équivalent certain, sur la courbe, à la même hauteur que E[u].
   var Pec = b.create('point', [EC, Eu], {
     name: '', size: 4, fillColor: Econ.COUL.second, strokeColor: '#fff', strokeWidth: 1.5,
-    fixed: true, highlight: false, visible: ECok
+    fixed: true, highlight: false, visible: ecVis
   });
 
   var pointille = { strokeColor: '#888', strokeWidth: 1, dash: 2,
@@ -208,13 +210,15 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
 
   // Verticales de la barre de prime jusqu'aux points, horizontale au niveau de
   // l'utilité espérée.
-  b.create('segment', [[EC, barreY], Pec], Object.assign({}, pointille, { visible: ECok }));
-  b.create('segment', [[EZ, barreY], Pesp], pointille);
-  b.create('segment', [[0, Eu], Pesp], pointille);
+  b.create('segment', [[EC, barreY], Pec], Object.assign({}, pointille, { visible: ecVis }));
+  b.create('segment', [[EZ, barreY], Pesp],
+    Object.assign({}, pointille, { visible: horsGate }));
+  b.create('segment', [[0, Eu], Pesp],
+    Object.assign({}, pointille, { visible: horsGate }));
   // L'écart de Jensen.
   b.create('segment', [Pesp, Pcourbe], {
     strokeColor: Econ.COUL.tiers, strokeWidth: 2.5, highlight: false, fixed: true,
-    straightFirst: false, straightLast: false
+    straightFirst: false, straightLast: false, visible: horsGate
   });
 
   // La prime de risque : le segment horizontal entre EC et E[Z], sous l'axe.
@@ -225,7 +229,7 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
 
   b.create('segment', [[EC, barreY], [EZ, barreY]], {
     strokeColor: Econ.COUL.second, strokeWidth: 4, highlight: false, fixed: true,
-    straightFirst: false, straightLast: false, visible: ECok
+    straightFirst: false, straightLast: false, visible: ecVis
   });
 
   /* --- étiquettes -----------------------------------------------------------
@@ -242,21 +246,21 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
   var OMBRE  = ' text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 2px #fff;';
 
   Econ.texte(b, EZ, function () { return Eu() - dy(14); }, 'E[u]',
-    { fontSize: 13, anchorX: 'middle',
+    { fontSize: 13, anchorX: 'middle', visible: horsGate,
       cssStyle: POLICE + 'color:' + Econ.COUL.budget + ';' + OMBRE });
   Econ.texte(b, EZ, function () { return u(EZ(), sig()) + dy(14); }, 'u(E[Z])',
-    { fontSize: 13, anchorX: 'middle',
+    { fontSize: 13, anchorX: 'middle', visible: horsGate,
       cssStyle: POLICE + 'color:' + Econ.COUL.indiff + ';' + OMBRE });
 
   Econ.texte(b, function () { return EC() - dx(6); }, barreY, 'EC',
-    { fontSize: 13, anchorX: 'right', visible: ECok,
+    { fontSize: 13, anchorX: 'right', visible: ecVis,
       cssStyle: POLICE + 'color:' + Econ.COUL.second + ';' });
   Econ.texte(b, function () { return EZ() + dx(6); }, barreY, 'E[Z]',
     { fontSize: 13, anchorX: 'left', cssStyle: POLICE });
 
   Econ.texte(b, function () { return (EC() + EZ()) / 2; }, primeY,
     function () { return 'π<sub>R</sub> = ' + Econ.nb(EZ() - EC(), 1); },
-    { fontSize: 13, anchorX: 'middle', visible: ECok,
+    { fontSize: 13, anchorX: 'middle', visible: ecVis,
       cssStyle: POLICE + 'color:' + Econ.COUL.second + ';' });
 
   function maj() {
@@ -276,6 +280,90 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
   }
 
   maj();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* On travaille sur uBrut, la vraie CRRA : la mise à l'échelle affine   */
+  /* utilisée pour le dessin ne change ni l'équivalent certain ni la      */
+  /* prime, mais elle est ancrée sur les Z courants, donc inutilisable    */
+  /* pour évaluer une loterie hypothétique. L'inverse de uBrut est écrit  */
+  /* explicitement ici pour la même raison.                               */
+  /* ------------------------------------------------------------------ */
+
+  function ecDe(z1, z2) {
+    var s = sig(), p = pi();
+    var v = p * uBrut(z1, s) + (1 - p) * uBrut(z2, s);
+    if (Math.abs(1 - s) < 1e-6) return Math.exp(v);
+    var base = 1 + (1 - s) * v;
+    return base <= 0 ? NaN : Math.pow(base, 1 / (1 - s));
+  }
+  function primeDe(z1, z2) { return (pi() * z1 + (1 - pi()) * z2) - ecDe(z1, z2); }
+
+  Pred.init([
+    {
+      id: 'ue-q1',
+      type: 'choix',
+      texte: 'Aux réglages actuels, l\'<strong>équivalent certain</strong> se situera :',
+      options: ['sous l\'espérance <em>E[Z]</em>',
+                'exactement à <em>E[Z]</em>',
+                'au-dessus de <em>E[Z]</em>'],
+      reponse: function () {
+        var e = EC(), m = EZ();
+        if (!isFinite(e)) return 1;
+        if (Math.abs(e - m) < 0.005) return 1;
+        return e < m ? 0 : 2;
+      },
+      explication: 'C\'est l\'inégalité de Jensen : pour une fonction d\'utilité ' +
+        '<em>concave</em>, l\'utilité de l\'espérance dépasse l\'espérance des utilités, donc ' +
+        'la richesse certaine qui procure la même satisfaction est <em>inférieure</em> à ' +
+        '<em>E[Z]</em>. L\'écart est la prime de risque. Mettez <em>σ</em> = 0 : l\'utilité ' +
+        'devient linéaire, la corde se confond avec la courbe, et l\'équivalent certain rejoint ' +
+        'exactement l\'espérance — un agent neutre au risque ne paie rien pour s\'en défaire.'
+    },
+    {
+      id: 'ue-q2',
+      type: 'direction',
+      texte: 'On <strong>écarte</strong> <em>Z</em><sub>1</sub> et <em>Z</em><sub>2</sub> ' +
+             'l\'un de l\'autre, en ajustant de façon à laisser <em>E[Z]</em> ' +
+             '<strong>inchangée</strong>. La prime de risque :',
+      options: ['augmentera', 'diminuera', 'ne changera pas'],
+      reponse: function () {
+        // Étalement à moyenne constante : on descend Z1 de d et on remonte Z2
+        // de d·π/(1−π), ce qui laisse πZ1 + (1−π)Z2 inchangée.
+        var d = 2, p = pi();
+        var av = primeDe(Z1(), Z2());
+        var ap = primeDe(Z1() - d, Z2() + d * p / (1 - p));
+        if (!isFinite(av) || !isFinite(ap)) return 2;
+        if (Math.abs(ap - av) < 1e-6) return 2;
+        return ap > av ? 0 : 1;
+      },
+      explication: 'La prime dépend aussi de la <em>dispersion</em> : à moyenne égale, une loterie plus étalée coûte davantage à un ' +
+        'riscophobe. Les notes en donnent l\'approximation pour un petit risque, où la prime est ' +
+        'proportionnelle à la <em>variance</em>. Deux leviers agissent donc séparément : ' +
+        'l\'étalement de la loterie, et l\'aversion <em>σ</em> de la personne — montez ce ' +
+        'curseur et vous verrez la prime monter sans que <em>E[Z]</em> bouge d\'un cent. À ' +
+        '<em>σ</em> = 0, aucun des deux ne fait rien : sans aversion, le risque ne coûte rien.'
+    },
+    {
+      id: 'ue-q3',
+      type: 'numerique',
+      texte: 'Estimez l\'espérance <em>E[Z]</em> de la loterie, à partir des trois curseurs ' +
+             '<em>Z</em><sub>1</sub>, <em>Z</em><sub>2</sub> et <em>π</em>.',
+      tolerance: 0.02,
+      reponse: function () { return EZ(); },
+      explication: 'L\'espérance pondère chaque état par sa probabilité : ' +
+        '<span class="formule">E[Z] = π·Z<sub>1</sub> + (1 − π)·Z<sub>2</sub></span>. C\'est le ' +
+        'point de comparaison de tout le chapitre — la richesse que l\'on obtiendrait « en ' +
+        'moyenne », et à laquelle on compare l\'équivalent certain pour mesurer ce que le risque ' +
+        'coûte. Notez qu\'elle ne dépend pas du tout de <em>σ</em> : l\'espérance décrit la ' +
+        'loterie, pas la personne.'
+    }
+  ]);
+
+  document.addEventListener('pred-retenu', maj);
+  document.addEventListener('pred-revele', maj);
+
   Econ.pied();
 })();
 </script>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Isoquantes, TMST et rendements à l'échelle — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -16,9 +16,8 @@ La fonction de production <span class="formule">F(X, Z) = A·X<sup>α</sup>·Z<s
 se lit entièrement sur sa <strong>carte d'isoquantes</strong> : chaque courbe rassemble les
 combinaisons d'intrants (les « inputs » des notes) qui donnent le même niveau de
 production. Le curseur « Position » fait glisser le point le long de l'isoquante bleue et
-affiche le <strong>TMST</strong>, la pente de cette isoquante. La case « doubler les
-intrants » compare ensuite le point doublé à l'isoquante du niveau 2<em>Y</em> : la
-production ne double que si <span class="formule">α + β = 1</span>.
+affiche le <strong>TMST</strong>, l'opposé de la pente de cette isoquante. La case « doubler les
+intrants » compare le point doublé à l'isoquante du niveau 2<em>Y</em>.
 </p>
 
 <div class="atelier">
@@ -27,7 +26,7 @@ production ne double que si <span class="formule">α + β = 1</span>.
     <p style="font-size:.85rem; color:#666; margin:.5rem 0 0; line-height:1.45">
       <span style="color:#1c3e66; font-weight:bold">———</span> isoquante du point &nbsp;
       <span style="color:#9aa9b8; font-weight:bold">———</span> autres isoquantes &nbsp;
-      <span style="color:#b0342d; font-weight:bold">– – –</span> tangente (pente = TMST) &nbsp;
+      <span style="color:#b0342d; font-weight:bold">– – –</span> tangente (pente = −TMST) &nbsp;
       <span style="color:#8e44ad; font-weight:bold">– – –</span> isoquante du niveau <em>2Y</em> &nbsp;
       <span style="color:#888; font-weight:bold">·····</span> rayon de l'origine à (2<em>X</em>, 2<em>Z</em>)
     </p>
@@ -38,23 +37,14 @@ production ne double que si <span class="formule">α + β = 1</span>.
 <div class="observer">
   <h3>À observer</h3>
   <ol>
-    <li>Poussez le curseur « Position » vers la droite : le point descend le long de
-      l'isoquante bleue. Le TMST est négatif et remonte vers 0 : il passe de −4,27 en position 0,00
-      à −0,23 en position 1,00. Sa valeur absolue diminue, donc la tangente s'aplatit. Une
-      unité de <em>X</em> de plus permet d'économiser de moins en moins de <em>Z</em>.</li>
     <li>Regardez les deux productivités marginales pendant ce déplacement :
       Pm<sub>X</sub> = α<em>Y</em>/<em>X</em> baisse et Pm<sub>Z</sub> = β<em>Y</em>/<em>Z</em>
-      monte. Le TMST est l'opposé de leur rapport.</li>
+      monte. Le TMST est leur rapport, Pm<sub>X</sub>/Pm<sub>Z</sub> : il baisse donc le long de l'isoquante.</li>
     <li>Réinitialisez, puis montez α et β ensemble jusqu'à 0,90. Les cinq isoquantes ne
       bougent pas : à <em>A</em> = 1,00, la carte ne dépend que du rapport α/β. Seuls les
       niveaux changent, et la production affichée passe de 3,00 à 7,22. Les rendements à
       l'échelle ne se lisent donc pas sur la forme des courbes. Bougez maintenant α seul :
       les isoquantes gardent les mêmes points sur la diagonale mais se redressent.</li>
-    <li>Cochez « doubler les intrants » avec α = β = 0,50 : le point doublé <em>B′</em> tombe
-      exactement sur l'isoquante violette du niveau 2<em>Y</em>. Rendements constants.</li>
-    <li>Refaites-le avec α = β = 0,70 : <em>B′</em> passe au-dessus de l'isoquante violette,
-      la production est multipliée par 2<sup>1,4</sup> ≈ 2,64. Avec α = β = 0,35,
-      <em>B′</em> reste en dessous : 2<sup>0,7</sup> ≈ 1,62.</li>
     <li>Montez <em>A</em> de 1,00 à 1,40 : toutes les isoquantes glissent vers l'origine.
       Les niveaux tracés sont fixés, donc la production affichée reste 3,00, mais le point
       passe de (3,00 ; 3,00) à (2,13 ; 2,16). Même production, moins d'intrants.
@@ -65,13 +55,15 @@ production ne double que si <span class="formule">α + β = 1</span>.
 <div class="rappel">
   <h3>Ce que dit la théorie</h3>
   <p>Une isoquante de niveau <em>Y</em> s'écrit
-  <span class="formule">Z = (Y / (A·X<sup>α</sup>))<sup>1/β</sup></span>. Sa pente est le
-  taux marginal de substitution technique
-  <span class="formule">TMST = dZ/dX = −Pm<sub>X</sub>/Pm<sub>Z</sub> = −(α/β)·(Z/X)</span>,
+  <span class="formule">Z = (Y / (A·X<sup>α</sup>))<sup>1/β</sup></span>. Le taux marginal de
+  substitution technique est l'opposé de sa pente
+  <span class="formule">TMST = −dZ/dX = Pm<sub>X</sub>/Pm<sub>Z</sub> = (α/β)·(Z/X)</span>,
   avec <span class="formule">Pm<sub>X</sub> = α<em>Y</em>/<em>X</em></span> et
   <span class="formule">Pm<sub>Z</sub> = β<em>Y</em>/<em>Z</em></span>. Comme dans les notes,
-  le TMST est <strong>négatif</strong> : les deux productivités marginales sont positives,
-  donc il faut céder du <em>Z</em> pour gagner du <em>X</em> à production constante.</p>
+  le TMST est <strong>positif</strong> : c'est la quantité de <em>Z</em> qu'on peut
+  économiser en ajoutant une unité de <em>X</em> à production constante. C'est la
+  <em>pente</em> de l'isoquante qui est négative — il faut bien céder du <em>Z</em> pour
+  gagner du <em>X</em> — et le TMST en est l'opposé.</p>
   <p>La forme des isoquantes ne dépend que du rapport α/β. En remplaçant <em>Y</em> par
   <span class="formule">A·d<sup>α+β</sup></span>, l'isoquante qui coupe la diagonale en
   <em>d</em> s'écrit <span class="formule">Z = d<sup>1+α/β</sup>·X<sup>−α/β</sup></span> :
@@ -85,7 +77,8 @@ production ne double que si <span class="formule">α + β = 1</span>.
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -132,7 +125,7 @@ production ne double que si <span class="formule">α + β = 1</span>.
   var res = Econ.resultats(cmd, [
     ['XZ',   'Point <em>(X, Z)</em>'],
     ['Y',    'Production <em>Y</em> = <em>F(X, Z)</em>'],
-    ['tmst', 'TMST = d<em>Z</em>/d<em>X</em> = −(α/β)·(<em>Z</em>/<em>X</em>)'],
+    ['tmst', 'TMST = −d<em>Z</em>/d<em>X</em> = (α/β)·(<em>Z</em>/<em>X</em>)'],
     ['pmx',  'Pm<sub>X</sub> = α<em>Y</em>/<em>X</em>'],
     ['pmz',  'Pm<sub>Z</sub> = β<em>Y</em>/<em>Z</em>'],
     ['som',  'α + β'],
@@ -171,8 +164,10 @@ production ne double que si <span class="formule">α + β = 1</span>.
     return v[0] * Math.pow(v[1] / v[0], sT.valeur());   // interpolation géométrique
   }
   function ptZ() { return Ziso(ptX(), niveau(IREF)); }
-  // Convention des notes : TMST = dZ/dX = −Pm_X/Pm_Z, donc négatif.
-  function tmst() { return -(al() / be()) * (ptZ() / ptX()); }
+  // Convention des notes : TMST = −dZ/dX = Pm_X/Pm_Z, donc POSITIF. C'est la
+  // quantité de Z qu'on peut économiser en ajoutant une unité de X ; la pente
+  // de l'isoquante, elle, vaut −TMST.
+  function tmst() { return (al() / be()) * (ptZ() / ptX()); }
 
   /* --- tracé des isoquantes --- */
   function isoquante(fnY, style) {
@@ -206,12 +201,12 @@ production ne double que si <span class="formule">α + β = 1</span>.
   var isoDbl = isoquante(function () { return 2 * niveau(IREF); },
                          { strokeColor: Econ.COUL.tiers, strokeWidth: 1.8, dash: 2 });
 
-  /* --- tangente au point : sa pente est le TMST, donc négative --- */
+  /* --- tangente au point : sa pente vaut −TMST, donc négative --- */
   var tang = b.create('curve', [[], []], {
     strokeColor: Econ.COUL.budget, strokeWidth: 1.6, dash: 2, highlight: false, fixed: true
   });
   tang.updateDataArray = function () {
-    var X = ptX(), Z = ptZ(), t = -tmst();   // t = valeur absolue de la pente
+    var X = ptX(), Z = ptZ(), t = tmst();    // TMST > 0 = valeur absolue de la pente
     if (!isFinite(t) || t <= 0) { this.dataX = []; this.dataY = []; return; }
     var haut = MAX + 0.7;
     var dg = Math.min(X - 0.05, (haut - Z) / t, 3.6);   // vers le haut-gauche
@@ -268,6 +263,81 @@ production ne double que si <span class="formule">α + β = 1</span>.
   }
 
   majTout();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* tmst() suit la convention des notes : positif, égal à Pm_X/Pm_Z.    */
+  /* La question 2 le formule en mots — « la quantité de Z qu'on peut     */
+  /* économiser » — parce que c'est ainsi que les notes le définissent,   */
+  /* et parce que la formulation reste juste quelle que soit la           */
+  /* convention de signe retenue pour l'afficher.                         */
+  /* ------------------------------------------------------------------ */
+
+  Pred.init([
+    {
+      id: 'pi-q1',
+      type: 'choix',
+      texte: 'Si l\'entreprise <strong>doublait les deux intrants</strong> à la fois, sa ' +
+             'production ferait :',
+      options: ['plus que doubler', 'exactement doubler', 'moins que doubler'],
+      reponse: function () {
+        var X = ptX(), Z = ptZ();
+        var f = F(2 * X, 2 * Z) / F(X, Z);
+        if (Math.abs(f - 2) < 1e-9) return 1;
+        return f > 2 ? 0 : 2;
+      },
+      explication: 'La fonction est homogène de degré <em>α</em> + <em>β</em> : doubler les ' +
+        'intrants multiplie la production par 2<sup>α+β</sup>. Les rendements à l\'échelle se ' +
+        'lisent donc directement sur la <em>somme</em> des deux élasticités — supérieure à 1, ' +
+        'rendements croissants ; égale à 1, constants ; inférieure à 1, décroissants. Notez que ' +
+        'la question ne se règle pas avec les productivités marginales : celles-ci mesurent ' +
+        'l\'effet d\'un intrant à l\'autre <em>constant</em>, alors qu\'ici les deux bougent.'
+    },
+    {
+      id: 'pi-q2',
+      type: 'direction',
+      texte: 'En glissant le point vers la <strong>droite</strong> le long de la même ' +
+             'isoquante, la quantité de <em>Z</em> qu\'on peut économiser en ajoutant une ' +
+             'unité de <em>X</em> va :',
+      options: ['diminuer', 'augmenter', 'rester la même'],
+      reponse: function () {
+        // TMST = (α/β)·(Z/X), évalué au point courant puis un peu à droite
+        // sur la MÊME isoquante.
+        var Y0 = niveau(IREF);
+        var X0 = ptX(), t0 = tmst();
+        var X1 = X0 * 1.15, Z1 = Ziso(X1, Y0);
+        if (!isFinite(Z1) || Z1 <= 0) return 0;
+        var t1 = (al() / be()) * (Z1 / X1);
+        if (Math.abs(t1 - t0) < 1e-9) return 2;
+        return t1 < t0 ? 0 : 1;
+      },
+      explication: 'C\'est le <strong>TMST</strong>, et il décroît le long de l\'isoquante : ' +
+        'plus l\'entreprise a déjà substitué de <em>X</em> au <em>Z</em>, moins une unité ' +
+        'supplémentaire de <em>X</em> permet d\'économiser de <em>Z</em>. Les intrants ne se ' +
+        'remplacent pas indéfiniment au même taux — c\'est ce qui donne à l\'isoquante sa ' +
+        'courbure, exactement comme la convexité des courbes d\'indifférence au chapitre 2.'
+    },
+    {
+      id: 'pi-q3',
+      type: 'numerique',
+      texte: 'Par quel <strong>facteur</strong> la production serait-elle multipliée si l\'on ' +
+             'doublait les deux intrants ? Les curseurs donnent <em>α</em> et <em>β</em>.',
+      tolerance: 0.02,
+      decimales: 3,
+      reponse: function () {
+        var X = ptX(), Z = ptZ();
+        return F(2 * X, 2 * Z) / F(X, Z);
+      },
+      explication: 'Le facteur vaut <span class="formule">2<sup>α+β</sup></span>. Avec ' +
+        '<em>α</em> + <em>β</em> = 1 il vaut exactement 2 ; à 1,2 il vaut environ 2,3 ; à 0,8, ' +
+        'environ 1,74. C\'est la réponse chiffrée à la question que pose le directeur d\'usine : ' +
+        '« dans quelle proportion faut-il augmenter les achats d\'intrants pour doubler la ' +
+        'production ? » Remarquez que la productivité globale <em>A</em> n\'y entre pas : elle ' +
+        'déplace le niveau de production, pas la façon dont il réagit à l\'échelle.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

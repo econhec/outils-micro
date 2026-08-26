@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Courbes de coût et courbe d'offre — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -13,11 +13,8 @@
 <h1>Courbes de coût et courbe d'offre</h1>
 <p class="intro">
 Le coût de court terme est <span class="formule">C(Y) = F + aY³ − bY² + dY</span> : un coût
-fixe <em>F</em> et un coût variable en U. Toute la théorie de l'offre concurrentielle tient
-dans un seul graphe. Faites glisser le <strong>prix <em>p</em></strong> : l'entreprise produit
-là où <span class="formule">p = Cm</span>, sauf si le prix tombe sous le minimum du coût
-variable moyen — auquel cas elle <strong>ferme</strong>. Entre les deux minimums, elle perd de
-l'argent et continue pourtant à produire : c'est le point le plus contre-intuitif du chapitre.
+fixe <em>F</em> et un coût variable en U. Faites glisser le <strong>prix <em>p</em></strong>
+et observez la décision de l'entreprise : produire, et combien — ou fermer.
 </p>
 
 <div class="atelier">
@@ -42,20 +39,10 @@ l'argent et continue pourtant à produire : c'est le point le plus contre-intui
       <em>CTM</em>. La courbe de coût marginal passe <strong>exactement</strong> par les deux.
       Ce n'est pas un hasard de tracé : une moyenne est stationnaire là où la valeur marginale
       la croise.</li>
-    <li>Gardez les réglages de départ. Le prix <em>p</em> = 20,00 est au-dessus du minimum du
-      <em>CTM</em> (15,99) : le rectangle est vert. Descendez <em>p</em> à 15,50, juste sous ce
-      seuil : le rectangle devient rouge, mais <em>Y*</em> = 3,01 reste strictement positif et
-      la perte n'est que de −1,50, contre un coût fixe de 18. <strong>Perte, et on
-      continue</strong> : la recette couvre encore tout le coût variable.</li>
     <li>Continuez à descendre <em>p</em> sous le minimum du <em>CVM</em> (8,65) : le verdict
       bascule sur « fermeture » et <em>Y*</em> saute à 0. Le rectangle rouge cesse alors de
       suivre le prix. Il montre l'écart entre le <em>CTM</em> et le <em>CVM</em>, dont l'aire
       vaut exactement <em>F</em>. Baissez <em>p</em> encore : la perte reste −18,00.</li>
-    <li>Réinitialisez, puis montez <em>F</em> de 0 à 30. Le cadre ne change pas. Le
-      <em>CVM</em>, le <em>Cm</em> et la quantité offerte (<em>Y*</em> = 3,56) ne changent pas
-      non plus : la <strong>courbe d'offre est intacte</strong>. Seul le <em>CTM</em> monte,
-      son minimum passant de 8,65 à 19,62, et le profit tombe de 31,34 à 1,34. Un coût fixe
-      est irrécupérable à court terme : il ne change aucune décision marginale.</li>
     <li>Cochez « montrer la courbe d'offre » : elle est exactement la portion croissante du
       <em>Cm</em> au-dessus du minimum du <em>CVM</em>, prolongée par le segment collé à l'axe
       des prix (offre nulle) en dessous. Montez <em>b</em> de 1,80 à 2,50 : le creux du
@@ -95,7 +82,8 @@ l'argent et continue pourtant à produire : c'est le point le plus contre-intui
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -381,6 +369,98 @@ l'argent et continue pourtant à produire : c'est le point le plus contre-intui
   }
 
   majTout();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* Le verdict de la page distingue trois régimes selon la position du   */
+  /* prix par rapport au minimum du CVM puis à celui du CTM. Les          */
+  /* questions rejouent ce classement avec les mêmes fonctions.           */
+  /* ------------------------------------------------------------------ */
+
+  // Quantité offerte : branche croissante du Cm au-dessus du seuil de fermeture.
+  function Yoffre() {
+    if (prix() < minCVM()) return 0;
+    // Cm(y) = p sur la branche croissante : 3a y² − 2b y + (d − p) = 0.
+    var A3 = 3 * pa(), B2 = -2 * pb(), Cc = pd() - prix();
+    var disc = B2 * B2 - 4 * A3 * Cc;
+    if (disc < 0) return 0;
+    return (-B2 + Math.sqrt(disc)) / (2 * A3);
+  }
+
+  Pred.init([
+    {
+      id: 'cf-q1',
+      type: 'choix',
+      texte: 'Aux réglages actuels, à court terme l\'entreprise va :',
+      options: ['produire en réalisant un profit',
+                'produire à perte, mais perdre moins qu\'en fermant',
+                'fermer et ne rien produire'],
+      reponse: function () {
+        if (prix() < minCVM()) return 2;
+        var y = Yoffre();
+        if (!(y > 0)) return 2;
+        var pi = prix() * y - C(y);
+        return pi >= -1e-9 ? 0 : 1;
+      },
+      explication: 'Trois régimes, séparés par deux seuils. Au-dessus du minimum du ' +
+        '<strong>CTM</strong>, la recette couvre tous les coûts : profit positif. Entre le ' +
+        'minimum du <strong>CVM</strong> et celui du CTM, elle couvre les coûts variables mais ' +
+        'pas tout le coût fixe : l\'entreprise perd de l\'argent, et pourtant elle a raison de ' +
+        'produire — en fermant elle perdrait <em>tout</em> le coût fixe. Sous le minimum du ' +
+        'CVM, chaque unité produite creuse la perte : elle ferme. Faites descendre le prix et ' +
+        'traversez les deux seuils.'
+    },
+    {
+      id: 'cf-q2',
+      type: 'direction',
+      texte: 'Si le <strong>coût fixe <em>F</em></strong> augmentait, la quantité offerte ' +
+             '<em>Y*</em> irait :',
+      options: ['augmenter', 'diminuer', 'rester identique'],
+      reponse: function () {
+        // On ne se contente pas d'affirmer que F ne joue pas : on maximise
+        // vraiment le profit à deux coûts fixes différents et on compare les
+        // deux quantités retenues.
+        function argmax(Fv) {
+          var vFermer = -Fv;                       // CV(0) = 0 : on ne perd que F
+          var best = 0, vbest = -Infinity;
+          for (var y = 0.005; y <= 6; y += 0.005) {
+            var v = prix() * y - (Fv + CV(y));
+            if (v > vbest) { vbest = v; best = y; }
+          }
+          // Exactement au seuil de fermeture, produire et fermer rapportent la
+          // même chose. On tranche comme le fait l'outil — le seuil est
+          // inclusif — sinon le bruit de calcul déciderait à notre place.
+          return (vbest > vFermer - 1e-9) ? best : 0;
+        }
+        var y0 = argmax(pF()), y1 = argmax(pF() + 10);
+        if (Math.abs(y1 - y0) < 1e-9) return 2;
+        return y1 > y0 ? 0 : 1;
+      },
+      explication: 'Le coût fixe ne figure ni dans le coût marginal ni dans le coût variable ' +
+        'moyen : il ne change donc ni la quantité offerte, ni le seuil de fermeture à court ' +
+        'terme. Il déplace seulement le <em>CTM</em>, donc le seuil de rentabilité et le signe ' +
+        'du profit. Une décision marginale se prend avec des grandeurs marginales — ce qui est ' +
+        'déjà dépensé et irrécupérable n\'entre pas dans le calcul.'
+    },
+    {
+      id: 'cf-q3',
+      type: 'numerique',
+      texte: 'Estimez le <strong>seuil de fermeture</strong>, c\'est-à-dire le prix en deçà ' +
+             'duquel l\'entreprise cesse de produire. Le rappel donne le minimum du ' +
+             '<em>CVM</em>.',
+      unite: '$',
+      tolerance: 0.02,
+      reponse: function () { return minCVM(); },
+      explication: 'Le CVM vaut <span class="formule">a Y² − b Y + d</span> : c\'est une ' +
+        'parabole, minimale en <span class="formule">Y = b/(2a)</span>, où elle vaut ' +
+        '<span class="formule">d − b²/(4a)</span>. Ce minimum est le seuil de fermeture, et le ' +
+        'coût marginal y passe exactement — le Cm coupe toujours le CVM en son point le plus ' +
+        'bas. En dessous de ce prix, même en produisant la quantité la plus favorable, ' +
+        'l\'entreprise ne couvrirait pas ses coûts variables.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

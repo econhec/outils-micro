@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Le monopole — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -46,25 +46,10 @@ Le triangle gris mesure ce que cette restriction coûte à la société.
       <em>B</em> et <em>c</em>, le panneau affiche
       <span class="formule">Y<sub>M</sub> / Y<sub>T</sub> = 0,500</span> : le monopole produit
       la moitié de la quantité concurrentielle dans ce cas linéaire.</li>
-    <li>Gardez <em>A</em> = 24 et <em>B</em> = 1,5, puis baissez <em>c</em> de 12 à 0 :
-      l'écart <em>A</em> − <em>c</em> double et la perte sèche quadruple, de 12,00 à 48,00.
-      Elle grandit comme le carré de l'écart, <span class="formule">(A − c)²/(8B)</span>.</li>
-    <li>Gardez <em>c</em> = 6 et montez <em>A</em> de 16 à 28 : l'indice de Lerner passe de
-      0,455 à 0,647. Puis revenez à <em>A</em> = 24 et baissez <em>c</em> de 12 à 2 : il passe
-      de 0,333 à 0,846. Le taux de marge est l'inverse de l'élasticité,
-      <span class="formule">(p − Cm)/p = 1/|η|</span>, et le panneau affiche les deux nombres :
-      ils coïncident toujours.</li>
-    <li>Avec <em>A</em> = 24 et <em>c</em> = 6, balayez <em>B</em> de 0,50 à 3,00 : Lerner
-      reste figé à 0,600 et |η| à 1,667. La pente de la demande ne change pas le pouvoir de
-      marché ici, parce que <span class="formule">p<sub>M</sub> = (A + c)/2</span> ne dépend
-      pas de <em>B</em>. Seuls <em>A</em> et <em>c</em> déplacent l'indice.</li>
-    <li>Augmentez le coût fixe <em>F</em> : ni <em>Y<sub>M</sub></em>, ni <em>p<sub>M</sub></em>,
-      ni la perte sèche ne bougent, seul le profit baisse. Poussez plus loin avec
-      <em>A</em> = 14, <em>B</em> = 3,0, <em>c</em> = 12 et <em>F</em> = 30 : le profit tombe à
-      −29,67 et le panneau annonce la fermeture à long terme.</li>
-    <li>Mettez <em>A</em> = 14 puis montez <em>c</em> à 14 ou plus : le coût marginal dépasse
-      la disposition à payer la plus élevée. Le monopole ne produit rien, et il n'y a ni
-      surplus, ni rente, ni perte sèche.</li>
+    <li>Augmentez le coût fixe <em>F</em> : ni <em>Y<sub>M</sub></em>, ni <em>p<sub>M</sub></em>,
+      ni la perte sèche ne bougent, seul le profit baisse — un coût fixe n'entre dans aucune
+      décision marginale. Poussez-le assez loin et le profit devient négatif : le panneau
+      annonce la fermeture à long terme, sans que le prix ait bougé d'un sou.</li>
   </ol>
 </div>
 
@@ -92,7 +77,8 @@ Le triangle gris mesure ce que cette restriction coûte à la société.
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -330,6 +316,87 @@ Le triangle gris mesure ce que cette restriction coûte à la société.
   }
 
   majTout();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* Les bonnes réponses sont calculées à partir des mêmes fonctions que  */
+  /* celles qui font tourner l'outil : YM(), pM(), PS()... Rien n'est      */
+  /* écrit en dur. La première question a d'ailleurs une réponse qui       */
+  /* DÉPEND des réglages : avec c = 0, l'élasticité à l'optimum vaut       */
+  /* exactement 1, et la bonne réponse change.                             */
+  /* ------------------------------------------------------------------ */
+
+  function pMde(cc) {
+    // Prix de monopole pour un coût marginal cc, aux A et B courants :
+    // les mêmes formules que YM()/pM(), parametrées pour la question 2.
+    var e = Math.max(A() - cc, 0);
+    return A() - B() * (e / (2 * B()));
+  }
+
+  Pred.init([
+    {
+      id: 'mo-q1',
+      type: 'choix',
+      texte: 'Au point <strong>M</strong> que choisira le monopoleur, la demande est…',
+      options: ['élastique : |η| &gt; 1',
+                'inélastique : |η| &lt; 1',
+                'd\'élasticité unitaire : |η| = 1'],
+      reponse: function () {
+        if (ferme()) return 0;                     // limite c → A : |η| → ∞
+        var eta = (1 / B()) * (pM() / YM());
+        if (Math.abs(eta - 1) < 1e-9) return 2;
+        return eta > 1 ? 0 : 1;
+      },
+      explication: 'Dans la zone inélastique, hausser le prix augmente la recette (on perd ' +
+        'peu de ventes) et réduit les coûts (on produit moins) : le monopoleur ne s\'y ' +
+        'arrête jamais. Il monte le long de la demande jusqu\'à ce que ' +
+        '<span class="formule">Rm = p(1 − 1/|η|)</span> égale le coût marginal — ce qui ' +
+        'exige |η| &gt; 1 dès que <em>c</em> &gt; 0, et |η| = 1 exactement si <em>c</em> = 0. ' +
+        'Essayez <em>c</em> = 0 pour voir ce cas limite.'
+    },
+    {
+      id: 'mo-q2',
+      type: 'choix',
+      texte: 'Le gouvernement impose une taxe de <em>t</em> $ par unité vendue, ce qui ' +
+             'porte le coût marginal à <em>c</em> + <em>t</em>. Le prix ' +
+             '<em>p<sub>M</sub></em> augmentera…',
+      options: ['de plus de <em>t</em>',
+                'd\'exactement <em>t</em>',
+                'de moins de <em>t</em>'],
+      reponse: function () {
+        // Répercussion mesurée avec les formules de la page, sans sortir de
+        // la zone où le monopole produit.
+        var d = Math.min(1, Math.max(0.1, (A() - c()) / 4));
+        if (d <= 0) return 2;
+        var r = (pMde(c() + d) - pMde(c())) / d;
+        if (Math.abs(r - 1) < 1e-9) return 1;
+        return r > 1 ? 0 : 2;
+      },
+      explication: 'Le monopoleur ne répercute pas tout : avec une demande linéaire, ' +
+        '<span class="formule">p<sub>M</sub> = (A + c)/2</span>, donc un dollar de taxe ' +
+        'n\'élève le prix que de cinquante cents. Hausser le prix de tout <em>t</em> ' +
+        'ferait perdre trop de ventes ; il en absorbe la moitié dans sa marge. La ' +
+        'répercussion dépend de la forme de la demande — elle peut dépasser 1 pour ' +
+        'd\'autres formes — mais elle n\'est jamais automatique.'
+    },
+    {
+      id: 'mo-q3',
+      type: 'numerique',
+      texte: 'Estimez la <strong>perte sèche</strong> aux réglages actuels. Le rappel ' +
+             'sous le graphique donne la formule ; les curseurs donnent <em>A</em>, ' +
+             '<em>B</em> et <em>c</em>.',
+      tolerance: 0.02,
+      reponse: function () { return PS(); },
+      explication: 'La perte sèche est le triangle entre la demande et le coût marginal, ' +
+        'de <em>Y<sub>M</sub></em> à <em>Y<sub>T</sub></em> : les unités qui valaient plus ' +
+        'que leur coût et ne sont pas produites. Son aire vaut ' +
+        '<span class="formule">(A − c)²/(8B)</span> : elle croît comme le <em>carré</em> de ' +
+        'l\'écart entre disposition à payer et coût — d\'où l\'intérêt des marchés où cet ' +
+        'écart est grand.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

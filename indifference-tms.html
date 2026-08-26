@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Courbes d'indifférence et TMS — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -28,32 +28,18 @@ TMS = UM<sub>X</sub> / UM<sub>Y</sub>.
 <div class="observer">
   <h3>À observer</h3>
   <ol>
-    <li>Cobb-Douglas, <em>a</em> = 0,5. Montez le point vers le coin haut à gauche, jusqu'à ce
-      que la ligne « Panier au point mobile » montre <em>Y</em> au moins trois fois plus grand que
-      <em>X</em>&nbsp;: le TMS affiché dépasse 3. Redescendez-le vers le coin bas à droite,
-      <em>X</em> au moins trois fois plus grand que <em>Y</em>&nbsp;: le TMS tombe sous 0,4. Le
-      TMS <em>décroît</em> quand on avance vers la droite&nbsp;: c'est ce que veut dire
-      « courbe convexe ».</li>
-    <li>Toujours Cobb-Douglas, faites glisser le point le long de la diagonale, en gardant
+    <li>Cobb-Douglas : faites glisser le point le long de la diagonale, en gardant
       <em>X</em> et <em>Y</em> à peu près égaux. L'utilité affichée augmente à mesure qu'on
-      s'éloigne de l'origine, mais le TMS reste collé à 1. Le long d'un rayon issu de l'origine
-      le TMS ne dépend pas du niveau d'utilité.</li>
-    <li>Choisissez <em>substituts parfaits</em>&nbsp;: les courbes sont des droites parallèles.
-      UM<sub>X</sub> = <em>a</em> et UM<sub>Y</sub> = 1 − <em>a</em> ne dépendent pas du panier,
-      donc le TMS = <em>a</em>/(1 − <em>a</em>) est le même partout. Déplacez le point&nbsp;: le
-      nombre affiché ne bouge plus.</li>
-    <li>Choisissez <em>compléments parfaits</em> avec <em>a</em> = 0,5&nbsp;: la courbe est un L
-      dont le coude est sur la diagonale. Placez le point à droite de la diagonale
-      (<em>X</em> &gt; <em>Y</em>)&nbsp;: UM<sub>X</sub> = 0,000 et le TMS vaut 0,000, une unité
-      de <em>X</em> de plus n'apporte rien. Placez-le à gauche (<em>X</em> &lt; <em>Y</em>)&nbsp;:
-      UM<sub>Y</sub> = 0,000 et le TMS affiche ∞. Au coude lui-même il n'y a pas de tangente. La
+      s'éloigne de l'origine, mais le TMS reste collé à 1. Le long d'un rayon issu de
+      l'origine, le TMS ne dépend pas du niveau d'utilité.</li>
+    <li>Choisissez <em>substituts parfaits</em> : les courbes sont des droites parallèles.
+      UM<sub>X</sub> = <em>a</em> et UM<sub>Y</sub> = 1 − <em>a</em> ne dépendent pas du
+      panier, donc le TMS = <em>a</em>/(1 − <em>a</em>) est le même partout. Déplacez le
+      point : le nombre affiché ne bouge plus.</li>
+    <li>Choisissez <em>compléments parfaits</em> : la courbe est un L. À droite du coude,
+      UM<sub>X</sub> = 0 et le TMS vaut 0 ; à gauche, UM<sub>Y</sub> = 0 et le TMS affiche
+      ∞. Au coude lui-même il n'y a pas de tangente, et le TMS n'est pas défini : la
       condition de tangence ne s'appliquera pas à ce cas.</li>
-    <li>Choisissez <em>CES</em> et faites varier <em>r</em>&nbsp;: avec <em>r</em> = 0,9 les
-      courbes s'aplatissent vers des droites (biens très substituables)&nbsp;; avec
-      <em>r</em> = −3 elles se rapprochent d'un coude (biens très complémentaires). Faites
-      glisser <em>r</em> jusqu'à 0&nbsp;: les courbes ne disparaissent pas, elles deviennent
-      celles de Cobb-Douglas. À chaque réglage, comparez la ligne « TMS » et la ligne
-      « UM<sub>X</sub>/UM<sub>Y</sub> »&nbsp;: c'est le même nombre.</li>
   </ol>
 </div>
 
@@ -89,7 +75,8 @@ TMS = UM<sub>X</sub> / UM<sub>Y</sub>.
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -333,6 +320,86 @@ TMS = UM<sub>X</sub> / UM<sub>Y</sub>.
 
   b.on('update', maj);
   changerFamille();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* Les réponses se calculent au point M courant, avec les mêmes         */
+  /* fonctions que le panneau : celles de Econ.pref pour le TMS, celles   */
+  /* de UM pour les utilités marginales. Déplacer le point ou changer de  */
+  /* famille change donc la bonne réponse sans qu'on ait à y penser.      */
+  /* ------------------------------------------------------------------ */
+
+  Pred.init([
+    {
+      id: 'it-q1',
+      type: 'direction',
+      texte: 'Vous faites glisser le point <strong>M</strong> vers la droite, en restant ' +
+             'sur <strong>la même</strong> courbe d\'indifférence. Le TMS va :',
+      options: ['diminuer', 'augmenter', 'rester constant'],
+      reponse: function () {
+        // On avance le long de la courbe en gardant l'utilité de M, puis on
+        // compare les deux TMS. Le pas se réduit jusqu'à tomber dans le domaine.
+        var p = par(), F = fam(), x0 = M.X(), y0 = M.Y();
+        var u0 = F.u(x0, y0, p), t0 = F.tms(x0, y0, p);
+        var pas = [2, 1, 0.5, 0.2, 0.05], i, x1, y1, t1;
+        for (i = 0; i < pas.length; i++) {
+          x1 = x0 + pas[i];
+          if (x1 > MAX) continue;
+          y1 = F.yIndiff(x1, u0, p);
+          if (y1 === null || !isFinite(y1) || y1 <= 0) continue;
+          t1 = F.tms(x1, y1, p);
+          if (isNaN(t0) || isNaN(t1)) continue;
+          if (Math.abs(t1 - t0) < 1e-9) return 2;
+          return t1 < t0 ? 0 : 1;
+        }
+        return 0;
+      },
+      explication: 'C\'est la <strong>convexité</strong> des préférences. Plus on a déjà de ' +
+        '<em>X</em>, moins on est prêt à sacrifier de <em>Y</em> pour en obtenir une unité de ' +
+        'plus : le TMS décroît le long de la courbe, qui s\'aplatit vers la droite. C\'est ce ' +
+        'qui donne aux courbes d\'indifférence leur forme incurvée vers l\'origine, et c\'est ' +
+        'aussi ce qui fera que la tangence du chapitre suivant identifie bien un maximum.'
+    },
+    {
+      id: 'it-q2',
+      type: 'choix',
+      texte: 'Le TMS affiché au point <strong>M</strong> est égal à :',
+      options: ['le rapport UM<sub>X</sub> / UM<sub>Y</sub>',
+                'le rapport UM<sub>Y</sub> / UM<sub>X</sub>',
+                'la différence UM<sub>X</sub> − UM<sub>Y</sub>'],
+      reponse: function () {
+        var p = par(), F = fam(), x = M.X(), y = M.Y();
+        var t = F.tms(x, y, p), m = UM[famille.valeur()](x, y, p);
+        if (!isFinite(t)) return 0;
+        if (Math.abs(t - m.x / m.y) < 1e-6) return 0;
+        if (Math.abs(t - m.y / m.x) < 1e-6) return 1;
+        return 2;
+      },
+      explication: 'Le long d\'une courbe d\'indifférence l\'utilité ne bouge pas, donc ' +
+        '<span class="formule">UM<sub>X</sub> dX + UM<sub>Y</sub> dY = 0</span>. La pente vaut ' +
+        'donc <span class="formule">dY/dX = −UM<sub>X</sub>/UM<sub>Y</sub></span>, et le TMS en ' +
+        'est la valeur absolue. Deux lectures du même nombre : une <em>pente</em> mesurée sur ' +
+        'le graphique, et un <em>rapport d\'utilités marginales</em> calculé à partir de la ' +
+        'fonction d\'utilité. Le panneau affiche les trois valeurs : vérifiez qu\'elles ' +
+        'concordent en déplaçant le point.'
+    },
+    {
+      id: 'it-q3',
+      type: 'numerique',
+      texte: 'Estimez le <strong>TMS</strong> au point où se trouve <em>M</em>. Le rappel ' +
+             'donne son expression pour chaque famille de préférences.',
+      tolerance: 0.02,
+      decimales: 3,
+      reponse: function () { return fam().tms(M.X(), M.Y(), par()); },
+      explication: 'Pour Cobb-Douglas, ' +
+        '<span class="formule">TMS = [a/(1−a)]·(Y/X)</span> : il ne dépend que du ' +
+        '<em>rapport</em> des quantités et du goût <em>a</em>, pas du niveau d\'utilité. Deux ' +
+        'paniers situés sur un même rayon issu de l\'origine ont donc exactement le même TMS — ' +
+        'c\'est ce qui rend les courbes d\'indifférence parallèles le long de chaque rayon.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>La contrainte budgétaire — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -27,33 +27,18 @@ un rationnement de <em>X</em> qui coude la frontière.
 <div class="observer">
   <h3>À observer</h3>
   <ol>
-    <li>Avec <em>p<sub>X</sub></em> = 4 et <em>p<sub>Y</sub></em> = 5, faites passer <em>I</em>
-      de 100 à 120&nbsp;: les intercepts passent de 25 et 20 à 30 et 24, mais la pente reste −0,80.
-      Une hausse du revenu déplace la droite <strong>parallèlement</strong> à elle-même.</li>
-    <li>Revenez à <em>I</em> = 100 et faites passer <em>p<sub>X</sub></em> de 4 à 8&nbsp;:
-      l'ordonnée à l'origine <em>I</em>/<em>p<sub>Y</sub></em> = 20 ne bouge pas, l'abscisse
-      tombe de 25 à 12,5. La droite <strong>pivote autour de <em>I</em>/<em>p<sub>Y</sub></em></strong>,
-      et l'ensemble budgétaire rétrécit.</li>
-    <li>Réglez <em>p<sub>X</sub></em> = 2,50, <em>p<sub>Y</sub></em> = 3 et <em>I</em> = 60,
-      puis doublez tout&nbsp;: <em>p<sub>X</sub></em> = 5, <em>p<sub>Y</sub></em> = 6,
-      <em>I</em> = 120. La droite est exactement la même (intercepts 24 et 20). Seuls les prix
-      <em>relatifs</em> et le revenu <em>réel</em> comptent&nbsp;: pas d'illusion monétaire.</li>
-    <li>Activez la <em>taxe sur X</em> avec <em>t</em> = 0,25 et <em>p<sub>X</sub></em> = 4&nbsp;:
-      le prix payé devient 5, l'abscisse à l'origine passe de 25 à 20, l'ordonnée ne bouge
-      pas. Attention&nbsp;: cette abscisse vaut désormais
-      <span class="formule">I/[p<sub>X</sub>(1+t)]</span>, pas
-      <span class="formule">I/p<sub>X</sub></span>. Comparez avec la droite en pointillé&nbsp;:
-      une taxe <em>ad valorem</em> sur <em>X</em> a exactement le même effet qu'une hausse
-      de <em>p<sub>X</sub></em>.</li>
-    <li>Activez le <em>rationnement</em> avec <em>X</em><sub>max</sub> = 12&nbsp;: la frontière
-      devient coudée et l'ensemble perd son coin de droite. Le rationnement ne mord que si
-      <em>X</em><sub>max</sub> est inférieur à l'abscisse à l'origine, <strong>taxe
-      comprise</strong>. Cochez la taxe, réglez <em>t</em> = 1, <em>p<sub>X</sub></em> = 8,
-      <em>I</em> = 60 et <em>X</em><sub>max</sub> = 5&nbsp;: l'abscisse à l'origine tombe à 3,75
-      et le panneau annonce un rationnement inactif, bien que 5 soit inférieur à
-      <em>I</em>/<em>p<sub>X</sub></em> = 7,5.</li>
-    <li>Là où le rationnement mord, le coût d'opportunité d'une unité de <em>X</em>
-      supplémentaire devient infini&nbsp;: aucun prix ne permet d'en obtenir plus.</li>
+    <li>Faites monter le <em>revenu</em> seul : les deux intercepts augmentent ensemble et
+      la droite se déplace <strong>parallèlement</strong> à elle-même, sans changer de
+      pente. À comparer avec une variation de prix, qui la fait pivoter : c'est la
+      distinction qui fondera la décomposition du chapitre 3.</li>
+    <li>Activez la <em>taxe ad valorem</em> sur <em>X</em> : le prix payé devient
+      <em>p<sub>X</sub></em>(1+<em>t</em>), l'abscisse à l'origine recule et l'ordonnée ne
+      bouge pas. Comparez avec la droite en pointillé : une taxe <em>ad valorem</em> sur
+      <em>X</em> a exactement le même effet qu'une hausse de <em>p<sub>X</sub></em>.</li>
+    <li>Activez le <em>rationnement</em> : la frontière devient coudée et l'ensemble perd
+      son coin droit. Le plafond ne mord que s'il est en deçà de l'abscisse à l'origine,
+      <strong>taxe comprise</strong>. Là où il mord, le coût d'opportunité d'une unité de
+      <em>X</em> de plus devient infini : aucun prix ne permet d'en obtenir davantage.</li>
   </ol>
 </div>
 
@@ -74,7 +59,8 @@ un rationnement de <em>X</em> qui coude la frontière.
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -283,6 +269,84 @@ un rationnement de <em>X</em> qui coude la frontière.
   function majTout() { maj(); b.update(); }
 
   majTout();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* Les deux interceptes sont recalculés avec les mêmes fonctions que    */
+  /* le tracé — pXe() inclut la taxe s'il y en a une, si bien que les     */
+  /* réponses restent justes quand les bascules sont actives, même si     */
+  /* les questions elles-mêmes ne portent que sur la matière du           */
+  /* chapitre 2.                                                          */
+  /* ------------------------------------------------------------------ */
+
+  Pred.init([
+    {
+      id: 'cb-q1',
+      type: 'choix',
+      texte: 'On multiplie par deux <strong>les deux prix et le revenu</strong> à la fois. ' +
+             'La droite de budget va :',
+      options: ['s\'éloigner de l\'origine',
+                'se rapprocher de l\'origine',
+                'ne pas bouger du tout'],
+      reponse: function () {
+        var k = 2;
+        var x0 = I() / pXe(), y0 = I() / pY();
+        var x1 = (k * I()) / (k * pX() * (1 + t())), y1 = (k * I()) / (k * pY());
+        if (Math.abs(x1 - x0) < 1e-9 && Math.abs(y1 - y0) < 1e-9) return 2;
+        return x1 > x0 ? 0 : 1;
+      },
+      explication: 'Les deux interceptes sont des <em>rapports</em> — ' +
+        '<span class="formule">I/p<sub>X</sub></span> et ' +
+        '<span class="formule">I/p<sub>Y</sub></span> — et un rapport ne change pas quand on ' +
+        'multiplie le haut et le bas par le même nombre. La contrainte budgétaire est donc ' +
+        '<strong>homogène de degré zéro</strong> : seuls les prix <em>relatifs</em> et le ' +
+        'pouvoir d\'achat comptent, jamais les niveaux. C\'est pourquoi une inflation qui ' +
+        'toucherait tout dans la même proportion ne changerait aucun choix.'
+    },
+    {
+      id: 'cb-q2',
+      type: 'choix',
+      texte: 'Cette fois, <strong>seul <em>p<sub>X</sub></em> augmente</strong>. ' +
+             'La droite va :',
+      options: ['pivoter autour de son ordonnée à l\'origine',
+                'se déplacer parallèlement vers l\'intérieur',
+                'pivoter autour de son abscisse à l\'origine'],
+      reponse: function () {
+        var x0 = I() / pXe(), y0 = I() / pY();
+        var x1 = I() / (pX() * 1.25 * (1 + t())), y1 = I() / pY();
+        var yFixe = Math.abs(y1 - y0) < 1e-9, xFixe = Math.abs(x1 - x0) < 1e-9;
+        if (yFixe && !xFixe) return 0;
+        if (xFixe && !yFixe) return 2;
+        return 1;
+      },
+      explication: 'Le prix de <em>X</em> n\'intervient que dans l\'abscisse à l\'origine ' +
+        '<span class="formule">I/p<sub>X</sub></span> : en consacrant tout son revenu à ' +
+        '<em>Y</em>, le consommateur en obtient toujours autant, quel que soit le prix de ' +
+        '<em>X</em>. L\'ordonnée à l\'origine reste donc fixe et la droite <em>pivote</em>. ' +
+        'C\'est la différence avec une baisse de revenu, qui déplace la droite ' +
+        '<em>parallèlement</em> parce qu\'elle touche les deux interceptes à la fois — une ' +
+        'distinction qui reviendra au chapitre 3 pour séparer effet de substitution et effet ' +
+        'de revenu.'
+    },
+    {
+      id: 'cb-q3',
+      type: 'numerique',
+      texte: 'Estimez le <strong>coût d\'opportunité</strong> d\'une unité de <em>X</em>, ' +
+             'exprimé en unités de <em>Y</em>.',
+      unite: 'unités de <em>Y</em>',
+      tolerance: 0.02,
+      decimales: 3,
+      reponse: function () { return pXe() / pY(); },
+      explication: 'Pour acheter une unité de <em>X</em> il faut renoncer à ' +
+        '<span class="formule">p<sub>X</sub>/p<sub>Y</sub></span> unités de <em>Y</em> : c\'est ' +
+        'exactement la pente de la droite, au signe près. La droite affiche donc aussi le ' +
+        '<strong>taux d\'échange</strong> que le marché impose entre les deux biens. ' +
+        'C\'est le nombre que le ' +
+        'consommateur comparera à son TMS pour décider s\'il a intérêt à échanger.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contrôles — Outils ECON 20851</title>
+<link rel="stylesheet" href="../commun/style.css?v=15">
+<style>
+  .verdict { padding: .9rem 1rem; border-radius: 3px; margin: 1.2rem 0; }
+  .verdict.ok  { background: #e6f2e6; border-left: 4px solid #2e7d32; }
+  .verdict.non { background: #f7e4e2; border-left: 4px solid #b0342d; }
+  .verdict strong { font-size: 1.05rem; }
+  table.bilan { border-collapse: collapse; width: 100%; font-size: .92rem; }
+  table.bilan td { padding: .3rem .5rem; border-bottom: 1px solid var(--bord); }
+  table.bilan td.n { font-family: "Consolas", monospace; text-align: right; width: 6rem; }
+  .echecs { font-family: "Consolas", monospace; font-size: .82rem; white-space: pre-wrap;
+            background: #fafafa; border: 1px solid var(--bord); padding: .7rem;
+            border-radius: 3px; max-height: 22rem; overflow: auto; }
+</style>
+</head>
+<body>
+
+<div class="chapitre">Outils interactifs — maintenance</div>
+<h1>Contrôles automatiques</h1>
+<p class="intro">
+Cette page rejoue les propriétés mathématiques sur lesquelles reposent les outils et les
+questions de prédiction. Rien à installer&nbsp;: il suffit d'ouvrir ce fichier dans un
+navigateur. À relancer après toute modification d'<code>econ.js</code> ou d'une question.
+</p>
+
+<div id="sortie"><p>Calcul en cours…</p></div>
+
+<script src="../commun/econ.js?v=15"></script>
+<script src="controles.js?v=15"></script>
+<script>
+(function () {
+  'use strict';
+
+  var echecs = [], nbControles = 0;
+
+  function verifier(nom, condition, detail) {
+    nbControles++;
+    if (!condition) echecs.push(nom + (detail ? '   [' + detail + ']' : ''));
+  }
+
+  var debut = Date.now();
+  var info = controles(Econ, verifier);
+  var duree = Date.now() - debut;
+
+  function fr(n) { return n.toLocaleString('fr-CA'); }
+
+  var html = '';
+  html += '<div class="verdict ' + (echecs.length ? 'non' : 'ok') + '">' +
+          '<strong>' + (echecs.length
+            ? '✗ ' + fr(echecs.length) + ' contrôle(s) en échec'
+            : '✓ Tout est en ordre') + '</strong><br>' +
+          fr(nbControles) + ' contrôles exécutés en ' + fr(duree) + ' ms.</div>';
+
+  html += '<table class="bilan">' +
+          '<tr><td>Contrôles exécutés</td><td class="n">' + fr(nbControles) + '</td></tr>' +
+          '<tr><td>Combinaisons de curseurs balayées (marshall-hicks)</td>' +
+          '<td class="n">' + fr(info.combinaisons) + '</td></tr>' +
+          '<tr><td>Combinaisons de curseurs balayées (monopole)</td>' +
+          '<td class="n">' + fr(info.combinaisonsMono) + '</td></tr>' +
+          '<tr><td>Combinaisons de curseurs balayées (dérivée-tangente)</td>' +
+          '<td class="n">' + fr(info.combinaisonsDT) + '</td></tr>' +
+          '<tr><td>Combinaisons de curseurs balayées (demande-Engel)</td>' +
+          '<td class="n">' + fr(info.combinaisonsDE) + '</td></tr>' +
+          '<tr><td>Combinaisons de curseurs balayées (VC-VE)</td>' +
+          '<td class="n">' + fr(info.combinaisonsVV) + '</td></tr>' +
+          '<tr><td>Combinaisons de curseurs balayées (utilité espérée)</td>' +
+          '<td class="n">' + fr(info.combinaisonsUE) + '</td></tr>' +
+          '<tr><td>Combinaisons de curseurs balayées (assurance)</td>' +
+          '<td class="n">' + fr(info.combinaisonsAS) + '</td></tr>' +
+          '<tr><td>Combinaisons de curseurs balayées (chapitre 2)</td>' +
+          '<td class="n">' + fr(info.combinaisonsCh2) + '</td></tr>' +
+          '<tr><td>Combinaisons de curseurs balayées (chapitre 6)</td>' +
+          '<td class="n">' + fr(info.combinaisonsCh6) + '</td></tr>' +
+          '<tr><td>Combinaisons de curseurs balayées (chapitre 7)</td>' +
+          '<td class="n">' + fr(info.combinaisonsCh7) + '</td></tr>' +
+          '<tr><td>Combinaisons de curseurs balayées (chapitres 9 et 10)</td>' +
+          '<td class="n">' + fr(info.combinaisonsCh910) + '</td></tr>' +
+          '<tr><td>Échecs</td><td class="n">' + fr(echecs.length) + '</td></tr>' +
+          '</table>';
+
+  if (echecs.length) {
+    // On n'affiche que les cinquante premiers : au-delà, c'est la même cause.
+    html += '<h2>Échecs</h2><div class="echecs">' +
+            echecs.slice(0, 50).join('\n').replace(/&/g, '&amp;').replace(/</g, '&lt;') +
+            (echecs.length > 50 ? '\n… et ' + fr(echecs.length - 50) + ' autre(s).' : '') +
+            '</div>';
+  }
+
+  document.getElementById('sortie').innerHTML = html;
+})();
+</script>
+</body>
+</html>

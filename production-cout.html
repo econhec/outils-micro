@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>De la production au coût — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
 <div class="chapitre">Chapitre 7 — La production</div>
 <h1>De la production au coût</h1>
 <p class="intro">
-La fonction de coût n'est pas donnée : elle se <strong>construit</strong>. Pour chaque niveau
+La fonction de coût se <strong>construit</strong>. Pour chaque niveau
 de production visé <em>Y</em>, l'entreprise cherche la combinaison d'intrants (les « inputs »
 des notes) la moins chère sur l'isoquante : le point de tangence entre l'isoquante et une
 droite d'isocoût (graphe de gauche). En balayant <em>Y</em>, on obtient la courbe
@@ -53,16 +53,6 @@ simultanément dans les deux espaces.
       glisse le long d'un rayon issu de l'origine (le <em>sentier d'expansion</em> : le
       rapport <em>Z*/X*</em> = β<em>p<sub>X</sub></em>/(α<em>p<sub>Z</sub></em>) ne dépend pas
       de <em>Y</em>). À droite, le point remonte la courbe <em>C(Y)</em>.</li>
-    <li>Augmentez <em>p<sub>X</sub></em> de 2,00 à 4,00 : les isocoûts se redressent et
-      s'éloignent de l'origine. Aucun point n'est fixe, les deux intercepts bougent : celui
-      de l'axe <em>X</em> passe de 8,00 à 5,66, celui de l'axe <em>Z</em> de 8,00 à 11,31.
-      Le point de tangence glisse le long de l'isoquante vers le haut à gauche :
-      l'entreprise <strong>substitue <em>Z</em> à <em>X</em></strong>. Le coût minimal
-      augmente quand même, de 16,00 à 22,63. La substitution amortit le choc, elle ne
-      l'annule pas.</li>
-    <li>Réinitialisez : α = β = 0,50, donc α + β = 1 et rendements constants. <em>C(Y)</em>
-      est une <strong>droite</strong> issue de l'origine et le coût marginal est constant,
-      égal au coût moyen. Le panneau affiche 4,000 pour les deux.</li>
     <li>Passez à α = β = 0,75 (α + β = 1,5 &gt; 1) : <em>C(Y)</em> devient
       <strong>concave</strong> et le coût marginal <em>décroît</em> (1,680 contre un coût
       moyen de 2,520). Avec α = β = 0,40 (α + β = 0,8 &lt; 1), <em>C(Y)</em> devient
@@ -81,8 +71,8 @@ simultanément dans les deux espaces.
   <h3>Ce que dit la théorie</h3>
   <p>Minimiser <span class="formule">p<sub>X</sub>X + p<sub>Z</sub>Z</span> sous la contrainte
   <span class="formule">A·X<sup>α</sup>Z<sup>β</sup> = Y</span> impose l'égalité entre le TMST
-  et l'opposé du rapport des prix, comme dans les notes :
-  <span class="formule">TMST = −(α/β)(Z/X) = −p<sub>X</sub>/p<sub>Z</sub></span>,
+  et le rapport des prix des intrants, comme dans les notes :
+  <span class="formule">TMST = (α/β)(Z/X) = p<sub>X</sub>/p<sub>Z</sub></span>,
   soit <span class="formule">Z = β p<sub>X</sub> X / (α p<sub>Z</sub>)</span>. En reportant dans
   la contrainte, on obtient les <strong>demandes conditionnelles</strong>
   <span class="formule">X* = [ (Y/A)·(α p<sub>Z</sub> / (β p<sub>X</sub>))<sup>β</sup>
@@ -102,7 +92,8 @@ simultanément dans les deux espaces.
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -299,6 +290,80 @@ simultanément dans les deux espaces.
   }
 
   majTout();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* Xopt/Zopt/cout sont les fonctions qui placent déjà la tangence et    */
+  /* tracent C(Y) : les réponses suivent donc les cinq curseurs.          */
+  /* ------------------------------------------------------------------ */
+
+  Pred.init([
+    {
+      id: 'pc-q1',
+      type: 'choix',
+      texte: 'Au point qui <strong>minimise le coût</strong> de produire <em>Y</em>, le TMST ' +
+             'est égal à :',
+      options: ['le rapport des prix des intrants <em>p<sub>X</sub></em>/<em>p<sub>Z</sub></em>',
+                'son inverse <em>p<sub>Z</sub></em>/<em>p<sub>X</sub></em>',
+                'le rapport des élasticités <em>α</em>/<em>β</em>'],
+      reponse: function () {
+        var X = Xopt(Yc()), Z = Zopt(Yc());
+        var tmst = (al() / be()) * (Z / X);          // valeur positive, comme les notes
+        var candidats = [pX() / pZ(), pZ() / pX(), al() / be()];
+        var best = 0;
+        for (var i = 1; i < 3; i++) {
+          if (Math.abs(tmst - candidats[i]) < Math.abs(tmst - candidats[best])) best = i;
+        }
+        return best;
+      },
+      explication: 'Le rapport <span class="formule">p<sub>X</sub>/p<sub>Z</sub></span> dit ce ' +
+        'que coûte, en unités de <em>Z</em>, une unité de <em>X</em> ; le TMST dit ce qu\'elle ' +
+        'permet d\'économiser. Tant que l\'économie dépasse le coût, on gagne à substituer — et ' +
+        'l\'entreprise s\'arrête là où les deux s\'égalisent. C\'est le point de tangence entre ' +
+        'l\'isoquante et la droite d\'isocoût, l\'exact analogue de la tangence du consommateur ' +
+        'au chapitre 2.'
+    },
+    {
+      id: 'pc-q2',
+      type: 'direction',
+      texte: 'Si <em>p<sub>X</sub></em> augmentait, la demande conditionnelle ' +
+             '<em>X*</em> — à production <em>Y</em> inchangée — irait :',
+      options: ['augmenter', 'diminuer', 'rester identique'],
+      reponse: function () {
+        var x0 = Xopt(Yc());
+        var pxOrig = sPX.valeur();
+        // On évalue Xopt à un prix majoré sans toucher au curseur : on refait
+        // le calcul à la main avec la même formule.
+        var px1 = pxOrig * 1.25;
+        var x1 = Math.pow((Yc() / AA) * Math.pow(al() * pZ() / (be() * px1), be()),
+                          1 / (al() + be()));
+        if (Math.abs(x1 - x0) < 1e-12) return 2;
+        return x1 > x0 ? 0 : 1;
+      },
+      explication: 'La demande conditionnelle est l\'analogue, côté entreprise, de la demande ' +
+        '<em>hicksienne</em> du consommateur : la production visée est maintenue, exactement ' +
+        'comme l\'utilité l\'était. Il ne reste donc qu\'un effet de substitution — l\'intrant ' +
+        'devenu cher est remplacé par l\'autre — et cet effet va toujours dans le sens contraire ' +
+        'du prix. Aucune ambiguïté ici, contrairement à la demande marshallienne.'
+    },
+    {
+      id: 'pc-q3',
+      type: 'numerique',
+      texte: 'Estimez le <strong>coût minimal</strong> <em>C(Y)</em> de produire la quantité ' +
+             'visée, en dollars.',
+      unite: '$',
+      tolerance: 0.02,
+      reponse: function () { return cout(Yc()); },
+      explication: 'Aux réglages de départ les deux intrants ont le même prix et la même ' +
+        'élasticité : la symétrie impose <em>X*</em> = <em>Z*</em>, et la fonction de production ' +
+        '<span class="formule">Y = X<sup>1/2</sup>Z<sup>1/2</sup></span> donne alors ' +
+        '<em>X*</em> = <em>Z*</em> = <em>Y</em>. Le coût s\'ensuit directement. Cette fonction ' +
+        '<em>C(Y)</em> est l\'analogue de la fonction de dépense du consommateur : elle résume ' +
+        'en un seul nombre tout le problème de minimisation.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

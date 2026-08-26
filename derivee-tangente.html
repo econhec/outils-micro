@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dérivée, sécante et tangente — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -27,28 +27,18 @@ ponctuelle <em>f&nbsp;′</em>(<em>X</em><sub>0</sub>).
 <div class="observer">
   <h3>À observer</h3>
   <ol>
-    <li>Prenez la <em>racine</em>, <em>X</em><sub>0</sub> = 4 et <em>h</em> = 6&nbsp;: la pente
-      de la sécante affiche 1,162 alors que <em>f&nbsp;′</em>(4) = 1,500. Ramenez <em>h</em> à
-      0,05&nbsp;: la sécante affiche 1,495 et l'écart tombe à −0,0047. Les deux droites se
-      confondent à l'écran.</li>
-    <li>Choisissez la <em>quadratique</em> 10<em>X</em> − 0,25<em>X</em>². L'écart affiché
-      vaut <strong>−0,25·<em>h</em></strong>, quel que soit <em>X</em><sub>0</sub>&nbsp;: à
-      <em>h</em> = 4 il vaut −1,0000, à <em>h</em> = 2 il vaut −0,5000, à <em>h</em> = 1 il
-      vaut −0,2500. Divisez <em>h</em> par deux, l'écart est divisé par deux.</li>
-    <li>Choisissez le <em>logarithme</em> et placez <em>X</em><sub>0</sub> = 1 avec
-      <em>h</em> = 6&nbsp;: la sécante affiche 1,622 contre <em>f&nbsp;′</em>(1) = 5,000. Sur un
-      intervalle où la courbe se plie beaucoup, la pente <em>moyenne</em> n'a plus rien à voir
-      avec la pente <em>au point</em>. Le triangle en pointillé montre pourquoi&nbsp;:
-      Δ<em>f</em>/Δ<em>X</em> est une moyenne.</li>
-    <li>Sur la <em>cubique</em>, placez <em>X</em><sub>0</sub> = 3,90 avec <em>h</em> = 6&nbsp;:
-      la dérivée affiche 0,038, la tangente est horizontale, mais la sécante affiche −2,590 et
-      descend. Réduisez <em>h</em>&nbsp;: la sécante se redresse jusqu'à l'horizontale.</li>
-    <li>Gardez <em>h</em> = 0,05 et balayez <em>X</em><sub>0</sub>. Pour la racine et le
-      logarithme la tangente s'aplatit quand <em>X</em><sub>0</sub> augmente&nbsp;: la dérivée
-      décroît, la fonction est concave. Pour la cubique la dérivée affiche 0,038 en
-      <em>X</em><sub>0</sub> = 3,90, puis −3,500 en <em>X</em><sub>0</sub> = 8,35, puis 0,011 en
-      <em>X</em><sub>0</sub> = 12,75 et 2,280 en <em>X</em><sub>0</sub> = 14. La tangente change
-      de signe deux fois.</li>
+    <li>Aux réglages de départ, réduisez <em>h</em> jusqu'à 0,05 : la sécante verte
+      bascule sur la tangente rouge jusqu'à se confondre avec elle, et la ligne
+      « Écart » tombe à quelques millièmes. C'est toute la définition de la dérivée :
+      une pente moyenne dont on fait tendre l'intervalle vers zéro.</li>
+    <li>Choisissez la <em>quadratique</em>. L'écart affiché vaut exactement
+      <strong>−0,25·<em>h</em></strong>, quel que soit <em>X</em><sub>0</sub> : divisez
+      <em>h</em> par deux et l'écart est divisé par deux. La convergence est
+      proportionnelle à <em>h</em>, et le coefficient est la moitié de la dérivée seconde.</li>
+    <li>Sur la <em>cubique</em>, placez <em>X</em><sub>0</sub> = 3,90 avec <em>h</em> = 6 :
+      la tangente est horizontale (la dérivée est quasi nulle) alors que la sécante
+      descend franchement. Un intervalle trop large ne « voit » pas le sommet qu'il
+      enjambe. Réduisez <em>h</em> : la sécante se redresse jusqu'à l'horizontale.</li>
   </ol>
 </div>
 
@@ -67,7 +57,8 @@ ponctuelle <em>f&nbsp;′</em>(<em>X</em><sub>0</sub>).
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -325,6 +316,87 @@ ponctuelle <em>f&nbsp;′</em>(<em>X</em><sub>0</sub>).
   }
 
   changerFonction();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* Tout est recalculé à partir de cfg(), X0() et H() : les réponses     */
+  /* suivent la fonction choisie et la position des curseurs. La première */
+  /* et la deuxième changent d'ailleurs de réponse selon les réglages —   */
+  /* sur la cubique le signe de l'écart bascule, et sur la quadratique la */
+  /* sécante tombe exactement à mi-chemin.                                */
+  /* ------------------------------------------------------------------ */
+
+  function penteSecante() { return (fB() - fA()) / H(); }
+
+  Pred.init([
+    {
+      id: 'dt-q1',
+      type: 'direction',
+      texte: 'Aux réglages actuels, l\'écart <em>pente de la sécante</em> − ' +
+             '<em>f&nbsp;′</em>(<em>X</em><sub>0</sub>) sera :',
+      options: ['positif : la sécante est plus pentue',
+                'négatif : la sécante est moins pentue',
+                'nul : les deux coïncident'],
+      reponse: function () {
+        var e = penteSecante() - cfg().d(X0());
+        if (Math.abs(e) < 5e-4) return 2;
+        return e > 0 ? 0 : 1;
+      },
+      explication: 'La pente de la sécante est la <em>moyenne</em> de <em>f&nbsp;′</em> sur ' +
+        'l\'intervalle [<em>X</em><sub>0</sub>, <em>X</em><sub>0</sub>+<em>h</em>]. Si la ' +
+        'fonction est concave, <em>f&nbsp;′</em> décroît : la moyenne sur l\'intervalle est ' +
+        'donc inférieure à sa valeur au point de départ, et l\'écart est négatif. Sur une ' +
+        'fonction convexe c\'est l\'inverse — essayez la cubique, dont la courbure change de ' +
+        'signe : le même réglage de <em>h</em> donne un écart tantôt positif, tantôt négatif ' +
+        'selon <em>X</em><sub>0</sub>.'
+    },
+    {
+      id: 'dt-q2',
+      type: 'choix',
+      texte: 'Sur l\'intervalle tracé, ailleurs qu\'en <em>X</em><sub>0</sub>, la ' +
+             '<strong>tangente</strong> rouge passe :',
+      options: ['au-dessus de la courbe',
+                'en dessous de la courbe',
+                'elle traverse la courbe'],
+      reponse: function () {
+        // Tangente moins courbe, échantillonnée sur l'intervalle.
+        var c = cfg(), x0 = X0(), h = H(), d = c.d(x0), f0 = c.f(x0);
+        var dessus = 0, dessous = 0, i, x, e;
+        for (i = 1; i <= 60; i++) {
+          x = x0 + h * i / 60;
+          e = (f0 + d * (x - x0)) - c.f(x);
+          if (e > 1e-9) dessus++; else if (e < -1e-9) dessous++;
+        }
+        if (dessus && !dessous) return 0;
+        if (dessous && !dessus) return 1;
+        return 2;
+      },
+      explication: 'L\'approximation de Taylor d\'ordre 1 est précisément la tangente&nbsp;: ' +
+        '<span class="formule">f(X) ≈ f(X<sub>0</sub>) + f&nbsp;′(X<sub>0</sub>)(X − X<sub>0</sub>)</span>. ' +
+        'Le premier terme négligé est ' +
+        '<span class="formule">½·f&nbsp;″(X<sub>0</sub>)(X − X<sub>0</sub>)²</span>, dont le ' +
+        'signe est celui de <em>f&nbsp;″</em> puisque le carré est positif. Une fonction ' +
+        'concave (<em>f&nbsp;″</em> &lt; 0) reste donc <em>sous</em> sa tangente, et ' +
+        'l\'approximation surestime partout ailleurs qu\'au point d\'ancrage. Sur la cubique, ' +
+        'dont la courbure change de signe, la tangente peut même traverser la courbe.'
+    },
+    {
+      id: 'dt-q3',
+      type: 'numerique',
+      texte: 'Estimez maintenant <em>f&nbsp;′</em>(<em>X</em><sub>0</sub>) elle-même. ' +
+             'L\'expression de la dérivée de chaque fonction est donnée dans le rappel, ' +
+             'sous le graphique.',
+      tolerance: 0.02,
+      decimales: 3,
+      reponse: function () { return cfg().d(X0()); },
+      explication: 'C\'est la pente de la tangente, celle que la sécante approche quand ' +
+        '<em>h</em> tend vers zéro — et non la variation de <em>f</em>, qui dépend de la ' +
+        'longueur de l\'intervalle. Réduisez <em>h</em> jusqu\'à 0,05 : la pente de la sécante ' +
+        'affichée rejoint cette valeur, et l\'écart tombe à quelques millièmes.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

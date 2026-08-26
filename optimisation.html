@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Optimisation : CPO, CSO et maximum global — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -30,29 +30,18 @@ CPO. Plusieurs points peuvent la satisfaire, et un maximum local n'est pas un ma
 <div class="observer">
   <h3>À observer</h3>
   <ol>
-    <li>Choisissez la fonction <em>à deux sommets</em> et amenez le candidat à
-      <em>X</em> = 1,85&nbsp;: <em>f&nbsp;′</em> affiche 0,014 et <em>f&nbsp;″</em> −1,826,
-      verdict « maximum local », avec <em>f</em> = 15,30. Allez ensuite à <em>X</em> = 10,55&nbsp;:
-      même verdict, mais <em>f</em> = 30,59. <strong>Les deux satisfont la CPO et la CSO&nbsp;;
-      un seul est le maximum global</strong>, marqué en rouge et en plus gros.</li>
-    <li>Toujours sur cette fonction, placez le candidat à <em>X</em> = 4,45&nbsp;:
-      <em>f&nbsp;′</em> affiche −0,016, mais <em>f&nbsp;″</em> vaut 1,262. C'est un
-      <em>minimum</em> local, marqué en violet clair. Trois points vérifient
-      <em>f&nbsp;′</em> = 0 et ils sont de trois natures différentes&nbsp;: la CPO seule ne
-      tranche rien.</li>
-    <li>Passez à la fonction <em>convexe</em>&nbsp;: <em>X</em> = 10 donne <em>f&nbsp;′</em> = 0
-      exactement et <em>f&nbsp;″</em> = 0,600. Le seul point stationnaire est un minimum, et
-      c'est le minimum global&nbsp;: son marqueur est violet foncé et plus gros. Le maximum de
-      <em>f</em> sur l'intervalle est atteint <em>aux bornes</em>, là où la dérivée n'est pas
-      nulle.</li>
-    <li>Sur la fonction <em>concave</em>, balayez <em>X</em> de 0 à 30&nbsp;: dans le graphe du
-      bas, <em>f&nbsp;′</em> descend et ne traverse l'axe qu'une seule fois, en <em>X</em> = 20.
-      Une fonction concave partout n'a qu'un sommet, et il est forcément global&nbsp;: la CSO
-      est vérifiée en tout point.</li>
-    <li>Lisez le graphe du bas comme une carte&nbsp;: chaque traversée de l'axe <strong>de haut
+    <li>Choisissez la fonction à <em>deux sommets</em> et amenez le candidat sur chacun
+      des deux maxima locaux : les deux affichent le même verdict, <em>f ′</em> = 0 et
+      <em>f ″</em> &lt; 0, mais la valeur de <em>f</em> diffère du simple au double.
+      <strong>Un seul est le maximum global</strong>, marqué en rouge et en plus gros.</li>
+    <li>Sur la fonction <em>concave</em>, balayez <em>X</em> : dans le graphe du bas,
+      <em>f ′</em> descend et ne traverse l'axe qu'une seule fois. Une fonction concave
+      partout n'a qu'un sommet, et il est forcément global : c'est la seule situation où
+      la CPO suffit à conclure.</li>
+    <li>Lisez le graphe du bas comme une carte : chaque traversée de l'axe <strong>de haut
       en bas</strong> (+ vers −) est un maximum local, chaque traversée <strong>de bas en
-      haut</strong> est un minimum local. Comptez-les&nbsp;: 2 descentes pour la fonction à deux
-      sommets, 1 pour la concave, 0 pour la convexe.</li>
+      haut</strong> est un minimum local. La nature d'un point stationnaire se lit donc au
+      signe de la pente de <em>f ′</em>, c'est-à-dire au signe de <em>f ″</em>.</li>
   </ol>
 </div>
 
@@ -79,7 +68,8 @@ CPO. Plusieurs points peuvent la satisfaire, et un maximum local n'est pas un ma
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -410,6 +400,10 @@ CPO. Plusieurs points peuvent la satisfaire, et un maximum local n'est pas un ma
       else if (s.type === 'min' && s.global) { coul = Econ.COUL.tiers;  nom = 'min global'; }
       else if (s.type === 'min')             { coul = COUL_MIN_LOCAL;   nom = 'min local'; }
       else                                   { coul = Econ.COUL.gris;   nom = 'inflexion'; }
+      // Pendant les questions, ces noms donneraient la troisième : on garde
+      // les marqueurs (compter les traversées est le but de la deuxième),
+      // pas les noms.
+      if (Pred.retenu()) nom = '';
       marques[i].setAttribute({ visible: true, fillColor: coul,
                                 size: s.global ? 6 : 4 });
       if (marques[i].name !== nom) marques[i].setName(nom);   // met à jour l'étiquette
@@ -432,6 +426,79 @@ CPO. Plusieurs points peuvent la satisfaire, et un maximum local n'est pas un ma
   }
 
   changerFonction();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* Les réponses sortent de cfg(), X() et du tableau stat calculé par    */
+  /* calculerStat() : elles suivent la fonction choisie et la position du */
+  /* candidat. Les trois changent de réponse d'une fonction à l'autre.    */
+  /* ------------------------------------------------------------------ */
+
+  Pred.init([
+    {
+      id: 'op-q1',
+      type: 'direction',
+      texte: 'Regardez le graphe du bas, où le point marque <em>f&nbsp;′</em> au candidat. ' +
+             'Pour faire <strong>monter</strong> <em>f</em>, faut-il :',
+      options: ['augmenter <em>X</em>',
+                'diminuer <em>X</em>',
+                'ni l\'un ni l\'autre : on est déjà en un point stationnaire'],
+      reponse: function () {
+        var d = cfg().d(X());
+        if (Math.abs(d) < EPS) return 2;
+        return d > 0 ? 0 : 1;
+      },
+      explication: 'Le signe de la dérivée indique la direction qui améliore : ' +
+        '<em>f&nbsp;′</em> &gt; 0 signifie qu\'un pas vers la droite fait monter <em>f</em>. ' +
+        'Tant que <em>f&nbsp;′</em> ≠ 0, on n\'est donc pas à un optimum intérieur — c\'est ' +
+        'tout le contenu de la condition du premier ordre, et c\'est le raisonnement que vous ' +
+        'referez chaque fois qu\'un optimum sera caractérisé par une égalité.'
+    },
+    {
+      id: 'op-q2',
+      type: 'numerique',
+      texte: 'Combien de points de l\'intervalle tracé vérifient la CPO ' +
+             '(<em>f&nbsp;′</em> = 0) ? Comptez les traversées de la ligne rouge ' +
+             '<em>f&nbsp;′</em> = 0 sur le graphe du bas.',
+      tolerance: 0.01,
+      decimales: 0,
+      reponse: function () { return stat.length; },
+      explication: 'Chaque traversée de l\'axe est un point stationnaire. Mais ils ne sont pas ' +
+        'de même nature : une traversée <em>de haut en bas</em> (<em>f&nbsp;′</em> passe de + ' +
+        'à −) est un maximum local, une traversée <em>de bas en haut</em> un minimum. La ' +
+        'fonction de degré 4 en a trois, de deux natures différentes. La CPO seule ne classe ' +
+        'donc rien : c\'est le signe de <em>f&nbsp;″</em> qui tranche.'
+    },
+    {
+      id: 'op-q3',
+      type: 'choix',
+      texte: 'Sur la fonction choisie, où se trouve le <strong>maximum</strong> de <em>f</em> ' +
+             'sur l\'intervalle tracé ?',
+      options: ['en un point où <em>f&nbsp;′</em> = 0',
+                'à une borne de l\'intervalle, où <em>f&nbsp;′</em> ≠ 0'],
+      reponse: function () {
+        var c = cfg();
+        var bornes = Math.max(c.f(c.xmin), c.f(c.xmax));
+        var sommet = -Infinity, i;
+        for (i = 0; i < stat.length; i++) {
+          if (stat[i].type === 'max') sommet = Math.max(sommet, stat[i].y);
+        }
+        return sommet > bornes ? 0 : 1;
+      },
+      explication: 'Les conditions du premier et du second ordre sont <strong>locales</strong> : ' +
+        'elles ne disent rien de ce qui se passe ailleurs. Deux pièges en découlent. Sur la ' +
+        'fonction de degré 4, <em>deux</em> sommets vérifient CPO et CSO et un seul est le ' +
+        'maximum global — il faut comparer les valeurs de <em>f</em>. Sur la fonction convexe, ' +
+        'aucun point stationnaire n\'est un maximum : le maximum est atteint <em>aux bornes</em>, ' +
+        'là où la dérivée ne s\'annule pas. Chercher les points où <em>f&nbsp;′</em> = 0 ne ' +
+        'suffit jamais ; il faut aussi regarder les extrémités du domaine.'
+    }
+  ]);
+
+  document.addEventListener('pred-retenu', majTout);
+  document.addEventListener('pred-revele', majTout);
+
   Econ.pied();
 })();
 </script>

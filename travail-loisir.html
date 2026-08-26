@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Le choix travail-loisir — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 <style>
   .zonegraphe.double { flex: 1 1 620px; }
   .paire { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
@@ -26,9 +26,6 @@ Le travailleur répartit une dotation en temps <em>T</em> entre loisir <em>L</em
 <em>H = T − L</em>. Chaque heure de loisir coûte un salaire <em>w</em> : le salaire
 <strong>est</strong> le prix du loisir. Le graphe de gauche montre le choix optimal ; celui
 de droite reconstitue, salaire par salaire, la <strong>courbe d'offre de travail</strong>.
-Avec les préférences retenues ici, cette offre monte, descend ou reste verticale selon un
-seul critère : le revenu non salarial <em>m</em> comparé à la consommation incompressible
-<em>c<sub>0</sub></em>.
 </p>
 
 <div class="atelier">
@@ -71,24 +68,10 @@ seul critère : le revenu non salarial <em>m</em> comparé à la consommation i
 <div class="observer">
   <h3>À observer</h3>
   <ol>
-    <li>Réglages par défaut (<em>m</em> = 10, <em>c<sub>0</sub></em> = 0, <em>T</em> = 16,
-      <em>a</em> = 0,5). Montez <em>w</em> de 1 à 8 : <em>H*</em> passe de 3,00 h à 7,38 h.
-      Le revenu non salarial dépasse la consommation incompressible, et l'offre
-      <strong>monte</strong>.</li>
     <li>Mettez <em>m</em> = 0 et <em>c<sub>0</sub></em> = 0 : <em>H*</em> vaut 8,00 h à tous
       les salaires et la courbe d'offre devient <strong>verticale</strong>, à
       <em>H* = (1−a)T</em>. Effet de substitution et effet de revenu se compensent
       exactement. C'est le repère à retenir.</li>
-    <li>Gardez <em>m</em> = 10 et montez <em>c<sub>0</sub></em> à 20. Montez <em>w</em> de 1
-      à 8 : <em>H*</em> <strong>descend</strong> de 13,00 h à 8,63 h. Il faut financer une
-      consommation incompressible ; à bas salaire on travaille beaucoup pour y arriver, et
-      chaque hausse de <em>w</em> permet de relâcher l'effort. L'offre décroît sur toute la
-      plage, sans jamais monter d'abord.</li>
-    <li>Revenez à <em>c<sub>0</sub></em> = 0 et poussez <em>m</em> à 30, <em>a</em> à 0,7 :
-      le panneau affiche un <strong>salaire de réserve</strong> de 4,37 et le trait pointillé
-      violet devient visible. À <em>w</em> = 4,25 il affiche <em>H*</em> = 0,00 h et une pente
-      nulle : l'optimum est collé au point de dotation. À <em>w</em> = 4,50, <em>H*</em>
-      = 0,13 h : l'offre décolle de l'axe vertical.</li>
     <li>Comparez le rôle des deux revenus. À <em>w</em> = 4, <em>a</em> = 0,5,
       <em>T</em> = 16, <em>c<sub>0</sub></em> = 0, montez <em>m</em> de 0 à 30 : la droite de
       budget se translate vers le haut sans changer de pente et <em>H*</em> tombe de 8,00 h à
@@ -141,7 +124,8 @@ seul critère : le revenu non salarial <em>m</em> comparé à la consommation i
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -464,6 +448,78 @@ seul critère : le revenu non salarial <em>m</em> comparé à la consommation i
   function majTout() { maj(); bL.fullUpdate(); bO.fullUpdate(); }
 
   majTout();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* Hopt() et wRes() sont les fonctions qui tracent déjà l'optimum et    */
+  /* le salaire de réserve. La première question a une réponse qui        */
+  /* bascule : la pente de l'offre suit le signe de m − c0, si bien que   */
+  /* remonter c0 au-dessus de m fait rebrousser l'offre de travail.       */
+  /* ------------------------------------------------------------------ */
+
+  Pred.init([
+    {
+      id: 'tl-q1',
+      type: 'direction',
+      texte: 'Si le salaire horaire <em>w</em> augmentait, les heures travaillées ' +
+             '<em>H*</em> iraient :',
+      options: ['augmenter', 'diminuer', 'rester identiques'],
+      reponse: function () {
+        var h0 = Hopt(w()), h1 = Hopt(w() * 1.25);
+        if (Math.abs(h1 - h0) < 1e-9) return 2;
+        return h1 > h0 ? 0 : 1;
+      },
+      explication: 'Deux forces s\'opposent. L\'effet de <strong>substitution</strong> pousse à ' +
+        'travailler plus : le loisir devient plus cher. L\'effet de <strong>revenu</strong> ' +
+        'pousse en sens inverse : plus riche, on veut aussi plus de loisir. Le résultat dépend ' +
+        'de leur poids relatif — ici du signe de <em>m</em> − <em>c<sub>0</sub></em>. Montez la ' +
+        'consommation incompressible <em>c<sub>0</sub></em> au-dessus du revenu non salarial ' +
+        '<em>m</em> et l\'offre de travail se met à <strong>rebrousser</strong> : une hausse de ' +
+        'salaire réduit alors les heures travaillées, comme on l\'observe dans certaines ' +
+        'professions bien rémunérées.'
+    },
+    {
+      id: 'tl-q2',
+      type: 'direction',
+      texte: 'Si le revenu <strong>non salarial <em>m</em></strong> augmentait, le ' +
+             '<strong>salaire de réserve</strong> irait :',
+      options: ['augmenter', 'diminuer', 'rester identique'],
+      reponse: function () {
+        // Le salaire de réserve est le TMS en (T, m) : on le réévalue à un m
+        // majoré sans toucher au curseur de l'étudiant.
+        var a = sA.valeur();
+        function wResDe(mv) { return a * (mv - c0()) / ((1 - a) * T()); }
+        var w0 = wResDe(m()), w1 = wResDe(m() + 5);
+        if (!isFinite(w0) || !isFinite(w1)) return 0;
+        if (Math.abs(w1 - w0) < 1e-9) return 2;
+        return w1 > w0 ? 0 : 1;
+      },
+      explication: 'Le salaire de réserve est le TMS évalué au point où l\'on ne travaille pas ' +
+        'du tout (<em>L</em> = <em>T</em>) : c\'est le salaire minimal qui rend la première ' +
+        'heure de travail intéressante. Plus le revenu non salarial est élevé, plus on peut se ' +
+        'permettre de rester chez soi, et plus ce seuil monte. C\'est le mécanisme par lequel ' +
+        'un transfert inconditionnel réduit la participation au marché du travail — un résultat ' +
+        'central pour évaluer les programmes d\'aide au revenu.'
+    },
+    {
+      id: 'tl-q3',
+      type: 'numerique',
+      texte: 'Estimez les <strong>heures travaillées</strong> <em>H*</em> aux réglages ' +
+             'actuels. Le rappel donne la demande de loisir <em>L*</em>, et ' +
+             '<em>H*</em> = <em>T</em> − <em>L*</em>.',
+      unite: 'heures',
+      tolerance: 0.02,
+      reponse: function () { return Hopt(w()); },
+      explication: 'Le travailleur choisit d\'abord son loisir, exactement comme un ' +
+        'consommateur choisit un bien : le loisir se paie au prix <em>w</em>, sur un revenu ' +
+        '« plein » <span class="formule">wT + m</span> qu\'il obtiendrait en travaillant tout ' +
+        'son temps. Les heures travaillées ne sont que le <em>résidu</em> ' +
+        '<span class="formule">H* = T − L*</span>. C\'est pour cela que l\'offre de travail ' +
+        'hérite de toutes les ambiguïtés de la demande de loisir.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>De l'optimum à la demande — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 <style>
   /* Réglages locaux : deux graphes côte à côte. */
   .zonegraphe.double { flex: 1 1 620px; }
@@ -49,32 +49,18 @@ regardez le point de droite balayer la courbe de demande&nbsp;; basculez ensuite
 <div class="observer">
   <h3>À observer</h3>
   <ol>
-    <li>En mode <em>demande</em>, faites glisser <em>p<sub>X</sub></em> de 10 vers 2&nbsp;:
-      à gauche la droite de budget pivote autour de son ordonnée à l'origine, à droite le
-      point descend le long de la courbe. <em>X*</em> passe de 5,00 à 25,00, et la dépense
-      <em>p<sub>X</sub>X*</em> reste égale à <em>aI</em> = 50. La courbe est tracée au-delà
-      des bornes du curseur&nbsp;: elle sort du cadre par la droite et par le haut, sans jamais
-      toucher les axes.</li>
-    <li>Toujours en mode <em>demande</em>, la <strong>courbe prix-consommation</strong>
-      (en violet, à gauche) est <em>horizontale</em> pour Cobb-Douglas&nbsp;: quand
-      <em>p<sub>X</sub></em> varie, <em>Y*</em> reste à 12,50. La dépense en <em>Y</em>
-      est une part fixe du revenu.</li>
-    <li>Basculez en mode <em>Engel</em> et faites passer <em>I</em> de 70 à 140&nbsp;:
-      <em>X*</em> double, de 7,00 à 14,00. La courbe de droite est une
-      <strong>droite passant par l'origine</strong>&nbsp;: le bien est <em>normal</em> et son
-      élasticité-revenu vaut 1.</li>
-    <li>En mode <em>Engel</em>, le <strong>sentier d'expansion</strong> à gauche est un
-      rayon issu de l'origine, de pente
-      <span class="formule">(1−a)p<sub>X</sub> / (a p<sub>Y</sub>)</span>. Passez
-      <em>a</em> de 0,50 à 0,80&nbsp;: le rayon s'aplatit, et la courbe d'Engel aussi. Sa pente
-      est <span class="formule">p<sub>X</sub>/a</span>, puisque <em>X</em> est en abscisse
-      et <em>I</em> en ordonnée&nbsp;: la ligne «&nbsp;Lecture&nbsp;» la fait tomber de 10,00 à
-      6,25.</li>
-    <li>Repassez en mode <em>demande</em>, choisissez les préférences <em>CES</em> et
-      amenez <em>r</em> à −3 (biens peu substituables). En balayant
-      <em>p<sub>X</sub></em> de 2 à 10, <em>X*</em> ne va plus que de 18,64 à 6,65, contre
-      25,00 à 5,00 avec Cobb-Douglas&nbsp;: la demande réagit moins au prix. La courbe
-      prix-consommation cesse d'être horizontale, <em>Y*</em> passant de 15,68 à 8,37.</li>
+    <li>En mode <em>demande</em>, la <strong>courbe prix-consommation</strong> (en violet,
+      à gauche) est <em>horizontale</em> pour Cobb-Douglas : quand <em>p<sub>X</sub></em>
+      varie, <em>Y*</em> ne bouge pas. La dépense en <em>Y</em> est une part fixe du revenu,
+      et le prix de <em>X</em> n'y change rien.</li>
+    <li>En mode <em>Engel</em>, le <strong>sentier d'expansion</strong> à gauche est un rayon
+      issu de l'origine, de pente <span class="formule">(1−a)p<sub>X</sub> / (a p<sub>Y</sub>)</span>.
+      Montez <em>a</em> : le rayon s'aplatit, et la courbe d'Engel avec lui — on achète
+      relativement plus de <em>X</em> à chaque niveau de revenu.</li>
+    <li>Repassez en mode <em>demande</em>, choisissez les préférences <em>CES</em> et amenez
+      <em>r</em> vers −3 (biens peu substituables) : en balayant <em>p<sub>X</sub></em>, la
+      quantité varie beaucoup moins qu'en Cobb-Douglas. La courbe prix-consommation cesse
+      d'être horizontale : la part du budget consacrée à <em>X</em> n'est plus constante.</li>
   </ol>
 </div>
 
@@ -101,7 +87,8 @@ regardez le point de droite balayer la courbe de demande&nbsp;; basculez ensuite
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -366,6 +353,76 @@ regardez le point de droite balayer la courbe de demande&nbsp;; basculez ensuite
 
   changerMode();
   bG.fullUpdate();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* Tout passe par dem(), la même fonction de demande que celle qui      */
+  /* trace les courbes. La première question change de réponse selon le   */
+  /* menu Préférences : la part budgétaire est figée en Cobb-Douglas,     */
+  /* mais pas en CES — et son sens de variation dépend même du signe de   */
+  /* r, ce que le balayage de test vérifie.                               */
+  /* ------------------------------------------------------------------ */
+
+  function partBudget(p) { return p * dem(p, pY(), I()).X / I(); }
+
+  Pred.init([
+    {
+      id: 'de-q1',
+      type: 'choix',
+      texte: 'Si <em>p<sub>X</sub></em> doublait, la <strong>part du revenu</strong> ' +
+             'dépensée en <em>X</em> :',
+      options: ['augmenterait', 'diminuerait', 'resterait identique'],
+      reponse: function () {
+        var s0 = partBudget(pX()), s1 = partBudget(2 * pX());
+        if (Math.abs(s1 - s0) < 1e-9) return 2;
+        return s1 > s0 ? 0 : 1;
+      },
+      explication: 'Avec des préférences <strong>Cobb-Douglas</strong>, la part dépensée en ' +
+        '<em>X</em> vaut <em>a</em> quels que soient les prix et le revenu : la hausse du prix ' +
+        'réduit la quantité dans exactement la même proportion, et la dépense ne bouge pas. ' +
+        'Avec des préférences <strong>CES</strong> ce n\'est plus vrai, et le sens dépend de ' +
+        '<em>r</em> : quand les deux biens se substituent mal (<em>r</em> &lt; 0), on encaisse ' +
+        'la hausse et la part augmente ; quand ils se substituent bien (<em>r</em> &gt; 0), on ' +
+        'se reporte sur <em>Y</em> et la part diminue. Changez le menu pour voir la réponse ' +
+        'basculer.'
+    },
+    {
+      id: 'de-q2',
+      type: 'choix',
+      texte: 'Si le revenu <em>I</em> doublait, la quantité <em>X*</em> :',
+      options: ['doublerait exactement',
+                'ferait plus que doubler',
+                'ferait moins que doubler'],
+      reponse: function () {
+        var x1 = dem(pX(), pY(), I()).X, x2 = dem(pX(), pY(), 2 * I()).X;
+        var r = x2 / x1;
+        if (Math.abs(r - 2) < 1e-9) return 0;
+        return r > 2 ? 1 : 2;
+      },
+      explication: 'Les deux familles de préférences offertes ici sont <em>homothétiques</em> : ' +
+        'multiplier le revenu par deux multiplie les deux demandes par deux, sans changer la ' +
+        'composition du panier. La courbe d\'Engel est donc une droite passant par l\'origine ' +
+        'et l\'élasticité-revenu vaut exactement 1. Cochez le panneau de droite en mode ' +
+        '<em>courbe d\'Engel</em> pour la voir. Attention : ce n\'est pas une propriété générale ' +
+        'des préférences — un bien de luxe aurait une élasticité supérieure à 1, un bien ' +
+        'inférieur une élasticité négative.'
+    },
+    {
+      id: 'de-q3',
+      type: 'numerique',
+      texte: 'Estimez la quantité <em>X*</em> choisie aux réglages actuels. Le rappel donne ' +
+             'la demande pour chaque famille de préférences.',
+      tolerance: 0.02,
+      reponse: function () { return opt().X; },
+      explication: 'En Cobb-Douglas la demande s\'écrit ' +
+        '<span class="formule">X* = a I / p<sub>X</sub></span> : la part <em>a</em> du budget ' +
+        'part en <em>X</em>, et on en achète ce que le prix permet. C\'est le point <strong>E</strong> ' +
+        'à gauche, et un point de la courbe de demande à droite — les deux panneaux montrent ' +
+        'le même choix, vu sous deux angles.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Le choix intertemporel — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
@@ -16,9 +16,7 @@ L'agent reçoit <em>Y<sub>1</sub></em> aujourd'hui et <em>Y<sub>2</sub></em> dem
 épargner ou emprunter au taux <em>r</em>. Sa droite de budget passe <strong>toujours</strong>
 par le point de dotation : quoi qu'il arrive au taux d'intérêt, il peut au minimum consommer
 ce qu'il reçoit. Faites varier <em>r</em> et regardez la droite <strong>pivoter autour de la
-dotation</strong>. Une hausse du taux profite toujours à l'épargnant. Elle nuit à l'emprunteur
-qui <strong>reste</strong> emprunteur ; celui qui bascule du côté de l'épargne peut au
-contraire y gagner.
+dotation</strong>.
 </p>
 
 <div class="atelier">
@@ -49,20 +47,6 @@ contraire y gagner.
     <li>Faites glisser <em>r</em> de 0 % à 50 % : la droite <strong>pivote autour du point
       de dotation</strong> <em>D</em> (le losange violet), jamais autour d'un intercept.
       Le point <em>D</em> est le seul panier toujours accessible.</li>
-    <li>Avec les valeurs par défaut (<em>Y<sub>1</sub></em> = 40,
-      <em>Y<sub>2</sub></em> = 20) l'agent est <strong>épargnant</strong>. Cochez
-      « comparer avec <em>r</em><sub>0</sub> » et montez <em>r</em> : le nouvel optimum se
-      place sur une courbe d'indifférence <em>plus élevée</em> que l'ancienne. Le verdict
-      s'affiche dans le panneau.</li>
-    <li>Inversez les dotations (<em>Y<sub>1</sub></em> = 20,
-      <em>Y<sub>2</sub></em> = 40) : l'agent devient <strong>emprunteur</strong> et le reste
-      après la hausse de <em>r</em>. La même hausse le fait passer sur une courbe
-      d'indifférence <em>plus basse</em>. Même choc, verdict opposé.</li>
-    <li>Un épargnant <strong>reste épargnant</strong> après une hausse de <em>r</em> : avec
-      Cobb-Douglas, <em>C<sub>1</sub>* = a·VP<sub>W</sub></em> et
-      <em>VP<sub>W</sub> = Y<sub>1</sub> + Y<sub>2</sub>/(1+r)</em> diminue quand <em>r</em>
-      monte, donc <em>C<sub>1</sub>*</em> baisse et l'épargne augmente. Un emprunteur, lui,
-      peut basculer.</li>
     <li>Réglez <em>Y<sub>1</sub></em> = 60, <em>Y<sub>2</sub></em> = 50, <em>a</em> = 0,55,
       <em>r</em><sub>0</sub> = 1 % et <em>r</em> = 50 % : l'agent emprunte 0,23 au départ,
       épargne 8,67 à l'arrivée, et le panneau annonce que sa situation <strong>s'améliore</strong>
@@ -100,7 +84,8 @@ contraire y gagner.
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -111,6 +96,14 @@ contraire y gagner.
   var b = Econ.board('graphe', [-10, C2MAX, C1MAX, -14],
                      { nomX: 'C<sub>1</sub>', nomY: 'C<sub>2</sub>',
                        pasGrad: 20, pasGradY: 20 });
+
+  // Le cadre suit désormais les réglages (voir maj) : graduations automatiques.
+  for (var cleAxe in b.objects) {
+    var oAxe = b.objects[cleAxe];
+    if (oAxe.elType === 'axis' && oAxe.defaultTicks) {
+      oAxe.defaultTicks.setAttribute({ insertTicks: true, minTicksDistance: 40 });
+    }
+  }
 
   /* ------------------------------------------------------------------ */
   /* Commandes                                                           */
@@ -174,6 +167,13 @@ contraire y gagner.
 
   // Optimum au taux t : C1 = a·VP_W, C2 = (1−a)(1+t)VP_W.
   function E(t)  { return C.demande(1, p2(t), VP(t), par()); }
+
+  // Pas « joli » pour le cadre adaptatif, comme dans vc-ve.
+  function joli(v) {
+    var e = Math.pow(10, Math.floor(Math.log(v) / Math.LN10)), c = [1, 2, 5, 10], i;
+    for (i = 0; i < c.length; i++) { if (c[i] * e >= v - 1e-12) return c[i] * e; }
+    return 10 * e;
+  }
   function util(t) { var e = E(t); return C.u(e.X, e.Y, par()); }
 
   /* ------------------------------------------------------------------ */
@@ -186,7 +186,8 @@ contraire y gagner.
     { style: { strokeColor: Econ.COUL.gris, strokeWidth: 1.8, dash: 2 } });
 
   var indRef = Econ.courbeIndiff(b, C, par, function () { return util(r0()); },
-    { xmax: C1MAX, ymax: C2MAX,
+    { xmax: function () { return b.getBoundingBox()[2]; },
+      ymax: function () { return b.getBoundingBox()[1]; },
       style: { strokeColor: Econ.COUL.second, strokeWidth: 1.6, dash: 2 } });
 
   var Eref = b.create('point',
@@ -201,7 +202,8 @@ contraire y gagner.
     { style: { strokeWidth: 2.5 } });
 
   Econ.courbeIndiff(b, C, par, function () { return util(r()); },
-    { xmax: C1MAX, ymax: C2MAX, style: { strokeWidth: 2.4 } });
+    { xmax: function () { return b.getBoundingBox()[2]; },
+      ymax: function () { return b.getBoundingBox()[1]; }, style: { strokeWidth: 2.4 } });
 
   // Point de dotation : losange violet, visuellement distinct de l'optimum.
   var D = b.create('point', [y1, y2], {
@@ -231,6 +233,15 @@ contraire y gagner.
   /* ------------------------------------------------------------------ */
 
   function maj() {
+    // Cadre adaptatif : figé aux maxima des curseurs, il écrasait la scène
+    // des réglages courants dans le quart inférieur gauche.
+    var xs = [VP(r()), y1() + 5, 20], ys = [y2() + (1 + r()) * y1() + 5, 20];
+    if (bCmp.valeur()) { xs.push(VP(r0())); ys.push(y2() + (1 + r0()) * y1() + 5); }
+    var XM = Math.max.apply(null, xs), YM = Math.max.apply(null, ys);
+    XM = Math.ceil(XM / joli(XM / 12)) * joli(XM / 12);
+    YM = Math.ceil(YM / joli(YM / 12)) * joli(YM / 12);
+    b.setBoundingBox([-0.085 * XM, 1.12 * YM, 1.10 * XM, -0.12 * YM], false);
+
     var e = E(r());
     var S = y1() - e.X;
     var a = sA.valeur();
@@ -291,6 +302,68 @@ contraire y gagner.
   function majTout() { maj(); b.fullUpdate(); }
 
   majTout();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* E(t) est la fonction qui place déjà l'optimum : les réponses         */
+  /* suivent donc les dotations, le taux et le poids du présent. La       */
+  /* troisième question compare deux taux, comme le fait la page.         */
+  /* ------------------------------------------------------------------ */
+
+  Pred.init([
+    {
+      id: 'ci-q1',
+      type: 'choix',
+      texte: 'Aux réglages actuels, l\'agent sera :',
+      options: ['épargnant : il consomme moins que son revenu de première période',
+                'emprunteur : il consomme plus que son revenu de première période',
+                'ni l\'un ni l\'autre : il consomme exactement <em>Y</em><sub>1</sub>'],
+      reponse: function () {
+        var d = E(r()).X - y1();
+        if (Math.abs(d) < 0.05) return 2;
+        return d < 0 ? 0 : 1;
+      },
+      explication: 'L\'agent ne consomme pas son revenu période par période : il répartit la ' +
+        '<em>valeur actualisée</em> de ses ressources entre les deux périodes. Avec un revenu ' +
+        'concentré aujourd\'hui il épargne, avec un revenu concentré demain il emprunte — c\'est ' +
+        'le lissage de la consommation, fondement de la théorie du cycle de vie. Inversez ' +
+        '<em>Y</em><sub>1</sub> et <em>Y</em><sub>2</sub> et sa position s\'inverse.'
+    },
+    {
+      id: 'ci-q2',
+      type: 'numerique',
+      texte: 'Estimez la consommation de première période <em>C<sub>1</sub>*</em>. Le rappel ' +
+             'donne la valeur actualisée des ressources et la règle de partage.',
+      tolerance: 0.02,
+      reponse: function () { return E(r()).X; },
+      explication: 'La contrainte intertemporelle ramène tout à une valeur actualisée : ' +
+        '<span class="formule">VP<sub>W</sub> = Y<sub>1</sub> + Y<sub>2</sub>/(1+r)</span>. ' +
+        'Avec des préférences Cobb-Douglas, une part fixe <em>a</em> de cette valeur part en ' +
+        'consommation présente, d\'où <span class="formule">C<sub>1</sub>* = a·VP<sub>W</sub></span>. ' +
+        'Le taux d\'intérêt agit donc doublement : il change le prix relatif du futur, et il ' +
+        'change la valeur actualisée des ressources.'
+    },
+    {
+      id: 'ci-q3',
+      type: 'choix',
+      texte: 'Le taux d\'intérêt passe de <em>r</em><sub>0</sub> à <em>r</em>. Pour ' +
+             '<strong>cet agent</strong>, le bien-être :',
+      options: ['s\'améliore', 'se détériore', 'ne change pas'],
+      reponse: function () {
+        var a = par().a;
+        function util(t) { var e = E(t); return C.u(e.X, e.Y, par()); }
+        var u1 = util(r()), u0 = util(r0());
+        if (Math.abs(u1 - u0) < 1e-9) return 2;
+        return u1 > u0 ? 0 : 1;
+      },
+      explication: 'Le verdict dépend du côté du marché. L\'<strong>épargnant</strong> ' +
+        'prête : la hausse le sert. L\'<strong>emprunteur</strong> paie plus cher : elle lui ' +
+        'nuit. Le point de dotation reste toujours accessible : personne ne descend sous ce ' +
+        'qu\'il aurait sans échanger. Inversez les dotations et relancez la question.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>

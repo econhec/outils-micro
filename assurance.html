@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>La demande d'assurance — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=13">
+<link rel="stylesheet" href="commun/style.css?v=15">
 </head>
 <body>
 
 <div class="chapitre">Chapitre 5 — Le risque</div>
 <h1>La demande d'assurance</h1>
 <p class="intro">
-Savoir que l'assurance est <em>souhaitable</em> ne dit pas <em>combien</em> en acheter.
-Ici les deux « biens » sont la richesse dans le mauvais état et dans le bon état. La
-géométrie est celle du chapitre 2, avec une droite de budget dont la pente est le
-rapport des probabilités. Le résultat central tombe tout seul.
+L'assuré choisit une couverture <em>K</em>, entre 0 et la perte <em>L</em>. Il paie la
+prime <em>γK</em> ; en cas de sinistre, il reçoit <em>K</em>. Le graphique montre ses deux
+richesses possibles, avec et sans sinistre. Réglez le chargement <em>λ</em> et l'aversion
+<em>σ</em>, puis lisez la couverture choisie.
 </p>
 
 <div class="atelier">
@@ -29,30 +29,15 @@ rapport des probabilités. Le résultat central tombe tout seul.
     <li>Mettez le chargement <em>λ</em> à zéro : la prime est <strong>actuariellement
       juste</strong> et l'optimum se pose sur la droite de certitude
       <em>Z</em><sub>1</sub> = <em>Z</em><sub>2</sub>. L'agent riscophobe s'assure
-      <strong>complètement</strong> : <em>K</em>* = <em>L</em>, et sa richesse est la même
-      dans les deux états.</li>
+      <strong>complètement</strong> : sa richesse est la même dans les deux états.</li>
     <li>Montez <em>λ</em> : l'optimum quitte la droite de certitude et glisse vers le bas.
-      Il n'y a que trois situations possibles, selon le poids du chargement face à
-      l'aversion. Prime juste : couverture complète. Chargement modéré : couverture
-      <strong>partielle</strong>, c'est la franchise en langage de contrat ; aux réglages
-      par défaut, <em>λ</em> = 0,05 donne <em>K</em>* = 57,3. Chargement trop lourd pour
-      l'aversion : plus rien du tout ; posez <em>σ</em> = 0,5 puis <em>λ</em> = 0,40 et le
-      verdict affiche « aucune assurance achetée », <em>K</em>* = 0.</li>
-    <li>Montez l'aversion au risque <em>σ</em> avec un chargement positif : l'optimum
-      remonte vers la droite de certitude sans jamais l'atteindre. Plus on est riscophobe,
-      plus on accepte de payer cher pour se rapprocher de la sécurité.</li>
+      Trois situations seulement, selon le poids du chargement face à l'aversion : prime
+      juste, couverture complète ; chargement modéré, couverture <strong>partielle</strong>
+      — c'est la franchise en langage de contrat ; chargement trop lourd, plus rien du tout.</li>
     <li>À prime juste, la droite de budget a pour pente <em>−p/(1−p)</em>, le rapport des
-      probabilités. C'est ce qui fait que la tangence impose <em>Z</em><sub>1</sub> =
-      <em>Z</em><sub>2</sub>.</li>
-    <li>Poussez <em>σ</em> vers 0 (neutralité au risque) avec un chargement positif :
-      l'agent cesse de s'assurer. Seul un riscophobe paie plus que l'espérance de perte.
-      À prime juste et <em>σ</em> = 0, tous les niveaux de couverture donnent la même
-      espérance de richesse : l'agent est indifférent et l'outil retient
-      <em>K</em>* = 0. Un cran plus haut, à <em>σ</em> = 0,1, il se couvre déjà
-      complètement. Le saut est normal, l'indifférence disparaît dès la moindre
-      riscophobie.</li>
-    <li>Le point de dotation <em>ω</em> est toujours sur la droite de budget : ne pas
-      s'assurer (<em>K</em> = 0) reste une option disponible.</li>
+      probabilités : c'est ce qui fait que la tangence impose exactement
+      <em>Z</em><sub>1</sub> = <em>Z</em><sub>2</sub>. Le point de dotation <em>ω</em> reste
+      toujours sur cette droite : ne pas s'assurer demeure une option.</li>
   </ol>
 </div>
 
@@ -89,7 +74,8 @@ rapport des probabilités. Le résultat central tombe tout seul.
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=13"></script>
+<script src="commun/econ.js?v=15"></script>
+<script src="commun/prediction.js?v=15"></script>
 <script>
 (function () {
   'use strict';
@@ -246,6 +232,80 @@ rapport des probabilités. Le résultat central tombe tout seul.
   }
 
   maj();
+
+  /* ------------------------------------------------------------------ */
+  /* Prédictions                                                         */
+  /*                                                                     */
+  /* koptSigma reprend exactement la forme close de Kopt(), mais avec un  */
+  /* σ passé en argument : la question 2 doit pouvoir évaluer le cas      */
+  /* neutre au risque sans toucher au curseur de l'étudiant.              */
+  /* ------------------------------------------------------------------ */
+
+  function koptSigma(s) {
+    var g = gam(), p = prob(), l = L();
+    if (s < 1e-6) return (g < p) ? l : 0;
+    var R = Math.pow(p * (1 - g) / ((1 - p) * g), 1 / s);
+    var K = (R * W - W + l) / (1 - g + R * g);
+    return Math.max(0, Math.min(l, K));
+  }
+
+  // Classe une couverture : 0 complète, 1 partielle, 2 nulle.
+  function classer(K) {
+    if (K >= L() - 1e-6) return 0;
+    if (K <= 1e-6) return 2;
+    return 1;
+  }
+
+  Pred.init([
+    {
+      id: 'as-q1',
+      type: 'choix',
+      texte: 'Aux réglages actuels, quelle <strong>couverture</strong> ' +
+             '<em>K*</em> l\'agent choisira-t-il ?',
+      options: ['une couverture complète : <em>K*</em> = <em>L</em>',
+                'une couverture partielle : 0 &lt; <em>K*</em> &lt; <em>L</em>',
+                'aucune couverture : <em>K*</em> = 0'],
+      reponse: function () { return classer(Kopt()); },
+      explication: 'À prime <strong>actuariellement juste</strong> (<em>λ</em> = 0, donc ' +
+        '<em>γ</em> = <em>p</em>), un riscophobe s\'assure <em>complètement</em> — et cela quelle ' +
+        'que soit son aversion : dès qu\'éliminer le risque ne coûte rien en espérance, on ' +
+        'l\'élimine entièrement. Montez le chargement <em>λ</em> : l\'assurance devient un pari ' +
+        'défavorable en espérance, et l\'agent accepte d\'en garder une part — la couverture ' +
+        'devient partielle, puis nulle si le chargement est trop lourd pour son aversion. ' +
+        'C\'est l\'explication des franchises.'
+    },
+    {
+      id: 'as-q2',
+      type: 'choix',
+      texte: 'Et si l\'agent était <strong>neutre au risque</strong> ' +
+             '(<em>σ</em> = 0), aux mêmes prix ? Le taux de prime est ' +
+             '<span class="formule">γ = p(1 + λ)</span>.',
+      options: ['couverture complète', 'couverture partielle', 'aucune couverture'],
+      reponse: function () { return classer(koptSigma(0)); },
+      explication: 'Un agent neutre ne juge que l\'espérance : l\'assurance lui rapporte ' +
+        '<em>p</em> par dollar de couverture et lui coûte <em>γ</em>. Il n\'y a donc jamais de ' +
+        'compromis intérieur — c\'est tout ou rien, selon le signe de <em>γ</em> − <em>p</em>. ' +
+        'Comme <span class="formule">γ = p(1 + λ)</span> avec <em>λ</em> ≥ 0, l\'assurance n\'est ' +
+        'jamais avantageuse en espérance et il n\'en prend pas. Toute la demande d\'assurance ' +
+        'vient donc de l\'<em>aversion</em> au risque, pas d\'un gain espéré.'
+    },
+    {
+      id: 'as-q3',
+      type: 'numerique',
+      texte: 'Estimez la <strong>prime payée</strong> <em>γK*</em>, en dollars. Les curseurs ' +
+             'donnent <em>p</em>, <em>λ</em> et la perte <em>L</em>.',
+      unite: '$',
+      tolerance: 0.02,
+      reponse: function () { return gam() * Kopt(); },
+      explication: 'Le taux de prime est <span class="formule">γ = p(1 + λ)</span> : à ' +
+        'chargement nul il vaut exactement la probabilité de perte, ce qui rend le contrat ' +
+        'équitable en espérance. Multiplié par la couverture choisie, il donne la somme ' +
+        'effectivement versée à l\'assureur. Regardez ensuite la ligne des richesses ' +
+        'contingentes : à couverture complète, les deux états donnent la même richesse ' +
+        '<em>W</em> − <em>γL</em>, et l\'agent se retrouve sur la droite de certitude.'
+    }
+  ]);
+
   Econ.pied();
 })();
 </script>
