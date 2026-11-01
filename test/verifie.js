@@ -85,7 +85,7 @@ for (const page of pages) {
 console.log('  (' + nbQuestions + ' question(s) dans ' +
             [...new Set(vus.values())].length + ' page(s))');
 
-titre('4. Régressions des scripts réels des trois pages');
+titre('4. Regressions for the consumer-choice and monopoly pages');
 require('./pages.js')(RACINE, verifier);
 
 titre(echecs === 0

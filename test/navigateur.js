@@ -66,9 +66,6 @@ async function main() {
       await page.getByRole('button', {name:'Question suivante',exact:true}).click();
     }
     const scenarios = [
-      ['assurance-neutre','assurance',[60,.25,0,0],null,null,[3,3,0],/Toutes les couvertures/],
-      ['assurance-riscophobe','assurance',[60,.25,0,2],null,null,[0,3,15],/60,0/],
-      ['assurance-chargee','assurance',[60,.25,.2,0],null,null,[2,2,0],/aucune assurance/],
       ['cobb','choix-optimal',[.5,-1,5,4,100],'cobb',[10,12.5],[2,0,1],/1,25/],
       ['ces','choix-optimal',[.5,-1,5,4,100],'ces',null,['skip',0,1],/1,25/],
       ['complements','choix-optimal',[.5,-1,5,4,100],'compl',[100/9,100/9],[2,3,1],/non défini/],
@@ -90,24 +87,18 @@ async function main() {
       }
       assert.equal(await page.locator('.resultats').isVisible(), true);
       assert.match(await page.locator('.resultats').innerText(), result);
-      if (captures && ['assurance-neutre','complements','monopole-inactif'].includes(nom))
+      if (captures && ['complements','monopole-inactif'].includes(nom))
         await page.screenshot({path:path.join(captures,nom+'.png'),fullPage:true});
       console.log('OK '+nom);
     }
     // Corrections après erreur, puis recommencer avec des paramètres différents.
-    await ouvrir('assurance',[60,.25,0,0]);
-    assert.match(await repondre(0,'wrong'), /toutes les couvertures/);
-    await suite(); assert.match(await repondre(2,'wrong'), /toutes les couvertures/);
-    await suite(); await repondre(15,'wrong');
-    await page.getByRole('button',{name:'Réduire',exact:true}).click();
-    await page.getByRole('button',{name:'Recommencer',exact:true}).click();
-    await page.locator('input[type=range]').nth(2).evaluate(el=>{el.value=.2;el.dispatchEvent(new Event('input',{bubbles:true}));});
-    // Recommencer est volontairement un mode de révision avec résultats visibles.
-    await repondre(2); await suite(false); await repondre(2); await suite(false); await repondre(0);
     await ouvrir('choix-optimal',[.5,-1,5,4,100],'compl',[100/9,100/9]);
     await repondre('skip','skip'); await suite();
     assert.match(await repondre(0,'wrong'), /pas défini au coude/);
     await suite(); await repondre(2,'wrong');
+    await page.getByRole('button',{name:'Réduire',exact:true}).click();
+    await page.getByRole('button',{name:'Recommencer',exact:true}).click();
+    await repondre(2); await suite(false); await repondre(3); await suite(false); await repondre(1);
     await ouvrir('monopole',[14,1.5,20,0]);
     assert.match(await repondre(0,'wrong'), /aucune production/);
     await suite(); assert.match(await repondre(2,'wrong'), /aucune vente/);
@@ -118,7 +109,7 @@ async function main() {
       await page.waitForTimeout(30);
     }
     assert.deepEqual(errors, [], 'erreurs JavaScript navigateur');
-    console.log('15 scénarios, corrections erronées/passage/reprise et 19 pages : OK.');
+    console.log('12 scénarios, corrections erronées/passage/reprise et 18 pages : OK.');
   } finally {
     if (browser) await browser.close();
     await new Promise(resolve=>server.close(resolve));

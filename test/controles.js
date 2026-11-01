@@ -507,70 +507,6 @@
     }
 
     /* -------------------------------------------------------------- */
-    /* 9. assurance : couverture complète, partielle, nulle             */
-    /* -------------------------------------------------------------- */
-
-    const Was = 100;
-    let combAS = 0, vusAS = { complete: 0, partielle: 0, nulle: 0 };
-
-    function koptAs(L, p, lam, s) {
-      const g = Math.min(0.9, p * (1 + lam));
-      if (s < 1e-6) return (g < p) ? L : 0;
-      const R = Math.pow(p * (1 - g) / ((1 - p) * g), 1 / s);
-      const K = (R * Was - Was + L) / (1 - g + R * g);
-      return Math.max(0, Math.min(L, K));
-    }
-
-    for (let L = 20; L <= 80.001; L += 10) {
-      for (let p = 0.05; p <= 0.501; p += 0.05) {
-        for (let lam = 0; lam <= 0.801; lam += 0.05) {
-          for (let s = 0; s <= 4.001; s += 0.25) {
-            combAS++;
-            const K = koptAs(L, p, lam, s);
-            const ctx = `L=${L} p=${p.toFixed(2)} λ=${lam.toFixed(2)} σ=${s.toFixed(2)}`;
-
-            // Q1 : à prime juste et aversion stricte, couverture COMPLÈTE.
-            if (lam < 1e-9 && s > 1e-6) {
-              verifier('as Q1 : prime juste + riscophobe => couverture complète',
-                proche(K, L, 1e-9), ctx + ` K=${K.toFixed(4)}`);
-            }
-            // Avec chargement et aversion stricte, la couverture est partielle
-            // (jamais complète : payer plus que le coût actuariel le dernier
-            // dollar de couverture n'en vaut jamais la peine).
-            if (lam > 1e-9 && s > 1e-6) {
-              verifier('as Q1 : chargement => couverture non complète', K < L - 1e-9, ctx);
-            }
-            // Neutralité : comparer les valeurs, pas le représentant du solveur.
-            if (s < 1e-9) {
-              const g = p * (1 + lam);
-              const esperance = k => p * (Was - L + (1 - g) * k) +
-                                      (1 - p) * (Was - g * k);
-              if (lam < 1e-9) {
-                for (const k of [0, L / 2, L]) {
-                  verifier('as Q2 : prime juste, toute couverture est optimale',
-                    proche(esperance(k), Was - p * L), ctx + ' K=' + k);
-                }
-              } else {
-                verifier('as Q2 : chargement, richesse strictement décroissante en K',
-                  esperance(0) > esperance(L / 2) && esperance(L / 2) > esperance(L), ctx);
-                verifier('as Q2 : chargement, seul K=0 est optimal', proche(K, 0), ctx);
-              }
-            }
-            // La couverture reste dans les bornes économiquement sensées.
-            verifier('as : 0 ≤ K* ≤ L', K >= -1e-9 && K <= L + 1e-9, ctx);
-
-            if (K >= L - 1e-6) vusAS.complete++;
-            else if (K <= 1e-6) vusAS.nulle++;
-            else vusAS.partielle++;
-          }
-        }
-      }
-    }
-    verifier('as : les trois verdicts sont atteignables',
-      vusAS.complete > 0 && vusAS.partielle > 0 && vusAS.nulle > 0,
-      `complète=${vusAS.complete} partielle=${vusAS.partielle} nulle=${vusAS.nulle}`);
-
-    /* -------------------------------------------------------------- */
     /* 10. Chapitre 2 : TMS, contrainte budgétaire et choix optimal     */
     /*                                                                  */
     /* Les questions de ces trois outils ne portent que sur la matière   */
@@ -1061,7 +997,7 @@
     return { combinaisons: combinaisons, combinaisonsMono: combMono,
              combinaisonsDT: combDT, combinaisonsDE: combDE,
              combinaisonsVV: combVV, combinaisonsUE: combUE,
-             combinaisonsAS: combAS, combinaisonsCh2: combCh2,
+             combinaisonsCh2: combCh2,
              combinaisonsCh6: combCh6, combinaisonsCh7: combCh7,
              combinaisonsCh910: combCh910 };
   }

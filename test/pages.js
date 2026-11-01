@@ -48,22 +48,6 @@ function charger(racine, fichier) {
 
 module.exports = function (racine, verifier) {
   const proche = (a, b) => Math.abs(a - b) < 1e-8;
-  const a = charger(racine, 'assurance.html');
-  for (const [lam, sig, q1, q2, prime] of [[0,0,3,3,0],[0,2,0,3,15],[.2,0,2,2,0]]) {
-    a.regler([60,.25,lam,sig]);
-    const tag = 'assurance λ=' + lam + ' σ=' + sig;
-    verifier(tag + ' : ensemble des optima actuel', a.reponse(1) === q1);
-    verifier(tag + ' : ensemble neutre', a.reponse(2) === q2);
-    verifier(tag + ' : prime du représentant', proche(a.reponse(3), prime));
-  }
-  a.regler([60,.25,0,0]);
-  verifier('assurance : panneau explicite le continuum', /Toutes les couvertures/.test(a.valeurs.K));
-  verifier('assurance : verdict explicite la convention', /convention/.test(a.valeurs.verdict));
-  verifier('assurance : pleine couverture reconnue dans la correction', /complète, partielle ou nulle/.test(a.questions[1].explication));
-  a.regler([60,.25,.2,2]);
-  verifier('assurance : chargement et aversion, couverture partielle', a.reponse(1) === 1);
-  verifier('assurance : prime partielle', a.reponse(3) > 0 && a.reponse(3) < 18);
-
   const co = charger(racine, 'choix-optimal.html');
   const cas = [
     ['cobb', .5, 5, 4, 100, [10,12.5], 0, 1, '1,25'],
