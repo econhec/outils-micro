@@ -5,18 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Le monopole — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=15">
+<link rel="stylesheet" href="commun/style.css?v=16">
 </head>
 <body>
 
 <div class="chapitre">Chapitre 8 — Imperfections de marché</div>
 <h1>Le monopole</h1>
 <p class="intro">
-Le monopoleur choisit sa quantité en égalisant <strong>recette marginale et coût
-marginal</strong>, puis lit son prix sur la courbe de demande. Comme il doit baisser son prix
+Lorsque <em>c</em> &lt; <em>A</em>, le monopoleur produit une quantité positive en égalisant
+<strong>recette marginale et coût marginal</strong>, puis lit son prix sur la demande.
+Comme il doit baisser son prix
 sur <em>toutes</em> les unités pour en vendre une de plus, sa recette marginale tombe deux fois
 plus vite que le prix. Il restreint donc la production et facture au-dessus du coût marginal.
 Le triangle gris mesure ce que cette restriction coûte à la société.
+Si <em>c</em> ≥ <em>A</em>, il ne produit rien ; la quantité efficace est aussi nulle.
 </p>
 
 <div class="atelier">
@@ -42,10 +44,11 @@ Le triangle gris mesure ce que cette restriction coûte à la société.
       Sa pente est <span class="formule">−2B</span> contre <span class="formule">−B</span>.
       Faites varier <em>B</em> : le rapport reste exactement 2.</li>
     <li>Regardez les deux quantités marquées : <em>Y<sub>M</sub></em> (où Rm = Cm) et
-      <em>Y<sub>T</sub></em> (où p = Cm, l'optimum social). Quels que soient <em>A</em>,
-      <em>B</em> et <em>c</em>, le panneau affiche
+      <em>Y<sub>T</sub></em> (où p = Cm, l'optimum social). Si <em>c</em> &lt; <em>A</em>,
+      les deux quantités sont positives et le panneau affiche
       <span class="formule">Y<sub>M</sub> / Y<sub>T</sub> = 0,500</span> : le monopole produit
-      la moitié de la quantité concurrentielle dans ce cas linéaire.</li>
+      la moitié de la quantité concurrentielle. Si <em>c</em> ≥ <em>A</em>, les deux
+      quantités sont nulles et leur rapport n'est pas défini.</li>
     <li>Augmentez le coût fixe <em>F</em> : ni <em>Y<sub>M</sub></em>, ni <em>p<sub>M</sub></em>,
       ni la perte sèche ne bougent, seul le profit baisse — un coût fixe n'entre dans aucune
       décision marginale. Poussez-le assez loin et le profit devient négatif : le panneau
@@ -58,15 +61,19 @@ Le triangle gris mesure ce que cette restriction coûte à la société.
   <p>Avec une demande inverse <span class="formule">p(Y) = A − BY</span>, la recette est
   <span class="formule">R(Y) = AY − BY²</span> et donc
   <span class="formule">Rm(Y) = A − 2BY</span>. Avec
-  <span class="formule">C(Y) = F + cY</span>, la condition Rm = Cm donne
+  <span class="formule">C(Y) = F + cY</span> et <em>c</em> &lt; <em>A</em>,
+  la condition Rm = Cm donne
   <span class="formule">Y<sub>M</sub> = (A − c)/(2B)</span> et
   <span class="formule">p<sub>M</sub> = A − BY<sub>M</sub> = (A + c)/2</span>. L'optimum
   concurrentiel (p = Cm) est <span class="formule">Y<sub>T</sub> = (A − c)/B = 2Y<sub>M</sub></span>.
   Si <em>c</em> ≥ <em>A</em>, aucune unité ne vaut son coût : le monopole ne produit rien.</p>
-  <p>La perte sèche est le triangle sous la demande et au-dessus du coût marginal entre
+  <p>Si <em>c</em> &lt; <em>A</em>, la perte sèche est le triangle sous la demande et au-dessus du coût marginal entre
   <em>Y<sub>M</sub></em> et <em>Y<sub>T</sub></em> : base
   <span class="formule">(A − c)/(2B)</span>, hauteur <span class="formule">(A − c)/2</span>,
-  aire <span class="formule">(A − c)²/(8B)</span>. L'indice de Lerner
+  aire <span class="formule">(A − c)²/(8B)</span>. Pour tous les réglages :
+  <span class="formule">PS = [max(A − c, 0)]²/(8B)</span>. Si <em>c</em> ≥ <em>A</em>,
+  les quantités de monopole et efficace sont nulles, donc la perte sèche est nulle.</p>
+  <p>Lorsque la production est positive, l'indice de Lerner
   <span class="formule">(p<sub>M</sub> − c)/p<sub>M</sub> = (A − c)/(A + c)</span> mesure le
   pouvoir de marché, et vaut <span class="formule">1/|η|</span> à l'optimum du monopoleur, où
   <em>η</em> est l'élasticité-prix de la demande. Ni l'un ni l'autre ne dépend de <em>B</em>.</p>
@@ -77,8 +84,8 @@ Le triangle gris mesure ce que cette restriction coûte à la société.
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=15"></script>
-<script src="commun/prediction.js?v=15"></script>
+<script src="commun/econ.js?v=16"></script>
+<script src="commun/prediction.js?v=16"></script>
 <script>
 (function () {
   'use strict';
@@ -143,7 +150,7 @@ Le triangle gris mesure ce que cette restriction coûte à la société.
     ['pi',   'Profit <em>π = (p<sub>M</sub> − c)Y<sub>M</sub> − F</em>'],
     ['SC',   'Surplus du consommateur'],
     ['PS',   'Perte sèche'],
-    ['PSf',  'Contrôle : <em>(A − c)²/(8B)</em>'],
+    ['PSf',  'Contrôle : <em>[max(A − c, 0)]²/(8B)</em>'],
     ['L',    'Indice de Lerner <em>(p<sub>M</sub> − c)/p<sub>M</sub></em>'],
     ['eps',  'Élasticité <em>|η|</em> en <em>Y<sub>M</sub></em>, et <em>1/|η|</em>'],
     ['dg',   'Diagnostic']
@@ -169,7 +176,7 @@ Le triangle gris mesure ce que cette restriction coûte à la société.
   function profit(){ return (pM() - c()) * YM() - Fc(); }
   function SC()    { return 0.5 * (A() - pM()) * YM(); }
   // Perte sèche : intégrale de (p(y) − c) entre Y_M et Y_T, calculée
-  // géométriquement (base × hauteur / 2) ; la ligne « contrôle » redonne (A−c)²/(8B).
+  // géométriquement (base × hauteur / 2) ; contrôle : [max(A−c,0)]²/(8B).
   function PS()    { return 0.5 * (YT() - YM()) * (pM() - c()); }
 
   /* --- zones (créées d'abord pour rester sous les droites) --- */
@@ -330,7 +337,8 @@ Le triangle gris mesure ce que cette restriction coûte à la société.
   function pMde(cc) {
     // Prix de monopole pour un coût marginal cc, aux A et B courants :
     // les mêmes formules que YM()/pM(), parametrées pour la question 2.
-    var e = Math.max(A() - cc, 0);
+    if (cc >= A()) return NaN;  // aucune vente : pas de prix de transaction
+    var e = A() - cc;
     return A() - B() * (e / (2 * B()));
   }
 
@@ -341,44 +349,49 @@ Le triangle gris mesure ce que cette restriction coûte à la société.
       texte: 'Au point <strong>M</strong> que choisira le monopoleur, la demande est…',
       options: ['élastique : |η| &gt; 1',
                 'inélastique : |η| &lt; 1',
-                'd\'élasticité unitaire : |η| = 1'],
+                'd\'élasticité unitaire : |η| = 1',
+                'aucune production : pas d\'élasticité à interpréter à un point de vente optimal'],
       reponse: function () {
-        if (ferme()) return 0;                     // limite c → A : |η| → ∞
+        if (ferme()) return 3;
         var eta = (1 / B()) * (pM() / YM());
         if (Math.abs(eta - 1) < 1e-9) return 2;
         return eta > 1 ? 0 : 1;
       },
-      explication: 'Dans la zone inélastique, hausser le prix augmente la recette (on perd ' +
+      explication: 'Si <em>c</em> ≥ <em>A</em>, la production est nulle : il n\'y a pas de ' +
+        'point de vente optimal auquel attribuer une élasticité. Si la production est positive, ' +
+        'le monopoleur ne choisit pas la zone inélastique : hausser le prix augmente la recette (on perd ' +
         'peu de ventes) et réduit les coûts (on produit moins) : le monopoleur ne s\'y ' +
         'arrête jamais. Il monte le long de la demande jusqu\'à ce que ' +
         '<span class="formule">Rm = p(1 − 1/|η|)</span> égale le coût marginal — ce qui ' +
-        'exige |η| &gt; 1 dès que <em>c</em> &gt; 0, et |η| = 1 exactement si <em>c</em> = 0. ' +
+        'exige |η| &gt; 1 pour 0 &lt; <em>c</em> &lt; <em>A</em>, et |η| = 1 si <em>c</em> = 0. ' +
         'Essayez <em>c</em> = 0 pour voir ce cas limite.'
     },
     {
       id: 'mo-q2',
       type: 'choix',
-      texte: 'Le gouvernement impose une taxe de <em>t</em> $ par unité vendue, ce qui ' +
-             'porte le coût marginal à <em>c</em> + <em>t</em>. Le prix ' +
-             '<em>p<sub>M</sub></em> augmentera…',
+      texte: 'Une taxe de <em>t</em> &gt; 0 par unité porte le coût marginal à <em>c</em> + <em>t</em>. ' +
+             'Si <em>c</em> &lt; <em>A</em>, on suppose <em>t</em> &lt; <em>A</em> − <em>c</em> ' +
+             'pour maintenir une production positive. Le prix payé par les acheteurs augmentera…',
       options: ['de plus de <em>t</em>',
                 'd\'exactement <em>t</em>',
-                'de moins de <em>t</em>'],
+                'de moins de <em>t</em>',
+                'aucune vente avant la taxe : pas de prix de transaction à comparer'],
       reponse: function () {
         // Répercussion mesurée avec les formules de la page, sans sortir de
         // la zone où le monopole produit.
-        var d = Math.min(1, Math.max(0.1, (A() - c()) / 4));
-        if (d <= 0) return 2;
+        if (ferme()) return 3;
+        var d = Math.min(1, (A() - c()) / 4);
         var r = (pMde(c() + d) - pMde(c())) / d;
         if (Math.abs(r - 1) < 1e-9) return 1;
         return r > 1 ? 0 : 2;
       },
-      explication: 'Le monopoleur ne répercute pas tout : avec une demande linéaire, ' +
-        '<span class="formule">p<sub>M</sub> = (A + c)/2</span>, donc un dollar de taxe ' +
-        'n\'élève le prix que de cinquante cents. Hausser le prix de tout <em>t</em> ' +
-        'ferait perdre trop de ventes ; il en absorbe la moitié dans sa marge. La ' +
-        'répercussion dépend de la forme de la demande — elle peut dépasser 1 pour ' +
-        'd\'autres formes — mais elle n\'est jamais automatique.'
+      explication: 'Si <em>c</em> &lt; <em>A</em> et 0 &lt; <em>t</em> &lt; <em>A</em> − <em>c</em>, ' +
+        'la production reste positive : le prix passe de <span class="formule">(A + c)/2</span> ' +
+        'à <span class="formule">(A + c + t)/2</span>, soit une hausse de <em>t</em>/2. ' +
+        'Si <em>c</em> ≥ <em>A</em>, il n\'y a aucune vente avant ni après une taxe positive. ' +
+        'Si la taxe porte <em>c</em> + <em>t</em> à <em>A</em> ou au-delà, la production devient ' +
+        'nulle et la comparaison de deux prix de transaction ne s\'applique plus. ' +
+        'La répercussion de 50 % est propre à cette demande linéaire dans le régime actif.'
     },
     {
       id: 'mo-q3',
@@ -388,12 +401,11 @@ Le triangle gris mesure ce que cette restriction coûte à la société.
              '<em>B</em> et <em>c</em>.',
       tolerance: 0.02,
       reponse: function () { return PS(); },
-      explication: 'La perte sèche est le triangle entre la demande et le coût marginal, ' +
-        'de <em>Y<sub>M</sub></em> à <em>Y<sub>T</sub></em> : les unités qui valaient plus ' +
-        'que leur coût et ne sont pas produites. Son aire vaut ' +
-        '<span class="formule">(A − c)²/(8B)</span> : elle croît comme le <em>carré</em> de ' +
-        'l\'écart entre disposition à payer et coût — d\'où l\'intérêt des marchés où cet ' +
-        'écart est grand.'
+      explication: 'Pour tous les réglages, <span class="formule">PS = [max(A − c, 0)]²/(8B)</span>. ' +
+        'Si <em>c</em> &lt; <em>A</em>, la perte sèche est le triangle entre la demande et le coût ' +
+        'marginal, de <em>Y<sub>M</sub></em> à <em>Y<sub>T</sub></em> : son aire vaut ' +
+        '<span class="formule">(A − c)²/(8B)</span>. Si <em>c</em> ≥ <em>A</em>, aucune unité ' +
+        'ne vaut son coût marginal ; les deux quantités et la perte sèche sont nulles.'
     }
   ]);
 

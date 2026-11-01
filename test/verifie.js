@@ -5,7 +5,7 @@
    Utile pour une intégration continue. Sur un poste sans Node, ouvrir
    test/verifie.html dans un navigateur : les contrôles mathématiques y sont
    identiques (ils viennent tous les deux de controles.js). Seule la
-   troisième partie ci-dessous, qui relit les fichiers HTML, demande Node.
+   vérification des fichiers HTML et l'exécution de leurs scripts demandent Node.
 */
 
 'use strict';
@@ -84,6 +84,9 @@ for (const page of pages) {
 
 console.log('  (' + nbQuestions + ' question(s) dans ' +
             [...new Set(vus.values())].length + ' page(s))');
+
+titre('4. Régressions des scripts réels des trois pages');
+require('./pages.js')(RACINE, verifier);
 
 titre(echecs === 0
   ? 'Tout est en ordre : ' + nbControles.toLocaleString('fr-CA') + ' contrôles passés.'

@@ -191,7 +191,8 @@
           // Q2 : répercussion d'une taxe unitaire, mesurée comme dans la
           // page — toujours strictement en deçà du montant de la taxe, et
           // exactement la moitié pour cette demande linéaire.
-          const d = Math.min(1, Math.max(0.1, (A - c) / 4));
+          const d = Math.min(1, (A - c) / 4);
+          verifier('mono Q2 : taxe laisse une production positive', d > 0 && c + d < A, ctx);
           const r = (s.pMde(c + d) - s.pMde(c)) / d;
           verifier('mono Q2 : répercussion < 1', r < 1 - 1e-12, ctx + ` r=${r.toFixed(4)}`);
           verifier('mono Q2 : répercussion = 1/2 (demande linéaire)',
@@ -539,11 +540,21 @@
             if (lam > 1e-9 && s > 1e-6) {
               verifier('as Q1 : chargement => couverture non complète', K < L - 1e-9, ctx);
             }
-            // Q2 : neutralité au risque => tout ou rien, et comme γ ≥ p,
-            // c'est toujours « rien ».
+            // Neutralité : comparer les valeurs, pas le représentant du solveur.
             if (s < 1e-9) {
-              verifier('as Q2 : neutre au risque => aucune couverture',
-                Math.abs(K) < 1e-9, ctx + ` K=${K.toFixed(4)}`);
+              const g = p * (1 + lam);
+              const esperance = k => p * (Was - L + (1 - g) * k) +
+                                      (1 - p) * (Was - g * k);
+              if (lam < 1e-9) {
+                for (const k of [0, L / 2, L]) {
+                  verifier('as Q2 : prime juste, toute couverture est optimale',
+                    proche(esperance(k), Was - p * L), ctx + ' K=' + k);
+                }
+              } else {
+                verifier('as Q2 : chargement, richesse strictement décroissante en K',
+                  esperance(0) > esperance(L / 2) && esperance(L / 2) > esperance(L), ctx);
+                verifier('as Q2 : chargement, seul K=0 est optimal', proche(K, 0), ctx);
+              }
             }
             // La couverture reste dans les bornes économiquement sensées.
             verifier('as : 0 ≤ K* ≤ L', K >= -1e-9 && K <= L + 1e-9, ctx);

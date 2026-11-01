@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>La demande d'assurance — ECON 20851</title>
 <link rel="stylesheet" href="commun/jsxgraph.css">
-<link rel="stylesheet" href="commun/style.css?v=15">
+<link rel="stylesheet" href="commun/style.css?v=16">
 </head>
 <body>
 
@@ -27,15 +27,16 @@ richesses possibles, avec et sans sinistre. Réglez le chargement <em>λ</em> et
   <h3>À observer</h3>
   <ol>
     <li>Mettez le chargement <em>λ</em> à zéro : la prime est <strong>actuariellement
-      juste</strong> et l'optimum se pose sur la droite de certitude
+      juste</strong>. Si <em>σ</em> &gt; 0, l'optimum se pose sur la droite de certitude
       <em>Z</em><sub>1</sub> = <em>Z</em><sub>2</sub>. L'agent riscophobe s'assure
-      <strong>complètement</strong> : sa richesse est la même dans les deux états.</li>
-    <li>Montez <em>λ</em> : l'optimum quitte la droite de certitude et glisse vers le bas.
+      <strong>complètement</strong> : sa richesse est la même dans les deux états.
+      Si <em>σ</em> = 0, toutes les couvertures de 0 à <em>L</em> sont optimales.</li>
+    <li>Avec <em>σ</em> &gt; 0, montez <em>λ</em> : l'optimum quitte la droite de certitude.
       Trois situations seulement, selon le poids du chargement face à l'aversion : prime
       juste, couverture complète ; chargement modéré, couverture <strong>partielle</strong>
       — c'est la franchise en langage de contrat ; chargement trop lourd, plus rien du tout.</li>
     <li>À prime juste, la droite de budget a pour pente <em>−p/(1−p)</em>, le rapport des
-      probabilités : c'est ce qui fait que la tangence impose exactement
+      probabilités : pour un agent strictement riscophobe, la tangence impose
       <em>Z</em><sub>1</sub> = <em>Z</em><sub>2</sub>. Le point de dotation <em>ω</em> reste
       toujours sur cette droite : ne pas s'assurer demeure une option.</li>
   </ol>
@@ -53,19 +54,26 @@ richesses possibles, avec et sans sinistre. Réglez le chargement <em>λ</em> et
   <p>La condition de tangence est
   <span class="formule">p·u′(Z<sub>1</sub>) / [(1−p)·u′(Z<sub>2</sub>)] = γ/(1−γ)</span>.
   À prime juste <span class="formule">γ = p</span>, elle se réduit à
-  <span class="formule">u′(Z<sub>1</sub>) = u′(Z<sub>2</sub>)</span>, donc
+  <span class="formule">u′(Z<sub>1</sub>) = u′(Z<sub>2</sub>)</span>. Avec une utilité
+  strictement concave (<em>σ</em> &gt; 0), cela implique
   <span class="formule">Z<sub>1</sub> = Z<sub>2</sub></span> : <strong>couverture
   complète</strong>. Avec chargement <span class="formule">γ &gt; p</span>, la couverture
   est <strong>partielle</strong>, et elle tombe à zéro si le chargement est trop lourd
   pour l'aversion de l'agent : la tangence voulue sort du segment
   <span class="formule">0 ≤ K ≤ L</span> et l'optimum est le coin
   <span class="formule">K* = 0</span>.</p>
-  <p>Pour une utilité CRRA <span class="formule">u′(Z) = Z<sup>−σ</sup></span>, la
+  <p>Pour une utilité CRRA avec <em>σ</em> &gt; 0, <span class="formule">u′(Z) = Z<sup>−σ</sup></span>, la
   couverture optimale est
   <span class="formule">K* = (RW − W + L)/(1 − γ + Rγ)</span> avec
   <span class="formule">R = [p(1−γ)/((1−p)γ)]<sup>1/σ</sup></span>, ramenée dans
   <span class="formule">[0, L]</span>. À prime juste, <em>R</em> = 1 et
   <em>K</em>* = <em>L</em>.</p>
+  <p>Si <em>σ</em> = 0, l'agent maximise sa richesse espérée :
+  <span class="formule">E[Z] = W − pL + (p − γ)K</span>. À prime juste,
+  toutes les couvertures de 0 à <em>L</em> sont optimales, y compris la couverture
+  complète. Avec un chargement positif, seul <em>K</em> = 0 est optimal.
+  Dans le cas d'indifférence, le point affiché représente <em>K</em> = 0 par
+  convention ; ce n'est pas un optimum unique.</p>
   <p><strong>Deux mots à ne pas confondre.</strong> Ici la <em>prime</em> est ce que
   l'assuré verse, <span class="formule">γK</span>. Dans les notes du chapitre, la
   <em>prime de risque</em> <em>π</em> est autre chose : l'écart entre la richesse espérée
@@ -74,8 +82,8 @@ richesses possibles, avec et sans sinistre. Réglez le chargement <em>λ</em> et
 </div>
 
 <script src="commun/jsxgraphcore.js"></script>
-<script src="commun/econ.js?v=15"></script>
-<script src="commun/prediction.js?v=15"></script>
+<script src="commun/econ.js?v=16"></script>
+<script src="commun/prediction.js?v=16"></script>
 <script>
 (function () {
   'use strict';
@@ -118,8 +126,8 @@ richesses possibles, avec et sans sinistre. Réglez le chargement <em>λ</em> et
     ['W',     'Richesse initiale <em>W</em>'],
     ['gamma', 'Taux de prime <em>γ</em>'],
     ['K',     'Couverture optimale <em>K</em>*'],
-    ['prime', 'Prime payée <em>γK</em>*'],
-    ['Z',     'Richesse (mauvais / bon état)'],
+    ['prime', 'Prime du point affiché <em>γK</em>'],
+    ['Z',     'Richesse du point affiché (mauvais / bon état)'],
     ['verdict', 'Verdict']
   ]);
   res.fixer('W', Econ.nb(W, 0) + ' $');
@@ -147,14 +155,10 @@ richesses possibles, avec et sans sinistre. Réglez le chargement <em>λ</em> et
   }
 
   /* --- couverture optimale, forme close CRRA --- */
-  function Kopt() {
-    var g = gam(), p = prob(), s = sig(), l = L();
-    if (s < 1e-6) {                       // neutre au risque : tout ou rien
-      return (g < p) ? l : 0;
-    }
-    var R = Math.pow(p * (1 - g) / ((1 - p) * g), 1 / s);
-    var K = (R * W - W + l) / (1 - g + R * g);
-    return Math.max(0, Math.min(l, K));   // ni découvert négatif, ni surassurance
+  function Kopt() { return koptSigma(sig()); }
+
+  function indifference(s) {
+    return s < 1e-6 && Math.abs(gam() - prob()) < 1e-9;
   }
 
   function Z1(K) { return W - L() + K * (1 - gam()); }
@@ -212,12 +216,17 @@ richesses possibles, avec et sans sinistre. Réglez le chargement <em>λ</em> et
   function maj() {
     var K = Kopt(), g = gam();
     res.fixer('gamma', Econ.nb(g, 3) + (Math.abs(g - prob()) < 1e-9 ? ' (juste)' : ' (chargée)'));
-    res.fixer('K', Econ.nb(K, 1) + ' sur une perte de ' + Econ.nb(L(), 0));
+    res.fixer('K', indifference(sig())
+      ? 'Toutes les couvertures de 0 à ' + Econ.nb(L(), 0) + ' ; point affiché : K = 0'
+      : Econ.nb(K, 1) + ' sur une perte de ' + Econ.nb(L(), 0));
     res.fixer('prime', Econ.nb(g * K, 2) + ' $');
     res.fixer('Z', Econ.nb(Z1(K), 1) + ' / ' + Econ.nb(Z2(K), 1));
 
     var msg;
-    if (K < 0.05) {
+    if (indifference(sig())) {
+      msg = 'Indifférence : couverture complète, partielle ou nulle sont optimales. ' +
+            'K = 0 est une convention d\'affichage.';
+    } else if (K < 0.05) {
       msg = '<span style="color:' + Econ.COUL.budget + '">aucune assurance achetée</span>';
     } else if (Math.abs(K - L()) < 0.05) {
       msg = '<span style="color:' + Econ.COUL.second +
@@ -236,21 +245,26 @@ richesses possibles, avec et sans sinistre. Réglez le chargement <em>λ</em> et
   /* ------------------------------------------------------------------ */
   /* Prédictions                                                         */
   /*                                                                     */
-  /* koptSigma reprend exactement la forme close de Kopt(), mais avec un  */
+  /* Kopt et les questions utilisent le même calcul koptSigma, avec un   */
   /* σ passé en argument : la question 2 doit pouvoir évaluer le cas      */
   /* neutre au risque sans toucher au curseur de l'étudiant.              */
   /* ------------------------------------------------------------------ */
 
   function koptSigma(s) {
     var g = gam(), p = prob(), l = L();
+    // À prime juste, K = 0 représente un continuum d'optima.
+    if (indifference(s)) return 0;
     if (s < 1e-6) return (g < p) ? l : 0;
     var R = Math.pow(p * (1 - g) / ((1 - p) * g), 1 / s);
     var K = (R * W - W + l) / (1 - g + R * g);
     return Math.max(0, Math.min(l, K));
   }
 
-  // Classe une couverture : 0 complète, 1 partielle, 2 nulle.
-  function classer(K) {
+  // Ensemble des optima : 0 complète seule, 1 partielle seule,
+  // 2 nulle seule, 3 toutes les couvertures.
+  function classer(s) {
+    if (indifference(s)) return 3;
+    var K = koptSigma(s);
     if (K >= L() - 1e-6) return 0;
     if (K <= 1e-6) return 2;
     return 1;
@@ -260,19 +274,18 @@ richesses possibles, avec et sans sinistre. Réglez le chargement <em>λ</em> et
     {
       id: 'as-q1',
       type: 'choix',
-      texte: 'Aux réglages actuels, quelle <strong>couverture</strong> ' +
-             '<em>K*</em> l\'agent choisira-t-il ?',
-      options: ['une couverture complète : <em>K*</em> = <em>L</em>',
-                'une couverture partielle : 0 &lt; <em>K*</em> &lt; <em>L</em>',
-                'aucune couverture : <em>K*</em> = 0'],
-      reponse: function () { return classer(Kopt()); },
-      explication: 'À prime <strong>actuariellement juste</strong> (<em>λ</em> = 0, donc ' +
-        '<em>γ</em> = <em>p</em>), un riscophobe s\'assure <em>complètement</em> — et cela quelle ' +
-        'que soit son aversion : dès qu\'éliminer le risque ne coûte rien en espérance, on ' +
-        'l\'élimine entièrement. Montez le chargement <em>λ</em> : l\'assurance devient un pari ' +
-        'défavorable en espérance, et l\'agent accepte d\'en garder une part — la couverture ' +
-        'devient partielle, puis nulle si le chargement est trop lourd pour son aversion. ' +
-        'C\'est l\'explication des franchises.'
+      texte: 'Aux réglages actuels, quel est l\'<strong>ensemble des couvertures optimales</strong> ?',
+      options: ['seule la couverture complète est optimale : <em>K</em> = <em>L</em>',
+                'une couverture strictement partielle est l\'unique optimum : 0 &lt; <em>K</em> &lt; <em>L</em>',
+                'seule l\'absence de couverture est optimale : <em>K</em> = 0',
+                'toutes les couvertures de 0 à <em>L</em> sont optimales'],
+      reponse: function () { return classer(sig()); },
+      explication: 'À prime juste (<em>λ</em> = 0), un agent strictement riscophobe ' +
+        '(<em>σ</em> &gt; 0) choisit la couverture complète. Un agent neutre ' +
+        '(<em>σ</em> = 0) est indifférent entre toutes les couvertures de 0 à <em>L</em>, ' +
+        'y compris la couverture complète : sa richesse espérée ne dépend pas de <em>K</em>. ' +
+        'Avec un chargement positif, le riscophobe choisit une couverture partielle ou nulle ' +
+        'selon son aversion ; le neutre choisit uniquement <em>K</em> = 0.'
     },
     {
       id: 'as-q2',
@@ -280,27 +293,33 @@ richesses possibles, avec et sans sinistre. Réglez le chargement <em>λ</em> et
       texte: 'Et si l\'agent était <strong>neutre au risque</strong> ' +
              '(<em>σ</em> = 0), aux mêmes prix ? Le taux de prime est ' +
              '<span class="formule">γ = p(1 + λ)</span>.',
-      options: ['couverture complète', 'couverture partielle', 'aucune couverture'],
-      reponse: function () { return classer(koptSigma(0)); },
-      explication: 'Un agent neutre ne juge que l\'espérance : l\'assurance lui rapporte ' +
-        '<em>p</em> par dollar de couverture et lui coûte <em>γ</em>. Il n\'y a donc jamais de ' +
-        'compromis intérieur — c\'est tout ou rien, selon le signe de <em>γ</em> − <em>p</em>. ' +
-        'Comme <span class="formule">γ = p(1 + λ)</span> avec <em>λ</em> ≥ 0, l\'assurance n\'est ' +
-        'jamais avantageuse en espérance et il n\'en prend pas. Toute la demande d\'assurance ' +
-        'vient donc de l\'<em>aversion</em> au risque, pas d\'un gain espéré.'
+      options: ['seule la couverture complète est optimale',
+                'une couverture strictement partielle est l\'unique optimum',
+                'seule l\'absence de couverture est optimale',
+                'toutes les couvertures de 0 à <em>L</em> sont optimales'],
+      reponse: function () { return classer(0); },
+      explication: 'Un agent neutre maximise <span class="formule">E[Z] = W − pL + (p − γ)K</span>. ' +
+        'À prime juste (<em>γ</em> = <em>p</em>), toutes les couvertures sont optimales : ' +
+        'complète, partielle ou nulle. Le point <em>K</em> = 0 représenté par l\'outil ' +
+        'est une convention d\'affichage, pas un optimum unique. Avec un chargement positif ' +
+        '(<em>γ</em> &gt; <em>p</em>), chaque dollar de couverture réduit la richesse espérée : ' +
+        'seul <em>K</em> = 0 est alors optimal.'
     },
     {
       id: 'as-q3',
       type: 'numerique',
-      texte: 'Estimez la <strong>prime payée</strong> <em>γK*</em>, en dollars. Les curseurs ' +
-             'donnent <em>p</em>, <em>λ</em> et la perte <em>L</em>.',
+      texte: 'Estimez la <strong>prime du point que l\'outil affichera</strong> <em>γK</em>, ' +
+             'en dollars, aux réglages actuels. En cas d\'indifférence entre toutes les ' +
+             'couvertures, l\'outil représente <em>K</em> = 0.',
       unite: '$',
       tolerance: 0.02,
       reponse: function () { return gam() * Kopt(); },
       explication: 'Le taux de prime est <span class="formule">γ = p(1 + λ)</span> : à ' +
         'chargement nul il vaut exactement la probabilité de perte, ce qui rend le contrat ' +
         'équitable en espérance. Multiplié par la couverture choisie, il donne la somme ' +
-        'effectivement versée à l\'assureur. Regardez ensuite la ligne des richesses ' +
+        'versée à l\'assureur. En cas d\'indifférence, le point représenté a <em>K</em> = 0 ' +
+        'et une prime nulle ; d\'autres couvertures optimales ont d\'autres primes. ' +
+        'Regardez ensuite la ligne des richesses ' +
         'contingentes : à couverture complète, les deux états donnent la même richesse ' +
         '<em>W</em> − <em>γL</em>, et l\'agent se retrouve sur la droite de certitude.'
     }
