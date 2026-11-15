@@ -12,7 +12,7 @@
 <div class="chapitre">Chapitre 5 — Le risque</div>
 <h1>Utilité espérée, équivalent certain et prime de risque</h1>
 <p class="intro">
-Une loterie donne <em>Z</em><sub>1</sub> avec probabilité <em>π</em> et
+Une loterie donne <em>Z</em><sub>1</sub> avec probabilité <em>p</em> et
 <em>Z</em><sub>2</sub> sinon. L'aversion au risque se lit dans un écart&nbsp;: celui entre
 la <strong>corde</strong> (l'utilité espérée) et la
 <strong>courbe</strong> (l'utilité de l'espérance). L'axe vertical n'est pas gradué&nbsp;:
@@ -44,13 +44,17 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
 <div class="rappel">
   <h3>Ce que dit la théorie</h3>
   <p>L'<strong>utilité espérée</strong> est
-  <span class="formule">E[u(Z)] = π·u(Z<sub>1</sub>) + (1−π)·u(Z<sub>2</sub>)</span>&nbsp;:
+  <span class="formule">E[u(Z)] = p·u(Z<sub>1</sub>) + (1−p)·u(Z<sub>2</sub>)</span>&nbsp;:
   elle se lit sur la corde, à l'abscisse
-  <span class="formule">E[Z] = π·Z<sub>1</sub> + (1−π)·Z<sub>2</sub></span>.</p>
+  <span class="formule">E[Z] = p·Z<sub>1</sub> + (1−p)·Z<sub>2</sub></span>.</p>
   <p>L'<strong>équivalent certain</strong> EC est le montant sûr qui procure la même
   utilité&nbsp;: <span class="formule">u(EC) = E[u(Z)]</span>. La
-  <strong>prime de risque</strong> est <span class="formule">π<sub>R</sub> = E[Z] − EC</span>,
+  <strong>prime de risque</strong> est <span class="formule">π = E[Z] − EC</span>,
   ce que l'agent accepte de sacrifier pour supprimer le risque.</p>
+  <p><strong>Notation.</strong> Comme dans les notes, <em>p</em> est la probabilité et
+  <em>π</em> la prime de risque. Les notes écrivent <em>Z′</em> l'équivalent certain et
+  <em>(X, Y)</em> les deux issues ; cet outil écrit <em>EC</em> et
+  <em>(Z<sub>1</sub>, Z<sub>2</sub>)</em>.</p>
   <p>La fonction utilisée est la CRRA
   <span class="formule">u(Z) = (Z<sup>1−σ</sup> − 1)/(1 − σ)</span>, qui devient
   <span class="formule">u(Z) = ln Z</span> quand <em>σ</em> → 1. Le dessin en montre une
@@ -89,7 +93,7 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
     min: 5, max: 50, pas: 1, valeur: 15, decimales: 0, surChangement: maj });
   var sZ2 = Econ.curseur(cmd, { etiquette: 'Bon état <em>Z</em><sub>2</sub>',
     min: 55, max: 100, pas: 1, valeur: 85, decimales: 0, surChangement: maj });
-  var sPi = Econ.curseur(cmd, { etiquette: 'Probabilité du mauvais état <em>π</em>',
+  var sPi = Econ.curseur(cmd, { etiquette: 'Probabilité du mauvais état <em>p</em>',
     min: 0.05, max: 0.95, pas: 0.05, valeur: 0.5, surChangement: maj });
   var sSig = Econ.curseur(cmd, { etiquette: 'Aversion au risque <em>σ</em>',
     min: 0, max: 4, pas: 0.1, valeur: 1, surChangement: maj });
@@ -101,7 +105,7 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
   var res = Econ.resultats(cmd, [
     ['ez',    'Espérance <em>E[Z]</em>'],
     ['ec',    'Équivalent certain <em>EC</em>'],
-    ['prime', 'Prime de risque <em>π<sub>R</sub></em>'],
+    ['prime', 'Prime de risque <em>π</em>'],
     ['jensen', 'Comparaison']
   ]);
 
@@ -259,7 +263,7 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
     { fontSize: 13, anchorX: 'left', cssStyle: POLICE });
 
   Econ.texte(b, function () { return (EC() + EZ()) / 2; }, primeY,
-    function () { return 'π<sub>R</sub> = ' + Econ.nb(EZ() - EC(), 1); },
+    function () { return 'π = ' + Econ.nb(EZ() - EC(), 1); },
     { fontSize: 13, anchorX: 'middle', visible: ecVis,
       cssStyle: POLICE + 'color:' + Econ.COUL.second + ';' });
 
@@ -349,11 +353,11 @@ l'utilité n'a pas d'unité, seule la forme de la courbe compte.
       id: 'ue-q3',
       type: 'numerique',
       texte: 'Estimez l\'espérance <em>E[Z]</em> de la loterie, à partir des trois curseurs ' +
-             '<em>Z</em><sub>1</sub>, <em>Z</em><sub>2</sub> et <em>π</em>.',
+             '<em>Z</em><sub>1</sub>, <em>Z</em><sub>2</sub> et <em>p</em>.',
       tolerance: 0.02,
       reponse: function () { return EZ(); },
       explication: 'L\'espérance pondère chaque état par sa probabilité : ' +
-        '<span class="formule">E[Z] = π·Z<sub>1</sub> + (1 − π)·Z<sub>2</sub></span>. C\'est le ' +
+        '<span class="formule">E[Z] = p·Z<sub>1</sub> + (1 − p)·Z<sub>2</sub></span>. C\'est le ' +
         'point de comparaison de tout le chapitre — la richesse que l\'on obtiendrait « en ' +
         'moyenne », et à laquelle on compare l\'équivalent certain pour mesurer ce que le risque ' +
         'coûte. Notez qu\'elle ne dépend pas du tout de <em>σ</em> : l\'espérance décrit la ' +

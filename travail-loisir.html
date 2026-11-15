@@ -455,7 +455,7 @@ de droite reconstitue, salaire par salaire, la <strong>courbe d'offre de travail
   /* Hopt() et wRes() sont les fonctions qui tracent déjà l'optimum et    */
   /* le salaire de réserve. La première question a une réponse qui        */
   /* bascule : la pente de l'offre suit le signe de m − c0, si bien que   */
-  /* remonter c0 au-dessus de m fait rebrousser l'offre de travail.       */
+  /* remonter c0 au-dessus de m rend l'offre de travail décroissante.     */
   /* ------------------------------------------------------------------ */
 
   Pred.init([
@@ -475,9 +475,9 @@ de droite reconstitue, salaire par salaire, la <strong>courbe d'offre de travail
         'pousse en sens inverse : plus riche, on veut aussi plus de loisir. Le résultat dépend ' +
         'de leur poids relatif — ici du signe de <em>m</em> − <em>c<sub>0</sub></em>. Montez la ' +
         'consommation incompressible <em>c<sub>0</sub></em> au-dessus du revenu non salarial ' +
-        '<em>m</em> et l\'offre de travail se met à <strong>rebrousser</strong> : une hausse de ' +
-        'salaire réduit alors les heures travaillées, comme on l\'observe dans certaines ' +
-        'professions bien rémunérées.'
+        '<em>m</em> et l\'offre de travail devient <strong>décroissante</strong> : une hausse de ' +
+        'salaire réduit alors les heures travaillées, comme dans l\'<em>income targeting</em> ' +
+        'du chapitre 10. Ce n\'est pas le rebroussement du cours : voir le rappel.'
     },
     {
       id: 'tl-q2',
